@@ -1,10 +1,9 @@
 import './App.css';
-import LoginComponent from './components/LoginComponent';
-import RegisterComponent from './components/RegisterComponent';
+import ShowComponent from './components/ShowComponet';
 function App() {
   return (
     <div className="App">
-      <RegisterComponent/>
+      <ShowComponent/>
     </div>
   );
 }

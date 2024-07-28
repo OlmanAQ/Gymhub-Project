@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import '../css/RegisterComponent.css';
-import { Eye, EyeOff } from 'lucide-react';
+import { Eye, EyeOff, X } from 'lucide-react';
+import LogoGymHub from '../assets/LogoGymHub.png';
 
-const RegisterComponent = () => {
+const RegisterComponent = ({ onShowLogin }) => {
   const [form, setForm] = useState({
     nombre: '',
     edad: '',
@@ -67,16 +68,16 @@ const RegisterComponent = () => {
   const toggleShowPassword = () => {
     setShowPassword(!showPassword);
   };
-
-  const toggleShowConfirmPassword = () => {
-    setShowConfirmPassword(!showConfirmPassword);
-  };
-
+  
   return (
     <div className="register-container">
-      <h2>Registro de Membresía</h2>
+      <img src={LogoGymHub} className="register-logo" />
+      <h2 className='titulo-form'>Registro de Membresía</h2>
       <form onSubmit={handleSubmit}>
         <div className="register-row">
+        <button className="close-button" onClick={onShowLogin}>
+          <X />
+        </button>
           <div className="register-form-group">
             <label htmlFor="nombre" className="register-label">Nombre completo</label>
             <input 
@@ -244,9 +245,7 @@ const RegisterComponent = () => {
             </div>
           </div>
         </div>
-        <div className="register-button-group">
-          <button type="submit" className="register-button register-button-submit">Registrar</button>
-        </div>
+        <button type="submit" className="register-submit-button">Registrarse</button>
       </form>
     </div>
   );

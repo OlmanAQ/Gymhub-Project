@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import '../css/LoginComponent.css';
-import LogoGymHub from '../assets/LogoGymHub.png'; // Asegúrate de tener la ruta correcta al logo
+import LogoGymHub from '../assets/LogoGymHub.png';
 
-const LoginComponent = () => {
+const LoginComponent = ({ onShowRegister }) => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
 
@@ -10,12 +10,6 @@ const LoginComponent = () => {
     e.preventDefault();
     // Lógica de inicio de sesión aquí
     console.log('Login', { username, password });
-  };
-
-  const handleRegister = (e) => {
-    e.preventDefault();
-    // Lógica de registro aquí
-    console.log('Register', { username, password });
   };
 
   const handleForgotPassword = (e) => {
@@ -26,7 +20,7 @@ const LoginComponent = () => {
 
   return (
     <div className="login-container">
-      <img src={LogoGymHub} alt="Gym Hub Logo" className="login-logo" />
+      <img src={LogoGymHub} className="login-logo" />
       <form>
         <div className="login-form-group">
           <label htmlFor="username" className="login-label">Usuario</label>
@@ -53,7 +47,7 @@ const LoginComponent = () => {
         </div>
         <div className="login-button-group">
           <button onClick={handleLogin} className="login-button login-button-login">Inicio sesión</button>
-          <button onClick={handleRegister} className="login-button login-button-register">Crear cuenta</button>
+          <button onClick={onShowRegister} className="login-button login-button-register">Crear cuenta</button>
         </div>
       </form>
     </div>

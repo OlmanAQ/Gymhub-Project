@@ -1,31 +1,50 @@
 body {
-    background-color: #F0F0F0; /* Gris claro para el fondo */
-    color: #333333; /* Texto en gris oscuro */
-    margin: 0; /* Eliminar margen predeterminado */
-    font-family: Arial, sans-serif; /* Fuente predeterminada */
+  background-color: #F0F0F0; /* Gris claro para el fondo */
+  color: #333333; /* Texto en gris oscuro */
+  background-image: url('../assets/fondogym2.png'); /* Cambia esta ruta por la de tu imagen */
+  background-size: cover;  /* Ajusta el tamaño de la imagen */
+  background-position: center;  /* Centra la imagen */
+  background-repeat: no-repeat;  /* Evita que la imagen se repita */
 }
-  
+
 .register-container {
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     height: 100vh;
-    
 }
-  
+.register-logo {
+    position: absolute;
+    width: 150px; /* Ajusta el tamaño del logo según sea necesario */
+    bottom: 550px;
+    right: 1350px;
+
+  }
 .register-form {
-    width: 800px; /* Ancho del formulario aumentado */
+    width: 1000px; /* Ancho del formulario aumentado */
     background-color: #FFFFFF; /* Fondo blanco para el formulario */
     padding: 20px;
     border-radius: 8px; /* Bordes redondeados */
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Sombra ligera */
+    position: relative; /* Asegura que el botón de cerrar se posicione correctamente */
 }
 
-.register-title {
+.close-button {
+    position: absolute;
+    right: 20px; /* Ajustar la posición del botón de cerrar */
+    top: 20px; /* Ajustar la posición del botón de cerrar */
+    background: none;
+    border: none;
+    font-size: 24px;
+    color: #ffffff; /* Color de la X en gris oscuro */
+    cursor: pointer;
+}
+
+.titulo-form {
     margin-bottom: 20px;
     font-size: 24px;
-    color: #333333; /* Color del título */
+    color: #ffffff; /* Color del título */
 }
 
 .register-row {
@@ -77,18 +96,16 @@ body {
     text-align: center;
 }
 
-.register-button {
+.register-submit-button{
     padding: 10px 20px;
     border: none;
     border-radius: 4px;
-    background-color: #007BFF; /* Color de fondo del botón */
-    color: white;
+    background-color: #666666; /* Gris oscuro para el botón de inicio de sesión */
+    color: #FFFFFF; /* Blanco para el texto */
     font-size: 16px;
     cursor: pointer;
 }
 
-.register-button-submit {
-    width: auto; /* Cambia el ancho a automático para que se ajuste al contenido */
-    max-width: 200px; /* Establece un ancho máximo para el botón */
-    margin: 0 auto; /* Centra el botón en su contenedor */
+.register-submit-button:hover{
+    background-color: #CCCCCC;
 }
