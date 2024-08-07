@@ -20,7 +20,6 @@ const RegisterComponent = ({ onShowLogin }) => {
   });
 
   const [showPassword, setShowPassword] = useState(false);
-  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
   useEffect(() => {
     if (form.tipoMembresia) {
