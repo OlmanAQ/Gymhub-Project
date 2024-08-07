@@ -2,14 +2,32 @@ import React, { useState } from 'react';
 import '../css/LoginComponent.css';
 import LogoGymHub from '../assets/LogoGymHub.png';
 
+import appFirebase from '../config/firebase';
+import { getAuth, onAuthStateChanged, signInWithEmailAndPassword } from 'firebase/auth';
+const auth = getAuth(appFirebase);
+
 const LoginComponent = ({ onShowRegister }) => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  
 
-  const handleLogin = (e) => {
+  const handleLogin = async(e) => {
     e.preventDefault();
-    // Lógica de inicio de sesión aquí
-    console.log('Login', { username, password });
+
+    signInWithEmailAndPassword(auth, username, password)
+      .then((userCredential) => {
+        const user = userCredential.user;
+        console.log('Inicio de sesión exitoso', user);
+
+      }
+
+      )
+      .catch((error) => {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        console.log('Error al iniciar sesión', errorCode, errorMessage);
+      }
+      );
   };
 
   const handleForgotPassword = (e) => {
