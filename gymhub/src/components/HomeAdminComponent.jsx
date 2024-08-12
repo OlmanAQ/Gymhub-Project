@@ -13,6 +13,7 @@ const HomeAdminComponent = () => {
     const handleLogout = () => {
         auth.signOut().then(() => {
             console.log('Sesión cerrada');
+            
         }).catch((error) => {
             console.log('Error al cerrar sesión', error);
         });

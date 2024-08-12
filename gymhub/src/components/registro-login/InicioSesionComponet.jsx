@@ -3,7 +3,7 @@ import LoginComponent from './LoginComponent';
 import RegisterComponent from './RegisterComponent';
 
 // import firebase auth
-import appFirebase from '../../config/firebase';
+import appFirebase from '../../firebaseConfig/firebase';  
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
 import AdminComponent from '../administrador/AdminComponent';
 const auth = getAuth(appFirebase);
@@ -14,13 +14,6 @@ const ShowComponent = () => {
 
   const [usuario, setUsuario] = useState(null);
 
-  onAuthStateChanged(auth, (userF) => {
-    if (userF) {
-      setUsuario(userF);
-    } else {
-      setUsuario(null);
-    }
-  });
 
 
   const showRegister = () => {

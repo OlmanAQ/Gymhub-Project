@@ -2,8 +2,8 @@ import React, { useState } from 'react';
 import '../../css/LoginComponent.css';
 import LogoGymHub from '../../assets/LogoGymHub.png';
 
-import appFirebase from '../../config/firebase';
-import { getAuth, onAuthStateChanged, signInWithEmailAndPassword } from 'firebase/auth';
+import appFirebase from '../../firebaseConfig/firebase';
+import { getAuth,signInWithEmailAndPassword } from 'firebase/auth';
 const auth = getAuth(appFirebase);
 
 const LoginComponent = ({ onShowRegister }) => {
