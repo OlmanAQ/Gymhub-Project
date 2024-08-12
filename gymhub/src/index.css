@@ -1,11 +1,19 @@
 body {
+  position: relative;
   margin: 0;
-  background-color: #E0F7FA; /* Azul claro para el fondo */
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+    background-color: #F0F0F0; /* Gris claro para el fondo */
+    color: #333333; /* Texto en gris oscuro */
+    background-image: url('../src/assets/fondo3.png'); /* Cambia esta ruta por la de tu imagen */
+    /*background-size: 100%;*/
+    background-size: cover;
+    background-position: center;  /* Centra la imagen */
+    background-repeat: no-repeat;  /* Evita que la imagen se repita */
+  
 }
 
 code {

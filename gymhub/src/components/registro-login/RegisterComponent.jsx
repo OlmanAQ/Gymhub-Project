@@ -1,9 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import '../css/RegisterComponent.css';
+import '../../css/RegisterComponent.css';
 import { Eye, EyeOff, X } from 'lucide-react';
-import LogoGymHub from '../assets/LogoGymHub.png';
+import LogoGymHub from '../../assets/LogoGymHub.png';
+import { agregarClienteConRol } from '../../cruds/Create';
 
 const RegisterComponent = ({ onShowLogin }) => {
+  const formatDate = (date) => {
+    return date.toISOString().slice(0, 10).replace(/-/g, '/'); // Formato YYYY/MM/DD
+  };
   const [form, setForm] = useState({
     nombre: '',
     edad: '',
@@ -13,10 +17,11 @@ const RegisterComponent = ({ onShowLogin }) => {
     padecimientos: '',
     correo: '',
     telefono: '',
-    fechaInscripcion: new Date().toISOString().slice(0, 10), // Fecha actual
+    fechaInscripcion: formatDate(new Date()), // Fecha actual 
     tipoMembresia: '',
     renovacion: '',
-    contrasena: ''
+    contrasena: '',
+    usuario: ''
   });
 
   const [showPassword, setShowPassword] = useState(false);
@@ -35,7 +40,7 @@ const RegisterComponent = ({ onShowLogin }) => {
   const calculateRenovationDate = (tipo) => {
     const fechaInscripcion = new Date(form.fechaInscripcion);
     let renovacionDate;
-
+  
     switch (tipo) {
       case 'Dia':
         renovacionDate = new Date(fechaInscripcion);
@@ -56,27 +61,55 @@ const RegisterComponent = ({ onShowLogin }) => {
       default:
         renovacionDate = '';
     }
-    setForm((prevForm) => ({ ...prevForm, renovacion: renovacionDate.toISOString().slice(0, 10) }));
+  
+    if (renovacionDate) {
+      const formattedDate = renovacionDate.toISOString().slice(0, 10).replace(/-/g, '/'); // Formato YYYY/MM/DD
+      setForm((prevForm) => ({ ...prevForm, renovacion: formattedDate }));
+    } else {
+      setForm((prevForm) => ({ ...prevForm, renovacion: '' }));
+    }
   };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    console.log('Formulario enviado', form);
-  };
+  
+  
 
   const toggleShowPassword = () => {
     setShowPassword(!showPassword);
   };
   
+
+  const agregarCliente = async (e) => {
+    e.preventDefault(); // Evita el comportamiento por defecto del formulario
+    try {
+      await agregarClienteConRol(form); // Llama al método para agregar el cliente con rol
+      alert('Cliente registrado exitosamente');
+      // Aquí podrías redirigir al usuario a otra página si lo deseas
+    } catch (error) {
+      console.error('Error al registrar el cliente:', error);
+      alert('Hubo un error al registrar el cliente.');
+    }
+  };
+
   return (
     <div className="register-container">
-      <img src={LogoGymHub} className="register-logo" />
-      <h2 className='titulo-form'>Registro de Membresía</h2>
-      <form onSubmit={handleSubmit}>
-        <div className="register-row">
+      <header className="register-header">
+        <img src={LogoGymHub} alt="Logo GymHub" className="register-logo" />
+        <h2 className="register-title">Registro de Membresía</h2>
         <button className="close-button" onClick={onShowLogin}>
           <X />
         </button>
+      </header>
+      <form className='register' onSubmit={agregarCliente}>
+          <div className="register-form-group">
+              <label htmlFor="usuario" className="register-label">Usuario</label>
+              <input 
+                type="text" 
+                id="usuario" 
+                name="usuario" 
+                value={form.usuario} 
+                onChange={handleChange} 
+                className="register-input register-input-usuario" 
+              />
+          </div>
           <div className="register-form-group">
             <label htmlFor="nombre" className="register-label">Nombre completo</label>
             <input 
@@ -100,8 +133,6 @@ const RegisterComponent = ({ onShowLogin }) => {
               min="0" 
             />
           </div>
-        </div>
-        <div className="register-row">
           <div className="register-form-group">
             <label htmlFor="genero" className="register-label">Género</label>
             <select 
@@ -129,8 +160,6 @@ const RegisterComponent = ({ onShowLogin }) => {
               min="0" 
             />
           </div>
-        </div>
-        <div className="register-row">
           <div className="register-form-group">
             <label htmlFor="peso" className="register-label">Peso (kilos)</label>
             <input 
@@ -155,8 +184,6 @@ const RegisterComponent = ({ onShowLogin }) => {
               className="register-input register-input-padecimientos" 
             />
           </div>
-        </div>
-        <div className="register-row">
           <div className="register-form-group">
             <label htmlFor="correo" className="register-label">Correo</label>
             <input 
@@ -179,12 +206,10 @@ const RegisterComponent = ({ onShowLogin }) => {
               className="register-input register-input-telefono" 
             />
           </div>
-        </div>
-        <div className="register-row">
           <div className="register-form-group">
             <label htmlFor="fechaInscripcion" className="register-label">Fecha de inscripción</label>
             <input 
-              type="date" 
+              type="text" 
               id="fechaInscripcion" 
               name="fechaInscripcion" 
               value={form.fechaInscripcion} 
@@ -203,23 +228,22 @@ const RegisterComponent = ({ onShowLogin }) => {
               className="register-input register-input-tipo-membresia"
             >
               <option value="">Seleccione</option>
-              <option value="Dia">Día</option>
+              <option value="Dia">Dia</option>
               <option value="Semana">Semana</option>
               <option value="Mes">Mes</option>
               <option value="Año">Año</option>
             </select>
           </div>
-        </div>
-        <div className="register-row">
           <div className="register-form-group">
             <label htmlFor="renovacion" className="register-label">Renovación</label>
             <input 
-              type="date" 
+              type="text" 
               id="renovacion" 
               name="renovacion" 
               value={form.renovacion} 
               onChange={handleChange} 
               className="register-input register-input-renovacion" 
+              placeholder="yyy/mm/dd"
               disabled
             />
           </div>
@@ -239,11 +263,10 @@ const RegisterComponent = ({ onShowLogin }) => {
                 className="password-toggle-button" 
                 onClick={toggleShowPassword}
               >
-                {showPassword ? <EyeOff /> : <Eye />}
+                {showPassword ? <Eye /> : <EyeOff/>}
               </button>
             </div>
           </div>
-        </div>
         <button type="submit" className="register-submit-button">Registrarse</button>
       </form>
     </div>

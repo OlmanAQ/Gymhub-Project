@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import '../css/LoginComponent.css';
-import LogoGymHub from '../assets/LogoGymHub.png';
+import '../../css/LoginComponent.css';
+import LogoGymHub from '../../assets/LogoGymHub.png';
 
 const LoginComponent = ({ onShowRegister }) => {
   const [username, setUsername] = useState('');
