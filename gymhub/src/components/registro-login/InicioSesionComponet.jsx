@@ -3,10 +3,9 @@ import LoginComponent from './LoginComponent';
 import RegisterComponent from './RegisterComponent';
 
 // import firebase auth
-
-import appFirebase from '../config/firebase';
+import appFirebase from '../../config/firebase';
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
-import HomeAdminComponent from './HomeAdminComponent';
+import AdminComponent from '../administrador/AdminComponent';
 const auth = getAuth(appFirebase);
 
 
@@ -35,7 +34,7 @@ const ShowComponent = () => {
   return (
     <div>
       {usuario ? (
-        <HomeAdminComponent  />
+        <AdminComponent  />
       )
       : (
         isLoginVisible ? (
