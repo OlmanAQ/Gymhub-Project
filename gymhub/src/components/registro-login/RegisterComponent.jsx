@@ -72,8 +72,6 @@ const RegisterComponent = ({ onShowLogin }) => {
     }
   };
   
-  
-
   const toggleShowPassword = () => {
     setShowPassword(!showPassword);
   };

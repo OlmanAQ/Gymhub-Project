@@ -39,6 +39,31 @@ const verificarUsuario = async (usuario) => {
       console.error('Error al verificar el usuario: ', error);
       throw new Error('No se pudo verificar el usuario.');
     }
-  };
+};
+
+// Incompleto
+const obtenerRolUsuario = async (correo_usuario, contrasena) => {
+  try {
+    // Crear una consulta a la colección 'User' para verificar si existe un documento con el correo y contraseña proporcionados
+    const q = query(collection(db, 'User'), 
+                    where('correo', '==', correo_usuario), 
+                    where('contrasena', '==', contrasena));
+    
+    // Ejecutar la consulta
+    const querySnapshot = await getDocs(q);
+
+    // Verificar si se encontró algún documento
+    if (!querySnapshot.empty) {
+      const usuarioDoc = querySnapshot.docs[0];
+      const rol = usuarioDoc.data().rol; // Suponiendo que el rol está almacenado en un campo llamado 'rol'
+      return rol; // Devolver el rol del usuario
+    } else {
+      return false; // El usuario no existe
+    }
+  } catch (error) {
+    console.error('Error al verificar el rol del usuario: ', error);
+    throw new Error('No se pudo verificar el rol del usuario.');
+  }
+};
 
 export { verificarCorreoExistente, verificarUsuario };
