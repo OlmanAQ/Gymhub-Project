@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import '../css/LoginComponent.css';
-import LogoGymHub from '../assets/LogoGymHub.png';
+import '../../css/LoginComponent.css';
+import LogoGymHub from '../../assets/LogoGymHub.png';
 
 import appFirebase from '../config/firebase';
 import { getAuth, onAuthStateChanged, signInWithEmailAndPassword } from 'firebase/auth';
