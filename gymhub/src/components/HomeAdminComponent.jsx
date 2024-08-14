@@ -1,6 +1,6 @@
 import React from 'react';
 
-import appFirebase from '../config/firebase';
+import appFirebase from '../firebaseConfig/firebase';
 import { getAuth } from 'firebase/auth';
 
 const auth = getAuth(appFirebase);

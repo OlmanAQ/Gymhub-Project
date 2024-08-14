@@ -1,18 +1,28 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import LoginComponent from './LoginComponent';
 import RegisterComponent from './RegisterComponent';
-
-// import firebase auth
-import appFirebase from '../../firebaseConfig/firebase';  
+import appFirebase from '../../firebaseConfig/firebase';
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
-import AdminComponent from '../administrador/AdminComponent';
-const auth = getAuth(appFirebase);
+import HomeAdminComponent from '../HomeAdminComponent';
 
+const auth = getAuth(appFirebase);
 
 const ShowComponent = () => {
   const [isLoginVisible, setIsLoginVisible] = useState(true);
-
   const [usuario, setUsuario] = useState(null);
+
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (userF) => {
+      if (userF) {
+        setUsuario(userF);
+      } else {
+        setUsuario(null);
+      }
+    });
+
+    // Cleanup subscription on unmount
+    return () => unsubscribe();
+  }, []);
 
 
 
@@ -27,7 +37,7 @@ const ShowComponent = () => {
   return (
     <div>
       {usuario ? (
-        <AdminComponent  />
+        <HomeAdminComponent  />
       )
       : (
         isLoginVisible ? (

@@ -16,6 +16,7 @@ const LoginComponent = ({ onShowRegister }) => {
 
     signInWithEmailAndPassword(auth, username, password)
       .then((userCredential) => {
+        
         const user = userCredential.user;
         console.log('Inicio de sesión exitoso', user);
 
