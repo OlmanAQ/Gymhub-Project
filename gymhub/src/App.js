@@ -1,5 +1,5 @@
 import './App.css';
-import InicioSesionComponet from './components/registro-login/InicioSesionComponet';
+import InicioSesionComponet from './components/registro-login/InicioSesionComponent';
 import AdminComponent from './components/administrador/AdminComponent';
 function App() {
   return (

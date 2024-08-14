@@ -7,7 +7,7 @@ import HomeAdminComponent from '../HomeAdminComponent';
 
 const auth = getAuth(appFirebase);
 
-const ShowComponent = () => {
+const InicioSesionComponent = () => {
   const [isLoginVisible, setIsLoginVisible] = useState(true);
   const [usuario, setUsuario] = useState(null);
 
@@ -50,4 +50,4 @@ const ShowComponent = () => {
   );
 };
 
-export default ShowComponent;
+export default InicioSesionComponent;
