@@ -1,0 +1,79 @@
+/* Estilos generales para la tabla */
+.table-container{
+  position: relative;
+  height: 600 xp;
+  background-color: #ffffff; /* Fondo blanco para la tabla */
+}
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+    background-color: #ffffff; /* Fondo blanco para la tabla */
+    border-radius: 8px; /* Bordes redondeados */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra suave */
+    padding: 10px;
+
+  }
+  
+  /* Encabezado de la tabla */
+  thead {
+    background-color: #333; /* Fondo negro para el encabezado */
+    color: #ffffff; /* Texto blanco en el encabezado */
+  }
+  
+  th {
+    padding: 12px;
+    text-align: left;
+    font-weight: bold; /* Negrita en el encabezado */
+  }
+  
+  /* Celdas de la tabla */
+  td {
+    padding: 12px;
+    text-align: left;
+    border-bottom: 1px solid #ddd; /* Línea de separación entre filas */
+  }
+  
+  /* Filas alternas */
+  tbody tr:nth-child(even) {
+    background-color: #f9f9f9; /* Color de fondo para filas pares */
+  }
+  
+  /* Efecto al pasar el ratón sobre una fila */
+  tbody tr:hover {
+    background-color: #e0e0e0; /* Color de fondo al pasar el ratón */
+  }
+  
+  /* Última fila sin borde inferior */
+  tbody tr:last-child td {
+    border-bottom: none;
+  }
+  /* Botones de acción en la tabla */
+button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  margin: 0;
+}
+
+button:hover {
+  opacity: 0.8; /* Cambia la opacidad al pasar el ratón */
+}
+
+/* Ajusta el tamaño de los iconos */
+svg {
+  vertical-align: middle; /* Alinea el icono verticalmente en el centro */
+}
+
+/* Opcional: Estilo para las nuevas columnas de acción */
+th:nth-last-child(-n+2), td:nth-last-child(-n+2) {
+  width: 50px; /* Ajusta el ancho de las columnas de acción */
+}
+.pagination-controls {
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+  display: flex;
+  gap: 10px;
+}

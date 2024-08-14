@@ -1,9 +1,14 @@
-import React from 'react'
-import AdminNavBarComponent from './AdminNavBarComponent'
+import React from 'react';
+import AdminNavBarComponent from './AdminNavBarComponent';
+import AdminUserView from './AdminUserView';
+
 const AdminComponent = () => {
   return (
-    <AdminNavBarComponent/>
-  )
-}
+    <>
+      <AdminNavBarComponent />
+      <AdminUserView />
+    </>
+  );
+};
 
-export default AdminComponent
+export default AdminComponent;

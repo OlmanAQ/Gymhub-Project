@@ -5,7 +5,7 @@ import LogoGymHub from '../../assets/LogoGymHub.png';
 import Swal from 'sweetalert2';
 import { agregarClienteConRol } from '../../cruds/Create';
 import { verificarCorreoExistente,verificarUsuario } from '../../cruds/Read';
-
+//reudx
 const RegisterComponent = ({ onShowLogin }) => {
   const formatDate = (date) => {
     return date.toISOString().slice(0, 10).replace(/-/g, '/'); // Formato YYYY/MM/DD

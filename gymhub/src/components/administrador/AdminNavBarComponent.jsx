@@ -12,7 +12,6 @@ const AdminNavBarComponent = () => {
         <img src={logo} alt="Logo" />
       </div>
         <ul className="navbar-menu">
-          <li><a href="#Inicio">Inicio</a></li>
           <li><a href="#usuarios">Usuarios</a></li>
           <li><a href="#alertas">Alertas</a></li>
           <li><a href="#inventario">Inventario</a></li>

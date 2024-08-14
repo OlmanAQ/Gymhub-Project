@@ -4,8 +4,8 @@ import AdminComponent from './components/administrador/AdminComponent';
 function App() {
   return (
     <div className="App">
-      <InicioSesionComponet/>
-      {/*<AdminComponent/>*/}
+      {/*<InicioSesionComponet/>*/}
+      <AdminComponent/>
     </div>
   );
 }
