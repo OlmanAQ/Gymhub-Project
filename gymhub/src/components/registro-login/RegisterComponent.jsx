@@ -3,10 +3,17 @@ import '../../css/RegisterComponent.css';
 import { Eye, EyeOff, X } from 'lucide-react';
 import LogoGymHub from '../../assets/LogoGymHub.png';
 import Swal from 'sweetalert2';
+import { appFirebase, auth} from '../../firebaseConfig/firebase'
+import { createUserWithEmailAndPassword } from 'firebase/auth';
 import { agregarClienteConRol } from '../../cruds/Create';
 import { verificarCorreoExistente,verificarUsuario } from '../../cruds/Read';
-//reudx
+
+
+
+
 const RegisterComponent = ({ onShowLogin }) => {
+  
+
   const formatDate = (date) => {
     const day = String(date.getDate()).padStart(2, '0');
     const month = String(date.getMonth() + 1).padStart(2, '0'); // Los meses en JavaScript son de 0 a 11
@@ -30,6 +37,7 @@ const RegisterComponent = ({ onShowLogin }) => {
     contrasena: '',
     usuario: ''
   });
+
 
   const [showPassword, setShowPassword] = useState(false);
 
@@ -150,6 +158,8 @@ const RegisterComponent = ({ onShowLogin }) => {
   
     if (result.isConfirmed) {
       try {
+        
+        await createUserWithEmailAndPassword(auth, form.correo, form.contrasena);
         await agregarClienteConRol(form); // Llama al método para agregar el cliente con rol
         Swal.fire({
           icon: 'success',

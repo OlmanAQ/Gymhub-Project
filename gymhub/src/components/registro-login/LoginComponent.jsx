@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import '../../css/LoginComponent.css';
 import LogoGymHub from '../../assets/LogoGymHub.png';
+import Swal from 'sweetalert2';
+
 
 import appFirebase from '../../firebaseConfig/firebase';
 import { getAuth,signInWithEmailAndPassword } from 'firebase/auth';
@@ -16,6 +18,7 @@ const LoginComponent = ({ onShowRegister }) => {
 
     signInWithEmailAndPassword(auth, username, password)
       .then((userCredential) => {
+        
         const user = userCredential.user;
         console.log('Inicio de sesión exitoso', user);
 
@@ -26,6 +29,11 @@ const LoginComponent = ({ onShowRegister }) => {
         const errorCode = error.code;
         const errorMessage = error.message;
         console.log('Error al iniciar sesión', errorCode, errorMessage);
+        Swal.fire({
+          icon: 'error',
+          title: 'Error',
+          text: 'Usuario o contraseña incorrectos',
+        });
       }
       );
   };
@@ -64,7 +72,7 @@ const LoginComponent = ({ onShowRegister }) => {
           <button onClick={handleForgotPassword} className="forgot-password-button">¿Olvidaste tu contraseña?</button>
         </div>
         <div className="login-button-group">
-          <button onClick={handleLogin} className="login-button login-button-login">Inicio sesión</button>
+          <button  onClick={handleLogin} className="login-button login-button-login">Inicio sesión</button>
           <button onClick={onShowRegister} className="login-button login-button-register">Crear cuenta</button>
         </div>
       </form>
