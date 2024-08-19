@@ -5,6 +5,13 @@
   align-items: center;
   justify-content: center;
   height: 100vh;
+  background-color: #F0F0F0; /* Gris claro para el fondo */
+  color: #333333; /* Texto en gris oscuro */
+  background-image: url('../../src/assets/fondo3.png'); /* Cambia esta ruta por la de tu imagen */
+  /*background-size: 100%;*/
+  background-size: cover;
+  background-position: center;  /* Centra la imagen */
+  background-repeat: no-repeat;  /* Evita que la imagen se repita */
 }
 
 .login-logo {

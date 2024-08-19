@@ -8,8 +8,13 @@ import { verificarCorreoExistente,verificarUsuario } from '../../cruds/Read';
 //reudx
 const RegisterComponent = ({ onShowLogin }) => {
   const formatDate = (date) => {
-    return date.toISOString().slice(0, 10).replace(/-/g, '/'); // Formato YYYY/MM/DD
+    const day = String(date.getDate()).padStart(2, '0');
+    const month = String(date.getMonth() + 1).padStart(2, '0'); // Los meses en JavaScript son de 0 a 11
+    const year = date.getFullYear();
+    
+    return `${day}/${month}/${year}`;
   };
+
   const [form, setForm] = useState({
     nombre: '',
     edad: '',
@@ -40,7 +45,10 @@ const RegisterComponent = ({ onShowLogin }) => {
   };
 
   const calculateRenovationDate = (tipo) => {
-    const fechaInscripcion = new Date(form.fechaInscripcion);
+    // Convierte la fecha de inscripción en formato DD/MM/YYYY a un objeto Date
+    const [day, month, year] = form.fechaInscripcion.split('/').map(Number);
+    const fechaInscripcion = new Date(year, month - 1, day); // Los meses en JavaScript son de 0 a 11
+  
     let renovacionDate;
   
     switch (tipo) {
@@ -61,11 +69,11 @@ const RegisterComponent = ({ onShowLogin }) => {
         renovacionDate.setFullYear(fechaInscripcion.getFullYear() + 1);
         break;
       default:
-        renovacionDate = '';
+        renovacionDate = null;
     }
   
     if (renovacionDate) {
-      const formattedDate = renovacionDate.toISOString().slice(0, 10).replace(/-/g, '/'); // Formato YYYY/MM/DD
+      const formattedDate = formatDate(renovacionDate); // Usa la función formatDate para formatear la fecha
       setForm((prevForm) => ({ ...prevForm, renovacion: formattedDate }));
     } else {
       setForm((prevForm) => ({ ...prevForm, renovacion: '' }));
@@ -237,6 +245,7 @@ const RegisterComponent = ({ onShowLogin }) => {
               <option value="">Seleccione</option>
               <option value="Hombre">Hombre</option>
               <option value="Mujer">Mujer</option>
+              <option value="Otro">Otro</option>
             </select>
           </div>
           <div className="register-form-group">
@@ -335,7 +344,7 @@ const RegisterComponent = ({ onShowLogin }) => {
               value={form.renovacion} 
               onChange={handleChange} 
               className="register-input register-input-renovacion" 
-              placeholder="yyy/mm/dd"
+              placeholder="dd/mm/yyy"
               disabled
             />
           </div>

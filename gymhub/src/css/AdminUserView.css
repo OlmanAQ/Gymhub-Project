@@ -1,54 +1,66 @@
-/* Estilos generales para la tabla */
-.table-container{
+/* Estilos para el contenedor de la tabla */
+.table-container {
   position: relative;
-  height: 600 xp;
-  background-color: #ffffff; /* Fondo blanco para la tabla */
+  justify-content: center;
+  width: 100%; /* Asegura que el contenedor ocupe todo el ancho disponible */
+  max-width: 100%; /* Limita el ancho máximo al 100% */
+  overflow-x: auto; /* Añade un scrollbar horizontal si el contenido se desborda */
+  background-color: #ffffff; /* Fondo blanco para el contenedor */
+  border-radius: 8px; /* Bordes redondeados */
+  margin: 20px 0; /* Espaciado alrededor del contenedor */
+  padding: 0 50px; /* Añade un espacio a los lados para evitar que toque los márgenes */
+  top: 60px;
 }
-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin: 20px 0;
-    background-color: #ffffff; /* Fondo blanco para la tabla */
-    border-radius: 8px; /* Bordes redondeados */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra suave */
-    padding: 10px;
 
-  }
-  
-  /* Encabezado de la tabla */
-  thead {
-    background-color: #333; /* Fondo negro para el encabezado */
-    color: #ffffff; /* Texto blanco en el encabezado */
-  }
-  
-  th {
-    padding: 12px;
-    text-align: left;
-    font-weight: bold; /* Negrita en el encabezado */
-  }
-  
-  /* Celdas de la tabla */
-  td {
-    padding: 12px;
-    text-align: left;
-    border-bottom: 1px solid #ddd; /* Línea de separación entre filas */
-  }
-  
-  /* Filas alternas */
-  tbody tr:nth-child(even) {
-    background-color: #f9f9f9; /* Color de fondo para filas pares */
-  }
-  
-  /* Efecto al pasar el ratón sobre una fila */
-  tbody tr:hover {
-    background-color: #e0e0e0; /* Color de fondo al pasar el ratón */
-  }
-  
-  /* Última fila sin borde inferior */
-  tbody tr:last-child td {
-    border-bottom: none;
-  }
-  /* Botones de acción en la tabla */
+/* Estilos para la tabla */
+table {
+  width: 100%; /* Asegura que la tabla ocupe el ancho del contenedor */
+  border-collapse: collapse; /* Combina los bordes de las celdas */
+  background-color: #ffffff; /* Fondo blanco para la tabla */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra suave */
+}
+
+/* Encabezado de la tabla */
+thead {
+  background-color: #333; /* Fondo negro para el encabezado */
+  color: #ffffff; /* Texto blanco en el encabezado */
+  justify-content: center;
+}
+
+th {
+  padding: 12px;
+  text-align: left;
+  font-weight: bold; /* Negrita en el encabezado */
+  border-bottom: 2px solid #ddd; /* Línea de separación entre el encabezado y las filas */
+}
+
+/* Celdas de la tabla */
+td {
+  padding: 12px;
+  text-align: left;
+  border-bottom: 1px solid #ddd; /* Línea de separación entre filas */
+  justify-content: center;
+  white-space: nowrap; /* Evita que el texto se ajuste en múltiples líneas */
+  overflow: hidden; /* Oculta el texto que se desborda */
+  text-overflow: ellipsis; /* Añade puntos suspensivos (...) si el texto es demasiado largo */
+}
+
+/* Filas alternas */
+tbody tr:nth-child(even) {
+  background-color: #f9f9f9; /* Color de fondo para filas pares */
+}
+
+/* Efecto al pasar el ratón sobre una fila */
+tbody tr:hover {
+  background-color: #e0e0e0; /* Color de fondo al pasar el ratón */
+}
+
+/* Última fila sin borde inferior */
+tbody tr:last-child td {
+  border-bottom: none;
+}
+
+/* Botones de acción en la tabla */
 button {
   background: none;
   border: none;
@@ -70,10 +82,49 @@ svg {
 th:nth-last-child(-n+2), td:nth-last-child(-n+2) {
   width: 50px; /* Ajusta el ancho de las columnas de acción */
 }
+
+/* Estilos para los controles de paginación */
 .pagination-controls {
-  position: absolute;
-  bottom: 20px;
-  right: 20px;
   display: flex;
+  justify-content: center;
   gap: 10px;
+  margin-top: 20px; /* Espaciado superior para los controles de paginación */
 }
+
+.filter-container {
+  position: absolute;
+  right: 0; /* Alinea el contenedor a la derecha */
+  padding: 10px;
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+}
+
+.sort-select {
+  margin-left: 10px;
+  padding: 5px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+}
+/* Estilos para el botón de agregar usuario */
+.add-user-button {
+  position: absolute;
+  left: 30px; /* Alinea el contenedor a la derecha */
+  background-color: #f8f9fa;
+  border: 1px solid #ced4da;
+  border-radius: 4px;
+  padding: 6px 12px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.add-user-button:hover {
+  background-color: #e2e6ea;
+}
+
+.add-user-button svg {
+  vertical-align: middle;
+}
+
