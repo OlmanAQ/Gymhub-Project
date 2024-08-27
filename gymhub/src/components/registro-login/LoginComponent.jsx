@@ -7,7 +7,7 @@ import { collection, query, where, getDocs} from 'firebase/firestore';
 
 
 import {db, auth} from '../../firebaseConfig/firebase';
-import {signInWithEmailAndPassword } from 'firebase/auth';
+import {signInWithEmailAndPassword, sendPasswordResetEmail} from 'firebase/auth';
 
 const LoginComponent = ({ onShowRegister }) => {
   const [username, setUsername] = useState('');
@@ -75,8 +75,27 @@ const LoginComponent = ({ onShowRegister }) => {
 
   const handleForgotPassword = (e) => {
     e.preventDefault();
-    // Lógica para manejar la recuperación de contraseña
-    console.log('Forgot Password');
+    Swal.fire({
+      title: 'Ingresa tu correo',
+      input: 'email',
+      inputAttributes: {
+        autocapitalize: 'off'
+      },
+      showCancelButton: true,
+      confirmButtonText: 'Enviar',
+      showLoaderOnConfirm: true,
+      preConfirm: (email) => {
+        return sendPasswordResetEmail(auth, email)
+          .then(() => {
+            Swal.fire('Correo enviado', 'Revisa tu bandeja de entrada', 'success');
+          })
+          .catch((error) => {
+            Swal.fire('Error', 'Ocurrió un error al enviar el correo', 'error');
+          });
+      },
+      allowOutsideClick: () => !Swal.isLoading()
+    });
+
   };
 
   return (
