@@ -1,5 +1,6 @@
 import {collection, addDoc} from 'firebase/firestore';
-import { db } from '../firebaseConfig/firebase';
+import { db, auth } from '../firebaseConfig/firebase';
+
 
 export const agregarClienteConRol = async (cliente) => {
     try {
