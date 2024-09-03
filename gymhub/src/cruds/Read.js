@@ -50,13 +50,35 @@ export const obtenerTodosLosUsuarios = async (sortOption) => {
     // Mapear los documentos a un array de objetos
     const usuarios = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
 
+    // Función para convertir fecha en formato dd/mm/yyyy a un objeto Date
+    const parseFecha = (fechaStr) => {
+      const [day, month, year] = fechaStr.split('/').map(Number);
+      return new Date(year, month - 1, day); // Meses en JavaScript están basados en 0
+    };
+
+    // Obtener la fecha actual sin la parte de la hora
+    const fechaActual = new Date();
+    fechaActual.setHours(0, 0, 0, 0); // Ajustar la hora para la comparación de fechas
+
     // Ordenar los usuarios según la opción de ordenación
     if (sortOption === 'Nombre completo (A-Z)') {
       usuarios.sort((a, b) => a.nombre.localeCompare(b.nombre));
     } else if (sortOption === 'Usuario (A-Z)') {
       usuarios.sort((a, b) => a.usuario.localeCompare(b.usuario));
     } else if (sortOption === 'Recientes') {
-      usuarios.sort((a, b) => new Date(b.fechaInscripcion) - new Date(a.fechaInscripcion));
+      usuarios.sort((a, b) => {
+        const fechaInscripcionA = parseFecha(a.fechaInscripcion);
+        const fechaInscripcionB = parseFecha(b.fechaInscripcion);
+        fechaInscripcionA.setHours(0, 0, 0, 0);
+        fechaInscripcionB.setHours(0, 0, 0, 0);
+
+        // Calcular la diferencia en días entre la fecha de inscripción y la fecha actual
+        const diffA = Math.abs(fechaActual - fechaInscripcionA);
+        const diffB = Math.abs(fechaActual - fechaInscripcionB);
+
+        // Ordenar en orden ascendente de proximidad a la fecha actual
+        return diffA - diffB;
+      });
     } else if (sortOption === 'Rol') {
       const rolesOrder = { 'administrador': 1, 'entrenador': 2, 'cliente': 3 };
       usuarios.sort((a, b) => rolesOrder[a.rol] - rolesOrder[b.rol]);
@@ -71,8 +93,6 @@ export const obtenerTodosLosUsuarios = async (sortOption) => {
     throw new Error('No se pudo obtener la lista de usuarios.');
   }
 };
-
-
 
 export const obtenerInfoUsuario = async (correo, usuario) => {
   try {
@@ -95,3 +115,4 @@ export const obtenerInfoUsuario = async (correo, usuario) => {
     throw new Error('No se pudo obtener la información del usuario.');
   }
 };
+
