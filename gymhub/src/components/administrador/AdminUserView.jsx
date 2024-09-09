@@ -270,7 +270,6 @@ const AdminUserView = ({onShowRegisterUser, onShowUpdateUser } ) => {
               <th>Nombre</th>
               <th>Usuario</th>
               <th>Correo</th>
-              <th>Fecha Inscripción</th>
               <th>Renovación</th>
               <th>Membresía</th>
               <th>Rol</th>
@@ -286,7 +285,6 @@ const AdminUserView = ({onShowRegisterUser, onShowUpdateUser } ) => {
                   <td>{user.nombre || 'N/A'}</td>
                   <td>{user.usuario || 'N/A'}</td>
                   <td>{user.correo || 'N/A'}</td>
-                  <td>{user.fechaInscripcion || 'N/A'}</td>
                   <td>{user.renovacion || 'N/A'}</td>
                   <td>{user.tipoMembresia || 'N/A'}</td>
                   <td>{user.rol || 'N/A'}</td>

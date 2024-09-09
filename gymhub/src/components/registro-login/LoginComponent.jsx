@@ -53,7 +53,6 @@ const LoginComponent = ({ onShowRegister }) => {
           querySnapshot.forEach((doc) => {
             const user = doc.data();
             signInWithEmailAndPassword(auth, user.correo, password);
-            console.log(user);
           });
         } else {
           Swal.fire({
