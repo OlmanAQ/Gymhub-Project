@@ -216,8 +216,8 @@ const AdminRegisterUser = ({onClose}) => {
   };
   
   return (
-    <div className="register-container">
-      <div className="register-header">
+    <div className="register-user-container">
+      <div className="register-user-header">
         <h2>Agregar Usuario</h2>
       </div>
       <form className='register' onSubmit={agregarUser}>
@@ -405,7 +405,7 @@ const AdminRegisterUser = ({onClose}) => {
           </select>
         </div>
         <div className="register-form-group submit-container">
-          <button type="submit" className="register-submit-button">
+          <button type="submit" className="register-user-submit-button">
             Registrar
           </button>
         </div>

@@ -179,7 +179,7 @@ const AdminUpdateUser = ({ user, onClose }) => {
   
   return (
     <>
-    <div className="register-header">
+    <div className="register-user-header">
       <h2>Editar Usuario</h2>
     </div>
     <div className="admin-update-user">
