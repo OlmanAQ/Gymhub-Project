@@ -19,7 +19,7 @@
     color: #333; /* Color del título */
     text-align: center; /* Centrar el texto */
   }
-.register {
+.register-user {
     position: relative;
     width: 95%; /* Usa un ancho relativo para que se ajuste al viewport */
     max-width: 1400px; /* Asegúrate de que el ancho no exceda 1400px */

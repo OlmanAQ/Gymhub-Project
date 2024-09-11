@@ -10,13 +10,15 @@ export const obtenerGimnasios = async () => {
 
 // Obtener inventario de un gimnasio específico
 export const obtenerInventarioPorGimnasio = async (gimnasioId) => {
+  console.log(gimnasioId);
   const inventoryRef = collection(db, 'gimnasios', gimnasioId, 'inventario');
   const snapshot = await getDocs(inventoryRef);
   return snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
 };
 
 // Agregar un producto a un gimnasio específico
-export const agregarProducto = async (gimnasioId, producto) => {
+export const agregarProducto = async ({gimnasioId, producto}) => {
+  console.log(gimnasioId, producto);
   const inventoryRef = collection(db, 'gimnasios', gimnasioId, 'inventario');
   const docRef = doc(inventoryRef);
   await setDoc(docRef, producto);
