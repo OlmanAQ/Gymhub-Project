@@ -2,7 +2,7 @@ import { collection, query, where, getDocs, getDoc, doc} from 'firebase/firestor
 
 import { db } from '../firebaseConfig/firebase';
 
-const verificarCorreoExistente = async (correo) => {
+export const verificarCorreoExistente = async (correo) => {
   try {
     // Crear una consulta a la colección 'User' para verificar si existe un documento con el correo proporcionado
     const q = query(collection(db, 'User'), where('correo', '==', correo));
@@ -22,7 +22,7 @@ const verificarCorreoExistente = async (correo) => {
   }
 };
 
-const verificarUsuario = async (usuario) => {
+export const verificarUsuario = async (usuario) => {
     try {
       // Crear una consulta a la colección 'User' para verificar si existe un documento con el usuario proporcionado
       const q = query(collection(db, 'User'), where('usuario', '==', usuario));

@@ -1,5 +1,5 @@
 import './App.css';
-import InicioSesionComponet from './components/registro-login/InicioSesionComponent';
+import InicioSesionComponet from './components/registro-login/InicioSesionComponet';
 function App() {
   return (
     <div className="App">

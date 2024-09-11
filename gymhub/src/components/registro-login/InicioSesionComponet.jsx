@@ -6,12 +6,12 @@ import appFirebase from '../../firebaseConfig/firebase';
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
 import AdminComponent from '../administrador/AdminComponent';
 import ClienteComponent from '../cliente/ClienteComponent';
-import EntrenadorComponent from '../entrenador/EntrenadorComponent';
+import TrainerComponent from '../entrenador/TrainerComponent';
 import { setUser } from '../../actions/userActions';
 import { obtenerInfoUsuarioCorreo } from '../../cruds/Read';
 const auth = getAuth(appFirebase);
 
-const ShowComponent = () => {
+const InicioSesionComponent = () => {
   const [isLoginVisible, setIsLoginVisible] = useState(true);
   const [rol, setRol] = useState('');
   const dispatch = useDispatch();
@@ -51,7 +51,7 @@ const ShowComponent = () => {
         ) : rol === 'cliente' ? (
           <ClienteComponent />
         ) : (
-          <EntrenadorComponent />
+          <TrainerComponent />
         )
       ) : (
         isLoginVisible ? (
