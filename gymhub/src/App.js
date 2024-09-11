@@ -14,4 +14,3 @@ function App() {
 export default App;
 // Bug de la paginacion
 // Boton refrescar tabla
-// formato a la clave minimo caracteres, simbolos, numeros, capatal letters
