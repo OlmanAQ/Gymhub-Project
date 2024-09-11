@@ -1,60 +1,49 @@
-// firebaseActions.js
-import { collection, doc, getDoc, updateDoc, getDocs, query, where } from 'firebase/firestore';
+import { doc, updateDoc, getDoc } from 'firebase/firestore';
+import { db } from '../firebaseConfig/firebase';
 
-export const fetchMuscleGroups = async (db) => {
+export const actualizarUsuario = async (usuarioId, usuarioNuevo) => {
   try {
-    const docRef = collection(db, 'gmusculares');
-    const querySnapshot = await getDocs(docRef);
-    if (!querySnapshot.empty) {
-      return Object.entries(querySnapshot.docs[0].data()).map(([group, exercises]) => ({ group, exercises }));
+    // Limpiar el ID si es necesario (por ejemplo, eliminando una barra al inicio)
+    const sanitizedUserId = usuarioId.replace(/^\/+/, '');
+
+    // Imprimir ID recibido y el ID sanitizado
+    console.log('ID del usuario recibido:', usuarioId);
+    console.log('ID del usuario sanitizado:', sanitizedUserId);
+
+    // Crear una referencia al documento del usuario específico usando el ID sanitizado
+    const usuarioDocRef = doc(db, 'User', sanitizedUserId);
+
+    // Obtener el documento actual del usuario
+    const usuarioDoc = await getDoc(usuarioDocRef);
+
+    // Imprimir referencia y datos del documento
+    console.log('Referencia del documento:', usuarioDocRef.path);
+    console.log('Datos del documento obtenido:', usuarioDoc.exists() ? usuarioDoc.data() : 'No existe');
+
+    // Verificar si se encontró el documento del usuario
+    if (usuarioDoc.exists()) {
+      console.log('Documento encontrado:', usuarioDoc.id); // Depuración
+
+      // Mostrar datos del documento actual
+      console.log('Datos actuales del documento:', usuarioDoc.data());
+
+      // Mostrar datos nuevos que se están intentando actualizar
+      console.log('Datos a actualizar:', usuarioNuevo);
+
+      // Actualizar el documento con los datos del nuevo usuario
+      await updateDoc(usuarioDocRef, usuarioNuevo);
+
+      // Verificar la actualización
+      const updatedDoc = await getDoc(usuarioDocRef);
+      if (updatedDoc.exists()) {
+        console.log('Usuario actualizado correctamente:', updatedDoc.data());
+      } else {
+        console.log('Error al actualizar el usuario: El documento no existe después de la actualización');
+      }
+    } else {
+      console.log('No se encontró el documento del usuario en la base de datos');
     }
-    return [];
   } catch (error) {
-    console.error('Error fetching muscle groups: ', error);
-    throw error;
-  }
-};
-
-export const fetchRoutine = async (db, planId) => {
-  try {
-    const docRef = doc(db, 'plans', planId);
-    const routineSnapshot = await getDoc(docRef);
-    if (routineSnapshot.exists()) {
-      return routineSnapshot.data();
-    }
-    throw new Error('No such routine!');
-  } catch (error) {
-    console.error('Error fetching routine: ', error);
-    throw error;
-  }
-};
-
-export const fetchUsers = async (db, searchQuery) => {
-  try {
-    if (searchQuery.length > 2) {
-      const q = query(collection(db, 'User'), where('nombre', '>=', searchQuery), where('nombre', '<=', searchQuery + '\uf8ff'));
-      const querySnapshot = await getDocs(q);
-      return querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-    }
-    return [];
-  } catch (error) {
-    console.error('Error fetching users: ', error);
-    throw error;
-  }
-};
-
-export const saveRoutine = async (db, plan, selectedUser, routineName, weeklyRoutine, activityState) => {
-  try {
-    const routineRef = doc(db, 'plans', plan.id);
-    const validState = typeof activityState === 'boolean' ? activityState : false;
-    await updateDoc(routineRef, {
-      usuario: selectedUser.usuario,
-      nombre: routineName,
-      rutina: weeklyRoutine,
-      estado: validState,
-    });
-  } catch (error) {
-    console.error('Error saving routine: ', error);
-    throw error;
+    console.error('Error al actualizar el usuario:', error);
   }
 };

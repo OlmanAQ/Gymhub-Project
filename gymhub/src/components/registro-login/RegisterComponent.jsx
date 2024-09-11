@@ -3,6 +3,8 @@ import '../../css/RegisterComponent.css';
 import { Eye, EyeOff, X } from 'lucide-react';
 import LogoGymHub from '../../assets/LogoGymHub.png';
 import Swal from 'sweetalert2';
+import { auth} from '../../firebaseConfig/firebase'
+import { createUserWithEmailAndPassword, sendEmailVerification, } from 'firebase/auth';
 import { agregarClienteConRol } from '../../cruds/Create';
 import { verificarCorreoExistente,verificarUsuario } from '../../cruds/Read';
 
@@ -143,6 +145,7 @@ const RegisterComponent = ({ onShowLogin }) => {
     if (result.isConfirmed) {
       try {
         await agregarClienteConRol(form); // Llama al método para agregar el cliente con rol
+        await sendEmailVerification(auth.currentUser);
         Swal.fire({
           icon: 'success',
           title: 'Registrado',
@@ -168,6 +171,9 @@ const RegisterComponent = ({ onShowLogin }) => {
   
           // Redirigir al componente de login
           onShowLogin();
+
+
+          
         });
       } catch (error) {
         console.error('Error al registrar el cliente:', error);

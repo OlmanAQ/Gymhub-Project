@@ -1,30 +1,38 @@
 import React, { useState, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import LoginComponent from './LoginComponent';
 import RegisterComponent from './RegisterComponent';
 import appFirebase from '../../firebaseConfig/firebase';
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
-import HomeAdminComponent from '../HomeAdminComponent';
-
+import AdminComponent from '../administrador/AdminComponent';
+import ClienteComponent from '../cliente/ClienteComponent';
+import EntrenadorComponent from '../entrenador/EntrenadorComponent';
+import { setUser } from '../../actions/userActions';
+import { obtenerInfoUsuarioCorreo } from '../../cruds/Read';
 const auth = getAuth(appFirebase);
 
 const ShowComponent = () => {
   const [isLoginVisible, setIsLoginVisible] = useState(true);
-  const [usuario, setUsuario] = useState(null);
+  const [rol, setRol] = useState('');
+  const dispatch = useDispatch();
+  const usuario = useSelector((state) => state.user.user);
+
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (userF) => {
       if (userF) {
-        setUsuario(userF);
+        dispatch(setUser(userF.uid));
+        obtenerInfoUsuarioCorreo(userF.email).then((usuario) => {
+          setRol(usuario.rol);
+        }
+        );
       } else {
-        setUsuario(null);
+        dispatch(setUser(null));
       }
     });
 
-    // Cleanup subscription on unmount
     return () => unsubscribe();
-  }, []);
-
-
+  }, [dispatch]);
 
   const showRegister = () => {
     setIsLoginVisible(false);
@@ -34,20 +42,26 @@ const ShowComponent = () => {
     setIsLoginVisible(true);
   };
 
+
   return (
     <div>
       {usuario ? (
-        <HomeAdminComponent  />
-      )
-      : (
+        rol === 'administrador' ? (
+          <AdminComponent />
+        ) : rol === 'cliente' ? (
+          <ClienteComponent />
+        ) : (
+          <EntrenadorComponent />
+        )
+      ) : (
         isLoginVisible ? (
           <LoginComponent onShowRegister={showRegister} />
         ) : (
           <RegisterComponent onShowLogin={showLogin} />
-      ))
-      }
+        )
+      )}
     </div>
   );
 };
 
-export default ShowComponent;
+export default InicioSesionComponent;
