@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import Swal from 'sweetalert2';
 import { obtenerTodosLosUsuarios, obtenerInfoUsuario } from '../../cruds/Read';
 import { eliminarUsuario } from '../../cruds/Delete'; 
-import { Edit, Trash, Info, ChevronLeft, ChevronRight, ChevronsLeft, ChevronsRight, UserPlus, Search } from 'lucide-react';
+import { Edit, Trash, Info, ChevronLeft, ChevronRight, ChevronsLeft, ChevronsRight, UserPlus, Search, RefreshCcw } from 'lucide-react';
 import '../../css/AdminUserView.css'; 
 
 const AdminUserView = ({onShowRegisterUser, onShowUpdateUser } ) => {
@@ -76,7 +76,6 @@ const AdminUserView = ({onShowRegisterUser, onShowUpdateUser } ) => {
       }
     });
   };
-  
 
   const moreInfo = async (user) => {
     try {
@@ -148,7 +147,20 @@ const AdminUserView = ({onShowRegisterUser, onShowUpdateUser } ) => {
     }
   };
 
-
+  const refreshUsers = async () => {
+    try {
+      setLoading(true);
+      const usersData = await obtenerTodosLosUsuarios(sortOption);
+      setAllUsers(usersData);
+      setDisplayedUsers(usersData.slice(0, usersPerPage));
+      setCurrentPage(0); // Opcional: Reinicia la página a la primera
+      setLoading(false);
+    } catch (error) {
+      console.error('Error fetching users: ', error);
+      setLoading(false);
+    }
+  };
+  
   /*busqueda de elementos cuando se da click en la lupa o enter*/
   const search = () => {
     const searchTerm = document.querySelector('.buscador-input').value.toLowerCase();
@@ -175,35 +187,6 @@ const AdminUserView = ({onShowRegisterUser, onShowUpdateUser } ) => {
     setDisplayedUsers(filteredUsers.slice(0, usersPerPage));
     setCurrentPage(0); // Reset to the first page of filtered results
   };
-  /*renderiza la tabla si esta en blanco el input de busqueda*/
-  /*
-  const searchInputChange = (event) => {
-    const searchTerm = event.target.value.toLowerCase();
-    const searchBy = document.querySelector('.buscador-select').value;
-  
-    const filteredUsers = allUsers.filter(user => {
-      let valueToSearch;
-      switch (searchBy) {
-        case 'nombre':
-          valueToSearch = user.nombre || '';
-          break;
-        case 'usuario':
-          valueToSearch = user.usuario || '';
-          break;
-        case 'correo':
-          valueToSearch = user.correo || '';
-          break;
-        default:
-          valueToSearch = '';
-      }
-      return valueToSearch.toLowerCase().includes(searchTerm);
-    });
-  
-    setDisplayedUsers(filteredUsers.slice(0, usersPerPage));
-    setCurrentPage(0); // Reset to the first page of filtered results
-  };
-  */
-  
 
   if (loading) {
     return <div>Cargando usuarios...</div>;
@@ -227,12 +210,14 @@ const AdminUserView = ({onShowRegisterUser, onShowUpdateUser } ) => {
   
         <div className='buscador-container'>
           <div className="buscador-wrapper">
+          <button className='refresh-button' onClick={refreshUsers}>
+            <RefreshCcw size={24} color="#007BFF" />
+          </button>
           <input 
             type="text" 
             placeholder="Buscar" 
             className="buscador-input" 
             onKeyPress={keyPress}
-            //onChange={searchInputChange} // Cambio aquí 
           />
             <button className="buscador-button" onClick={search}>
               <Search size={24} color="#007BFF" />

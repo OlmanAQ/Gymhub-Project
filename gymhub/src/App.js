@@ -1,4 +1,5 @@
 import './App.css';
+import 'bootstrap/dist/css/bootstrap.min.css';
 //import InicioSesionComponet from './components/registro-login/InicioSesionComponent';
 import AdminComponent from './components/administrador/AdminComponent';
 function App() {
@@ -11,3 +12,6 @@ function App() {
 }
 
 export default App;
+// Bug de la paginacion
+// Boton refrescar tabla
+// formato a la clave minimo caracteres, simbolos, numeros, capatal letters
