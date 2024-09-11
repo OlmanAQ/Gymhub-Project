@@ -3,25 +3,13 @@ import '../../css/RegisterComponent.css';
 import { Eye, EyeOff, X } from 'lucide-react';
 import LogoGymHub from '../../assets/LogoGymHub.png';
 import Swal from 'sweetalert2';
-import { appFirebase, auth} from '../../firebaseConfig/firebase'
-import { createUserWithEmailAndPassword } from 'firebase/auth';
 import { agregarClienteConRol } from '../../cruds/Create';
 import { verificarCorreoExistente,verificarUsuario } from '../../cruds/Read';
 
-
-
-
 const RegisterComponent = ({ onShowLogin }) => {
-  
-
   const formatDate = (date) => {
-    const day = String(date.getDate()).padStart(2, '0');
-    const month = String(date.getMonth() + 1).padStart(2, '0'); // Los meses en JavaScript son de 0 a 11
-    const year = date.getFullYear();
-    
-    return `${day}/${month}/${year}`;
+    return date.toISOString().slice(0, 10).replace(/-/g, '/'); // Formato YYYY/MM/DD
   };
-
   const [form, setForm] = useState({
     nombre: '',
     edad: '',
@@ -38,7 +26,6 @@ const RegisterComponent = ({ onShowLogin }) => {
     usuario: ''
   });
 
-
   const [showPassword, setShowPassword] = useState(false);
 
   useEffect(() => {
@@ -53,10 +40,7 @@ const RegisterComponent = ({ onShowLogin }) => {
   };
 
   const calculateRenovationDate = (tipo) => {
-    // Convierte la fecha de inscripción en formato DD/MM/YYYY a un objeto Date
-    const [day, month, year] = form.fechaInscripcion.split('/').map(Number);
-    const fechaInscripcion = new Date(year, month - 1, day); // Los meses en JavaScript son de 0 a 11
-  
+    const fechaInscripcion = new Date(form.fechaInscripcion);
     let renovacionDate;
   
     switch (tipo) {
@@ -77,11 +61,11 @@ const RegisterComponent = ({ onShowLogin }) => {
         renovacionDate.setFullYear(fechaInscripcion.getFullYear() + 1);
         break;
       default:
-        renovacionDate = null;
+        renovacionDate = '';
     }
   
     if (renovacionDate) {
-      const formattedDate = formatDate(renovacionDate); // Usa la función formatDate para formatear la fecha
+      const formattedDate = renovacionDate.toISOString().slice(0, 10).replace(/-/g, '/'); // Formato YYYY/MM/DD
       setForm((prevForm) => ({ ...prevForm, renovacion: formattedDate }));
     } else {
       setForm((prevForm) => ({ ...prevForm, renovacion: '' }));
@@ -158,8 +142,6 @@ const RegisterComponent = ({ onShowLogin }) => {
   
     if (result.isConfirmed) {
       try {
-        
-        await createUserWithEmailAndPassword(auth, form.correo, form.contrasena);
         await agregarClienteConRol(form); // Llama al método para agregar el cliente con rol
         Swal.fire({
           icon: 'success',
@@ -255,7 +237,6 @@ const RegisterComponent = ({ onShowLogin }) => {
               <option value="">Seleccione</option>
               <option value="Hombre">Hombre</option>
               <option value="Mujer">Mujer</option>
-              <option value="Otro">Otro</option>
             </select>
           </div>
           <div className="register-form-group">
@@ -354,7 +335,7 @@ const RegisterComponent = ({ onShowLogin }) => {
               value={form.renovacion} 
               onChange={handleChange} 
               className="register-input register-input-renovacion" 
-              placeholder="dd/mm/yyy"
+              placeholder="yyy/mm/dd"
               disabled
             />
           </div>

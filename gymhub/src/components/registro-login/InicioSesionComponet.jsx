@@ -3,11 +3,11 @@ import LoginComponent from './LoginComponent';
 import RegisterComponent from './RegisterComponent';
 import appFirebase from '../../firebaseConfig/firebase';
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
-import AdminComponent from '../administrador/AdminComponent';
+import HomeAdminComponent from '../HomeAdminComponent';
 
 const auth = getAuth(appFirebase);
 
-const InicioSesionComponent = () => {
+const ShowComponent = () => {
   const [isLoginVisible, setIsLoginVisible] = useState(true);
   const [usuario, setUsuario] = useState(null);
 
@@ -34,13 +34,10 @@ const InicioSesionComponent = () => {
     setIsLoginVisible(true);
   };
 
-
-
   return (
     <div>
       {usuario ? (
-        <AdminComponent/>
-
+        <HomeAdminComponent  />
       )
       : (
         isLoginVisible ? (
@@ -53,4 +50,4 @@ const InicioSesionComponent = () => {
   );
 };
 
-export default InicioSesionComponent;
+export default ShowComponent;

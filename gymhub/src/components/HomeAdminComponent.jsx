@@ -5,6 +5,8 @@ import { getAuth } from 'firebase/auth';
 
 const auth = getAuth(appFirebase);
 
+
+
 const HomeAdminComponent = () => {
     
     // bottom lpg out
@@ -16,10 +18,6 @@ const HomeAdminComponent = () => {
             console.log('Error al cerrar sesión', error);
         });
     };
-
-    // mostrar email
-    const userF = auth.currentUser;
-    console.log(userF.email);
 
     return (
         <div>

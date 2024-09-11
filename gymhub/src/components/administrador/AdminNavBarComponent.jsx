@@ -2,23 +2,9 @@ import React, { useState } from 'react';
 import logo from '../../assets/LogoGymHub.png';
 import { User } from 'lucide-react';
 import '../../css/AdminNavBarComponent.css';
-import appFirebase from '../../firebaseConfig/firebase';
-import { getAuth } from 'firebase/auth';
-
-const auth = getAuth(appFirebase);
 
 const AdminNavBarComponent = () => {
   const [isDropdownVisible, setDropdownVisible] = useState(false);
-
-  // bottom lpg out
-  const handleLogout = () => {
-    auth.signOut().then(() => {
-        console.log('Sesión cerrada');
-        
-    }).catch((error) => {
-        console.log('Error al cerrar sesión', error);
-    });
-};
 
   return (
     <nav className="navbar">
@@ -26,6 +12,7 @@ const AdminNavBarComponent = () => {
         <img src={logo} alt="Logo" />
       </div>
         <ul className="navbar-menu">
+          <li><a href="#Inicio">Inicio</a></li>
           <li><a href="#usuarios">Usuarios</a></li>
           <li><a href="#alertas">Alertas</a></li>
           <li><a href="#inventario">Inventario</a></li>
@@ -44,7 +31,7 @@ const AdminNavBarComponent = () => {
           {isDropdownVisible && (
             <ul className="navbar-dropdown">
               <li><a href="#ver-perfil">Ver Perfil</a></li>
-              <li><a href="home" onClick={handleLogout}>Cerrar Sesión</a></li>
+              <li><a href="#cerrar-sesion">Cerrar sesión</a></li>
             </ul>
           )}
         </div>

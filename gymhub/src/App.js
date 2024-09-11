@@ -1,11 +1,14 @@
 import './App.css';
-import InicioSesionComponet from './components/registro-login/InicioSesionComponent';
-import AdminComponent from './components/administrador/AdminComponent';
+import TrainerComponent from './components/entrenador/TrainerComponent';
+import TrainerNavBarComponent from './components/entrenador/TrainerNavBarComponent'; 
+import TrainingPlanComponent from './components/entrenador/TrainerCreatePlanComponent';
+
 function App() {
   return (
     <div className="App">
-      {/*<InicioSesionComponet/>*/}
-      <AdminComponent/>
+      {/*<TrainerCreatePlanComponent/>*/}
+      {/*<TrainingPlanComponent>*/}
+      <TrainerNavBarComponent/> 
     </div>
   );
 }

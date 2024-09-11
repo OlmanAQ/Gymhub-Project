@@ -1,8 +1,7 @@
-import { collection, query, where, getDocs} from 'firebase/firestore';
-
+import { collection, query, where, getDocs } from 'firebase/firestore';
 import { db } from '../firebaseConfig/firebase';
-//verifica si el usuario por agregar un correo existente en la base de datos
-export const verificarCorreoExistente = async (correo) => {
+
+const verificarCorreoExistente = async (correo) => {
   try {
     // Crear una consulta a la colección 'User' para verificar si existe un documento con el correo proporcionado
     const q = query(collection(db, 'User'), where('correo', '==', correo));
@@ -21,8 +20,8 @@ export const verificarCorreoExistente = async (correo) => {
     throw new Error('No se pudo verificar el correo.');
   }
 };
-// verifica si el usuario por aregar ya ingreso un nombre de usuario existente en la base de datos
-export const verificarUsuario = async (usuario) => {
+
+const verificarUsuario = async (usuario) => {
     try {
       // Crear una consulta a la colección 'User' para verificar si existe un documento con el usuario proporcionado
       const q = query(collection(db, 'User'), where('usuario', '==', usuario));
@@ -42,56 +41,29 @@ export const verificarUsuario = async (usuario) => {
     }
 };
 
-export const obtenerTodosLosUsuarios = async (sortOption) => {
+// Incompleto
+const obtenerRolUsuario = async (correo_usuario, contrasena) => {
   try {
-    const q = query(collection(db, 'User'));
+    // Crear una consulta a la colección 'User' para verificar si existe un documento con el correo y contraseña proporcionados
+    const q = query(collection(db, 'User'), 
+                    where('correo', '==', correo_usuario), 
+                    where('contrasena', '==', contrasena));
+    
+    // Ejecutar la consulta
     const querySnapshot = await getDocs(q);
 
-    // Mapear los documentos a un array de objetos
-    const usuarios = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-
-    // Ordenar los usuarios según la opción de ordenación
-    if (sortOption === 'Nombre completo (A-Z)') {
-      usuarios.sort((a, b) => a.nombre.localeCompare(b.nombre));
-    } else if (sortOption === 'Usuario (A-Z)') {
-      usuarios.sort((a, b) => a.usuario.localeCompare(b.usuario));
-    } else if (sortOption === 'Recientes') {
-      usuarios.sort((a, b) => new Date(b.fechaInscripcion) - new Date(a.fechaInscripcion));
-    } else if (sortOption === 'Rol') {
-      const rolesOrder = { 'administrador': 1, 'entrenador': 2, 'cliente': 3 };
-      usuarios.sort((a, b) => rolesOrder[a.rol] - rolesOrder[b.rol]);
-    } else if (sortOption === 'Tipo de membresía') {
-      const membresiasOrder = { 'Dia': 1, 'Semana': 2, 'Mes': 3, 'Año': 4 };
-      usuarios.sort((a, b) => membresiasOrder[a.tipoMembresia] - membresiasOrder[b.tipoMembresia]);
-    }
-
-    return usuarios;
-  } catch (error) {
-    console.error('Error al obtener los usuarios: ', error);
-    throw new Error('No se pudo obtener la lista de usuarios.');
-  }
-};
-
-
-
-export const obtenerInfoUsuario = async (correo, usuario) => {
-  try {
-    const q = query(
-      collection(db, 'User'),
-      where('correo', '==', correo),
-      where('usuario', '==', usuario)
-    );
-
-    const querySnapshot = await getDocs(q);
-
+    // Verificar si se encontró algún documento
     if (!querySnapshot.empty) {
       const usuarioDoc = querySnapshot.docs[0];
-      return { id: usuarioDoc.id, ...usuarioDoc.data() };
+      const rol = usuarioDoc.data().rol; // Suponiendo que el rol está almacenado en un campo llamado 'rol'
+      return rol; // Devolver el rol del usuario
     } else {
-      return null;
+      return false; // El usuario no existe
     }
   } catch (error) {
-    console.error('Error al obtener el usuario: ', error);
-    throw new Error('No se pudo obtener la información del usuario.');
+    console.error('Error al verificar el rol del usuario: ', error);
+    throw new Error('No se pudo verificar el rol del usuario.');
   }
 };
+
+export { verificarCorreoExistente, verificarUsuario };
