@@ -4,7 +4,7 @@ import { Edit, Trash, Plus, Info, Search } from 'lucide-react';
 import Swal from 'sweetalert2';
 import '../../css/AdminInventoryView.css';
 
-const AdminInventoryView = () => {
+const AdminInventoryView = ({onShowRegisterInventory}) => {
   const [gimnasios, setGimnasios] = useState([]);
   const [selectedGym, setSelectedGym] = useState(''); // Gimnasio seleccionado
   const [inventory, setInventory] = useState([]);
@@ -12,6 +12,7 @@ const AdminInventoryView = () => {
   const [itemsPerPage, setItemsPerPage] = useState(10);
   const [currentPage, setCurrentPage] = useState(0);
   const [sortOption, setSortOption] = useState('Aleatorio');
+
 
   useEffect(() => {
     const fetchGimnasios = async () => {
@@ -38,6 +39,10 @@ const AdminInventoryView = () => {
     };
     fetchInventory();
   }, [selectedGym]);
+
+  const createdEquipment = () => {
+    onShowRegisterInventory(selectedGym);
+  };
 
   const deleteEquipment = async (id) => {
     // Confirmar eliminación
@@ -109,6 +114,7 @@ const AdminInventoryView = () => {
   );
 
   const displayedItems = filteredInventory.slice(currentPage * itemsPerPage, (currentPage + 1) * itemsPerPage);
+  
 
   return (
     <div className="admin-inventory-view">
@@ -132,7 +138,7 @@ const AdminInventoryView = () => {
         <>
           {/* Acciones de búsqueda, ordenación y agregar */}
           <div className="inventory-actions">
-            <button className="add-equipment-button">Agregar Equipo <Plus /></button>
+            <button className="add-equipment-button" onClick= {() => createdEquipment()}><Plus /> Agregar Equipo</button>
             <div className="search-and-sort">
               <div className="search-box">
                 <input

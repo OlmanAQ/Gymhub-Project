@@ -1,0 +1,107 @@
+.admin-inventory-register-view {
+  padding: 20px;
+  background-color: #ffffff;
+  border-radius: 8px;
+  max-width: 500px;
+  margin: 0 auto; /* Centramos horizontalmente */
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1); 
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh; /* Ocupa al menos el alto de la ventana para centrar */
+}
+
+.inventory-form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  width: 100%; /* Hacer que el formulario ocupe todo el ancho disponible */
+}
+
+.inventory-form input, .inventory-form select {
+  padding: 8px;
+  font-size: 14px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  width: 100%; /* Aseguramos que los inputs ocupen el ancho completo */
+  margin-bottom: 10px;
+}
+
+.form-inline {
+  display: flex;
+  gap: 10px;
+  width: 100%;
+}
+
+.form-inline .form-control {
+  flex: 1;
+}
+
+.btn-zone, .btn-add, .btn-submit {
+  background-color: #28a745;
+  color: white;
+  padding: 10px;
+  border-radius: 5px;
+  border: none;
+  cursor: pointer;
+  font-size: 14px;
+  width: 100%; /* Ocupa el 100% del espacio del contenedor */
+}
+
+.btn-zone:hover, .btn-add:hover, .btn-submit:hover {
+  background-color: #218838;
+}
+
+.inventory-list, .zone-list {
+  margin-top: 15px;
+  list-style: none;
+  padding-left: 0;
+}
+
+.inventory-list li, .zone-list li {
+  background-color: #f8f9fa;
+  padding: 10px;
+  margin-bottom: 5px;
+  border-radius: 5px;
+  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+@media (max-width: 768px) {
+  .admin-inventory-register-view {
+    padding: 10px;
+    max-width: 100%;
+  }
+}
+
+
+.form-inline {
+  display: flex;
+  flex-direction: column;  /* Hacer que los botones y entradas estén en columna */
+  gap: 10px;  /* Espaciado entre los botones y campos */
+}
+
+.inventory-form input, .inventory-form select {
+  margin-bottom: 12px;  /* Más espacio entre los campos de entrada */
+}
+
+.btn-zone:hover, .btn-add:hover, .btn-submit:hover {
+  background-color: #218838;
+}
+
+.btn-submit {
+  width: 100%;
+  font-size: 16px;
+}
+
+/* boton cerrar */
+.btn-close {
+  background-color: #dc3545;
+  color: white;
+  padding: 10px;
+  border-radius: 5px;
+  border: none;
+  cursor: pointer;
+  font-size: 14px;
+  width: 100%; /* Ocupa el 100% del espacio del contenedor */
+}

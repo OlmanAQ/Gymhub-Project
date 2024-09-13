@@ -4,10 +4,12 @@ import AdminUserView from './AdminUserView';
 import AdminRegisterUser from './AdminRegisterUser';
 import AdminUpdateUser from './AdminUpdateUser';
 import AdminInventoryView from './AdminInventoryView';
+import AdminRegisterInventory from './AdminRegisterInventory';
 
 const AdminComponent = () => {
-  const [view, setView] = useState('userView'); 
-  const [selectedUser, setSelectedUser] = useState(null); // Nuevo estado para el usuario seleccionado
+  const [view, setView] = useState('userView');
+  const [selectedUser, setSelectedUser] = useState(null);
+  const [gimnasioId, setGimnasioId] = useState(null); // Add state for gimnasioId
 
   const handleShowRegisterUser = () => {
     setView('registerUser');
@@ -19,37 +21,49 @@ const AdminComponent = () => {
 
   const handleShowInventoryView = () => {
     setView('inventoryView');
-  }
+  };
 
   const handleShowUpdateUser = (user) => {
-    setSelectedUser(user); // Establecer el usuario seleccionado
+    setSelectedUser(user);
     setView('updateUser');
   };
 
-
+  const handleShowRegisterInventory = (gimnasioId) => {
+    setGimnasioId(gimnasioId);
+    setView('registerInventory');
+  };
 
   return (
     <>
-      {<AdminNavBarComponent onShowInventory={handleShowInventoryView} />}
+      <AdminNavBarComponent onShowInventory={handleShowInventoryView} />
       {view === 'userView' && (
-        <AdminUserView 
-          onShowRegisterUser={handleShowRegisterUser} 
-          onShowUpdateUser={handleShowUpdateUser} 
+        <AdminUserView
+          onShowRegisterUser={handleShowRegisterUser}
+          onShowUpdateUser={handleShowUpdateUser}
         />
       )}
       {view === 'registerUser' && <AdminRegisterUser onClose={handleShowUserView} />}
       {view === 'updateUser' && (
-        <AdminUpdateUser 
-          user={selectedUser} // Pasar el usuario seleccionado como prop
-          onClose={handleShowUserView} 
+        <AdminUpdateUser
+          user={selectedUser}
+          onClose={handleShowUserView}
         />
       )}
-      {view === 'inventoryView' && <AdminInventoryView 
-      onShowRegisterUser={handleShowRegisterUser} 
-      onShowUpdateUser={handleShowUpdateUser}  />}
-      
+      {view === 'inventoryView' && (
+        <AdminInventoryView
+          onShowRegisterUser={handleShowRegisterUser}
+          onShowUpdateUser={handleShowUpdateUser}
+          onShowRegisterInventory={handleShowRegisterInventory} // Add this line
+        />
+      )}
+      {view === 'registerInventory' && (
+        <AdminRegisterInventory
+          gimnasioId={gimnasioId}
+          onClose={handleShowInventoryView}
+        />
+      )}
     </>
   );
 };
 
-export default AdminComponent
+export default AdminComponent;
