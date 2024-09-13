@@ -50,8 +50,10 @@ const InicioSesionComponent = () => {
           <AdminComponent />
         ) : rol === 'cliente' ? (
           <ClienteComponent />
-        ) : (
+        ) : rol === 'entrenador' ? (
           <TrainerComponent />
+        ) : (
+          <div>Cargando...</div>
         )
       ) : (
         isLoginVisible ? (
