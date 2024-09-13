@@ -61,7 +61,7 @@ tbody tr:last-child td {
 }
 
 /* Botones de acción en la tabla */
-button {
+.button-actions {
   background: none;
   border: none;
   cursor: pointer;
@@ -69,7 +69,7 @@ button {
   margin: 0;
 }
 
-button:hover {
+.button-actions:hover {
   opacity: 0.8; /* Cambia la opacidad al pasar el ratón */
 }
 

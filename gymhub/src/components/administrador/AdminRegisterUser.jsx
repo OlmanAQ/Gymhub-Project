@@ -222,7 +222,7 @@ const AdminRegisterUser = ({onClose}) => {
       </div>
       <form className='register' onSubmit={agregarUser}>
         
-      <button type="button" className="close-button" onClick={cerrarFormulario}>
+      <button type="button" className="close-button-admin-user" onClick={cerrarFormulario}>
           <X />
         </button>
         <div className="register-form-group">

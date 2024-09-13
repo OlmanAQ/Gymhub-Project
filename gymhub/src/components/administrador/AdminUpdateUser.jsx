@@ -183,7 +183,7 @@ const AdminUpdateUser = ({ user, onClose }) => {
       <h2>Editar Usuario</h2>
     </div>
     <div className="admin-update-user">
-      <button className="close-button" onClick={handleClose}>
+      <button className="close-button-admin-update-user" onClick={handleClose}>
         <X size={24} />
       </button>
       <form onSubmit={handleSubmit}>

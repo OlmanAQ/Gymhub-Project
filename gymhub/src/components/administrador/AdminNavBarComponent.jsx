@@ -47,7 +47,7 @@ const AdminNavBarComponent = ({onShowInventory }) => {
           {isDropdownVisible && (
             <ul className="navbar-dropdown">
               <li><a href="#ver-perfil">Ver Perfil</a></li>
-              <li><a href="#cerrar-sesion">Cerrar sesión</a></li>
+              <li><a href="#cerrar-sesion" onClick={handleLogout}>Cerrar sesión</a></li>
             </ul>
           )}
         </div>

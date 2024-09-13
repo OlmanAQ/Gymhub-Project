@@ -26,21 +26,7 @@
   width: 100%;
 }
 
-input[type="text"] {
-  padding: 8px;
-  font-size: 16px;
-  margin-right: 10px;
-}
 
-button {
-  padding: 8px 12px;
-  background-color: #0f0f0f;
-  color: white;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  gap: 20px;
-}
 
 .button-crt {
   padding: 8px 12px;

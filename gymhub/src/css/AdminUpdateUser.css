@@ -109,7 +109,7 @@
   background: none; /* Sin fondo */
 }
 
-.close-button {
+.close-button-admin-update-user {
   position: absolute; /* Posiciona el botón en relación al contenedor */
   top: -5px; /* Ajusta la distancia desde el borde superior */
   right: 0px; /* Ajusta la distancia desde el borde derecho */
@@ -120,6 +120,6 @@
 }
 
 /* Estilos para el botón de cierre cuando se pasa el mouse sobre él */
-.close-button:hover {
+.close-button-admin-update-user:hover {
   color: #666; /* Cambia el color en hover si lo deseas */
 }

@@ -100,11 +100,7 @@
   width: auto; /* Permitir que las columnas se ajusten automáticamente */
 }
 
-/* Reducir el ancho de las columnas de acciones para que sean más pequeñas y uniformes */
-th:nth-last-child(-n+3), td:nth-last-child(-n+3) {
-  width: 50px; /* Ajustar el ancho de las columnas de acción */
-  text-align: center;
-}
+
 
 /* Asegurar que los íconos de las acciones estén centrados */
 .actions button {

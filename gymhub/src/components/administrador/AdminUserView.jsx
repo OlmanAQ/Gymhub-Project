@@ -274,17 +274,17 @@ const AdminUserView = ({onShowRegisterUser, onShowUpdateUser } ) => {
                   <td>{user.tipoMembresia || 'N/A'}</td>
                   <td>{user.rol || 'N/A'}</td>
                   <td>
-                    <button onClick={() => moreInfo(user)}>
+                    <button className='button-actions' onClick={() => moreInfo(user)}>
                       <Info size={16} color="#007BFF" />
                     </button>
                   </td>
                   <td>
-                    <button onClick={() => editUser(user)}>
+                    <button className='button-actions' onClick={() => editUser(user)}>
                       <Edit size={16} color="#F7E07F" />
                     </button>
                   </td>
                   <td>
-                    <button onClick={() => deleteUser(user.id)}>
+                    <button className='button-actions' onClick={() => deleteUser(user.id)}>
                       <Trash size={16} color="#FF5C5C" />
                     </button>
                   </td>
@@ -298,26 +298,26 @@ const AdminUserView = ({onShowRegisterUser, onShowUpdateUser } ) => {
           </tbody>
         </table>
         <div className="pagination-buttons">
-          <button
+          <button  className='button-actions'
             onClick={() => handlePagination('first')}
             disabled={currentPage === 0}
           >
             <ChevronsLeft size={24} />
           </button>
-          <button
+          <button className='button-actions'
             onClick={() => handlePagination('prev')}
             disabled={currentPage === 0}
           >
             <ChevronLeft size={24} />
           </button>
           <span className="page-indicator">{currentPage + 1} de {Math.ceil(allUsers.length / usersPerPage)}</span>
-          <button
+          <button className='button-actions'
             onClick={() => handlePagination('next')}
             disabled={(currentPage + 1) * usersPerPage >= allUsers.length}
           >
             <ChevronRight size={24} />
           </button>
-          <button
+          <button className='button-actions'
             onClick={() => handlePagination('last')}
             disabled={(currentPage + 1) * usersPerPage >= allUsers.length}
           >
