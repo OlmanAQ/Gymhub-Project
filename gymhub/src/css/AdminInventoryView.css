@@ -145,3 +145,17 @@
   display: flex;
   align-items: center;
 }
+
+
+/* Botones de acción en la tabla */
+.button-actions {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  margin: 0;
+}
+
+.button-actions:hover {
+  opacity: 0.8; /* Cambia la opacidad al pasar el ratón */
+}

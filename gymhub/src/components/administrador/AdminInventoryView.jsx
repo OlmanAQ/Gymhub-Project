@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { obtenerGimnasios, obtenerInventarioPorGimnasio, eliminarProducto } from '../../cruds/InventoryCrud';
-import { Edit, Trash, Plus, Info, Search } from 'lucide-react';
+import { Edit, Trash, Plus, Info, Search, ChevronsLeft, ChevronsRight, ChevronLeft, ChevronRight } from 'lucide-react';
 import Swal from 'sweetalert2';
 import '../../css/AdminInventoryView.css';
 
-const AdminInventoryView = ({onShowRegisterInventory}) => {
+const AdminInventoryView = ({ onShowRegisterInventory }) => {
   const [gimnasios, setGimnasios] = useState([]);
   const [selectedGym, setSelectedGym] = useState(''); // Gimnasio seleccionado
   const [inventory, setInventory] = useState([]);
@@ -78,7 +78,7 @@ const AdminInventoryView = ({onShowRegisterInventory}) => {
       }
     }
   };
-  
+
 
   const moreInfo = (id) => {
     try {
@@ -102,7 +102,7 @@ const AdminInventoryView = ({onShowRegisterInventory}) => {
         text: 'No se pudo obtener la información del equipo',
         confirmButtonText: 'Entendido'
       });
-    }    
+    }
   };
 
   const handleSearch = (e) => {
@@ -114,7 +114,28 @@ const AdminInventoryView = ({onShowRegisterInventory}) => {
   );
 
   const displayedItems = filteredInventory.slice(currentPage * itemsPerPage, (currentPage + 1) * itemsPerPage);
-  
+
+  const handlePagination = (direction) => {
+    /*
+    if (direction === 'next') {
+      
+      if ((currentPage + 1) * usersPerPage < allUsers.length) {
+        setCurrentPage(currentPage + 1);
+      }
+    } else if (direction === 'prev') {
+      if (currentPage > 0) {
+        setCurrentPage(currentPage - 1);
+      }
+    } else if (direction === 'first') {
+      setCurrentPage(0);
+    } else if (direction === 'last') {
+      /const lastPage = Math.floor(allUsers.length / usersPerPage);
+      setCurrentPage(lastPage);
+    }
+      
+    };
+    */
+  };
 
   return (
     <div className="admin-inventory-view">
@@ -138,7 +159,7 @@ const AdminInventoryView = ({onShowRegisterInventory}) => {
         <>
           {/* Acciones de búsqueda, ordenación y agregar */}
           <div className="inventory-actions">
-            <button className="add-equipment-button" onClick= {() => createdEquipment()}><Plus /> Agregar Equipo</button>
+            <button className="add-equipment-button" onClick={() => createdEquipment()}><Plus /> Agregar Equipo</button>
             <div className="search-and-sort">
               <div className="search-box">
                 <input
@@ -185,15 +206,21 @@ const AdminInventoryView = ({onShowRegisterInventory}) => {
                     <td>{item.cantidad}</td>
                     <td>{item.estado}</td>
                     <td>
-                      <button onClick={() => moreInfo(item.id)}><Info /></button>
+                      <button className='button-actions' onClick={() => moreInfo(item.id)}>
+                        <Info size={16} color="#007BFF" />
+                      </button>
                     </td>
                     <td>
-                      <button><Edit /></button>
+                      <button className='button-actions'>
+                        <Edit size={16} color="#F7E07F" />
+                      </button>
                     </td>
                     <td>
-                      <button onClick={() => deleteEquipment(item.id)}><Trash /></button>
+                      <button className='button-actions' onClick={() => deleteEquipment(item.id)}>
+                        <Trash size={16} color="#FF5C5C" />
+                      </button>
                     </td>
-                    
+
                   </tr>
                 ))
               )}
@@ -201,12 +228,29 @@ const AdminInventoryView = ({onShowRegisterInventory}) => {
           </table>
 
           {/* Controles de paginación */}
-          <div className="pagination">
-            <button onClick={() => setCurrentPage(0)} disabled={currentPage === 0}>Primero</button>
-            <button onClick={() => setCurrentPage(prev => Math.max(prev - 1, 0))} disabled={currentPage === 0}>Anterior</button>
-            <span>Página {currentPage + 1}</span>
-            <button onClick={() => setCurrentPage(prev => Math.min(prev + 1, Math.ceil(filteredInventory.length / itemsPerPage) - 1))} disabled={(currentPage + 1) * itemsPerPage >= filteredInventory.length}>Siguiente</button>
-            <button onClick={() => setCurrentPage(Math.ceil(filteredInventory.length / itemsPerPage) - 1)} disabled={(currentPage + 1) * itemsPerPage >= filteredInventory.length}>Último</button>
+          <div className="pagination-buttons">
+            <button className='button-actions'
+              onClick={() => handlePagination('first')}
+              disabled={currentPage === 0}
+            >
+              <ChevronsLeft size={24} />
+            </button>
+            <button className='button-actions'
+              onClick={() => handlePagination('prev')}
+              disabled={currentPage === 0}
+            >
+              <ChevronLeft size={24} />
+            </button>
+            <button className='button-actions'
+              onClick={() => handlePagination('next')}
+            >
+              <ChevronRight size={24} />
+            </button>
+            <button className='button-actions'
+              onClick={() => handlePagination('last')}
+            >
+              <ChevronsRight size={24} />
+            </button>
           </div>
         </>
       )}
