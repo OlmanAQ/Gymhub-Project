@@ -3,6 +3,7 @@ import AdminNavBarComponent from './AdminNavBarComponent';
 import AdminUserView from './AdminUserView';
 import AdminRegisterUser from './AdminRegisterUser';
 import AdminUpdateUser from './AdminUpdateUser';
+import AdminInventoryView from './AdminInventoryView';
 
 const AdminComponent = () => {
   const [view, setView] = useState('userView'); 
@@ -16,14 +17,20 @@ const AdminComponent = () => {
     setView('userView');
   };
 
+  const handleShowInventoryView = () => {
+    setView('inventoryView');
+  }
+
   const handleShowUpdateUser = (user) => {
     setSelectedUser(user); // Establecer el usuario seleccionado
     setView('updateUser');
   };
 
+
+
   return (
     <>
-      <AdminNavBarComponent />
+      {<AdminNavBarComponent onShowInventory={handleShowInventoryView} />}
       {view === 'userView' && (
         <AdminUserView 
           onShowRegisterUser={handleShowRegisterUser} 
@@ -37,6 +44,10 @@ const AdminComponent = () => {
           onClose={handleShowUserView} 
         />
       )}
+      {view === 'inventoryView' && <AdminInventoryView 
+      onShowRegisterUser={handleShowRegisterUser} 
+      onShowUpdateUser={handleShowUpdateUser}  />}
+      
     </>
   );
 };

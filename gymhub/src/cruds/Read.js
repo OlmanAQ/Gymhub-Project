@@ -1,4 +1,4 @@
-import { collection, query, where, getDocs} from 'firebase/firestore';
+import { collection, query, where, getDocs, getDoc, doc} from 'firebase/firestore';
 
 import { db } from '../firebaseConfig/firebase';
 //verifica si el usuario por agregar un correo existente en la base de datos
@@ -116,3 +116,24 @@ export const obtenerInfoUsuario = async (correo, usuario) => {
   }
 };
 
+
+export const obtenerInfoUsuarioCorreo = async (correo) => {
+  try {
+    const q = query(
+      collection(db, 'User'),
+      where('correo', '==', correo),
+    );
+
+    const querySnapshot = await getDocs(q);
+
+    if (!querySnapshot.empty) {
+      const usuarioDoc = querySnapshot.docs[0];
+      return { id: usuarioDoc.id, ...usuarioDoc.data() };
+    } else {
+      return null;
+    }
+  } catch (error) {
+    console.error('Error al obtener el usuario: ', error);
+    throw new Error('No se pudo obtener la información del usuario.');
+  }
+};

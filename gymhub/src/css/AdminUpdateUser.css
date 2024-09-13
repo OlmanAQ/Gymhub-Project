@@ -1,8 +1,8 @@
-.register-header {
+.register-user-header {
   margin-bottom: 20px; /* Espacio entre el título y el formulario */
 }
 
-.register-header h2 {
+.register-user-header h2 {
   font-size: 2em; /* Tamaño del título */
   color: #333; /* Color del título */
   text-align: center; /* Centrar el texto */

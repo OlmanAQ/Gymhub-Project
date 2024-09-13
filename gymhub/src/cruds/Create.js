@@ -1,11 +1,18 @@
-import {collection, addDoc} from 'firebase/firestore';
-import { db } from '../firebaseConfig/firebase';
+import { doc, setDoc, addDoc, collection} from 'firebase/firestore';
+import { db, auth } from '../firebaseConfig/firebase';
+
 
 export const agregarClienteConRol = async (cliente) => {
     try {
+      // uid del usuario actual
+      const { uid } = auth.currentUser;
+      //elimnar contraseña de cliente
+      delete cliente.contrasena;
+      
       const clienteConRol = {
         ...cliente,
-        rol: 'cliente'
+        rol: 'cliente',
+        uid: uid
       };
       await addDoc(collection(db, 'User'), clienteConRol);
       console.log('Cliente agregado exitosamente');
@@ -22,3 +29,6 @@ export const agregarUsuario = async (usuario) => {
     console.error('Error al agregar el usuario: ', error);
   }
 };
+
+
+

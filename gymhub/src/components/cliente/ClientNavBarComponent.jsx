@@ -3,15 +3,14 @@ import logo from '../../assets/LogoGymHub.png';
 import { User } from 'lucide-react';
 import '../../css/AdminNavBarComponent.css';
 import appFirebase from '../../firebaseConfig/firebase';
-
 import { getAuth } from 'firebase/auth';
 
 const auth = getAuth(appFirebase);
 
-const AdminNavBarComponent = ({onShowInventory }) => {
+const ClientNavBarComponent = () => {
   const [isDropdownVisible, setDropdownVisible] = useState(false);
 
-  // bottom log out
+  // bottom lpg out
   const handleLogout = () => {
     auth.signOut().then(() => {
         console.log('Sesión cerrada');
@@ -19,8 +18,7 @@ const AdminNavBarComponent = ({onShowInventory }) => {
     }).catch((error) => {
         console.log('Error al cerrar sesión', error);
     });
-  };
-
+};
 
   return (
     <nav className="navbar">
@@ -28,10 +26,8 @@ const AdminNavBarComponent = ({onShowInventory }) => {
         <img src={logo} alt="Logo" />
       </div>
         <ul className="navbar-menu">
-          <li><a href="#usuarios">Usuarios</a></li>
+          <li><a href="#rutinas">Rutinas</a></li>
           <li><a href="#alertas">Alertas</a></li>
-          <li><a href="#inventario" onClick={onShowInventory}>Inventario</a></li>
-          <li><a href="#estadisticas">Estadísticas</a></li>
           <li><a href="#suplementos">Suplementos</a></li>
           <li><a href="#ventas">Ventas</a></li>
           <li><a href="#premiacion">Premiación</a></li>
@@ -54,4 +50,4 @@ const AdminNavBarComponent = ({onShowInventory }) => {
   );
 }
 
-export default AdminNavBarComponent;
+export default ClientNavBarComponent;
