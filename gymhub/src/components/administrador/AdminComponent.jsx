@@ -35,7 +35,7 @@ const AdminComponent = () => {
 
   return (
     <>
-      <AdminNavBarComponent onShowInventory={handleShowInventoryView} />
+      <AdminNavBarComponent onShowInventory={handleShowInventoryView} onShowUserView ={handleShowUserView}/>
       {view === 'userView' && (
         <AdminUserView
           onShowRegisterUser={handleShowRegisterUser}
