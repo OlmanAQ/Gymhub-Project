@@ -115,26 +115,24 @@ const AdminInventoryView = ({ onShowRegisterInventory }) => {
 
   const displayedItems = filteredInventory.slice(currentPage * itemsPerPage, (currentPage + 1) * itemsPerPage);
 
-  const handlePagination = (direction) => {
-    /*
-    if (direction === 'next') {
-      
-      if ((currentPage + 1) * usersPerPage < allUsers.length) {
-        setCurrentPage(currentPage + 1);
-      }
-    } else if (direction === 'prev') {
-      if (currentPage > 0) {
-        setCurrentPage(currentPage - 1);
-      }
-    } else if (direction === 'first') {
-      setCurrentPage(0);
-    } else if (direction === 'last') {
-      /const lastPage = Math.floor(allUsers.length / usersPerPage);
-      setCurrentPage(lastPage);
+ // Función para manejar la paginación
+  const handlePagination = (action) => {
+    switch (action) {
+      case 'first':
+        setCurrentPage(0);
+        break;
+      case 'prev':
+        setCurrentPage(prev => prev - 1);
+        break;
+      case 'next':
+        setCurrentPage(prev => prev + 1);
+        break;
+      case 'last':
+        setCurrentPage(Math.floor(filteredInventory.length / itemsPerPage));
+        break;
+      default:
+        break;
     }
-      
-    };
-    */
   };
 
   return (

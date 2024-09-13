@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import Swal from 'sweetalert2';
 import { obtenerTodosLosUsuarios, obtenerInfoUsuario } from '../../cruds/Read';
-import { eliminarUsuario } from '../../cruds/Delete'; 
+import { eliminarUsuario } from '../../cruds/Delete';
 import { Edit, Trash, Info, ChevronLeft, ChevronRight, ChevronsLeft, ChevronsRight, UserPlus, Search, RefreshCcw } from 'lucide-react';
-import '../../css/AdminUserView.css'; 
+import '../../css/AdminUserView.css';
 
-const AdminUserView = ({onShowRegisterUser, onShowUpdateUser } ) => {
+const AdminUserView = ({ onShowRegisterUser, onShowUpdateUser }) => {
   const [allUsers, setAllUsers] = useState([]);
   const [displayedUsers, setDisplayedUsers] = useState([]);
   const [currentPage, setCurrentPage] = useState(0);
@@ -92,7 +92,7 @@ const AdminUserView = ({onShowRegisterUser, onShowUpdateUser } ) => {
                 <tr><td><strong>Correo:</strong></td><td>${userInfo.correo || 'N/A'}</td></tr>
                 <tr><td><strong>Contraseña:</strong></td><td>${userInfo.contrasena || 'N/A'}</td></tr>
                 <tr><td><strong>Edad:</strong></td><td>${userInfo.edad || 'N/A'}</td></tr>
-                <tr><td><strong>Estatura:</strong></td><td>${userInfo.estatura +' m'|| 'N/A'}</td></tr>
+                <tr><td><strong>Estatura:</strong></td><td>${userInfo.estatura + ' m' || 'N/A'}</td></tr>
                 <tr><td><strong>Peso:</strong></td><td>${userInfo.peso + ' kg' || 'N/A'}</td></tr>
               </table>
             </div>
@@ -160,12 +160,12 @@ const AdminUserView = ({onShowRegisterUser, onShowUpdateUser } ) => {
       setLoading(false);
     }
   };
-  
+
   /*busqueda de elementos cuando se da click en la lupa o enter*/
   const search = () => {
     const searchTerm = document.querySelector('.buscador-input').value.toLowerCase();
     const searchBy = document.querySelector('.buscador-select').value;
-  
+
     const filteredUsers = allUsers.filter(user => {
       let valueToSearch;
       switch (searchBy) {
@@ -183,7 +183,7 @@ const AdminUserView = ({onShowRegisterUser, onShowUpdateUser } ) => {
       }
       return valueToSearch.toLowerCase().includes(searchTerm);
     });
-  
+
     setDisplayedUsers(filteredUsers.slice(0, usersPerPage));
     setCurrentPage(0); // Reset to the first page of filtered results
   };
@@ -197,7 +197,7 @@ const AdminUserView = ({onShowRegisterUser, onShowUpdateUser } ) => {
       search();
     }
   };
-   
+
   return (
     <>
       <div className='controls-container'>
@@ -207,18 +207,18 @@ const AdminUserView = ({onShowRegisterUser, onShowUpdateUser } ) => {
             Agregar usuario
           </button>
         </div>
-  
+
         <div className='buscador-container'>
           <div className="buscador-wrapper">
-          <button className='refresh-button' onClick={refreshUsers}>
-            <RefreshCcw size={24} color="#007BFF" />
-          </button>
-          <input 
-            type="text" 
-            placeholder="Buscar" 
-            className="buscador-input" 
-            onKeyPress={keyPress}
-          />
+            <button className='refresh-button' onClick={refreshUsers}>
+              <RefreshCcw size={24} color="#007BFF" />
+            </button>
+            <input
+              type="text"
+              placeholder="Buscar"
+              className="buscador-input"
+              onKeyPress={keyPress}
+            />
             <button className="buscador-button" onClick={search}>
               <Search size={24} color="#007BFF" />
             </button>
@@ -229,13 +229,13 @@ const AdminUserView = ({onShowRegisterUser, onShowUpdateUser } ) => {
             <option value="correo">Correo</option>
           </select>
         </div>
-  
+
         <div className='filter-container'>
           <label htmlFor="sort">Ordenar por:</label>
-          <select 
-            id="sort" 
-            value={sortOption} 
-            onChange={(e) => setSortOption(e.target.value)} 
+          <select
+            id="sort"
+            value={sortOption}
+            onChange={(e) => setSortOption(e.target.value)}
             className="sort-select"
           >
             <option value="Aleatorio">Aleatorio</option>
@@ -247,7 +247,7 @@ const AdminUserView = ({onShowRegisterUser, onShowUpdateUser } ) => {
           </select>
         </div>
       </div>
-  
+
       <div className='table-container'>
         <table>
           <thead>
@@ -298,7 +298,7 @@ const AdminUserView = ({onShowRegisterUser, onShowUpdateUser } ) => {
           </tbody>
         </table>
         <div className="pagination-buttons">
-          <button  className='button-actions'
+          <button className='button-actions'
             onClick={() => handlePagination('first')}
             disabled={currentPage === 0}
           >
