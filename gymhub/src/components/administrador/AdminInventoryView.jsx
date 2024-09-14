@@ -4,12 +4,12 @@ import { Edit, Trash, Plus, Info, Search, ChevronsLeft, ChevronsRight, ChevronLe
 import Swal from 'sweetalert2';
 import '../../css/AdminInventoryView.css';
 
-const AdminInventoryView = ({ onShowRegisterInventory }) => {
+const AdminInventoryView = ({ onShowRegisterInventory, onShowEditInventory}) => {
   const [gimnasios, setGimnasios] = useState([]);
   const [selectedGym, setSelectedGym] = useState(''); // Gimnasio seleccionado
   const [inventory, setInventory] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
-  const [itemsPerPage, setItemsPerPage] = useState(10);
+  const [itemsPerPage] = useState(5);
   const [currentPage, setCurrentPage] = useState(0);
   const [sortOption, setSortOption] = useState('Aleatorio');
 
@@ -42,6 +42,10 @@ const AdminInventoryView = ({ onShowRegisterInventory }) => {
 
   const createdEquipment = () => {
     onShowRegisterInventory(selectedGym);
+  };
+
+  const editEquipment = (id) => {
+    onShowEditInventory(selectedGym, id);
   };
 
   const deleteEquipment = async (id) => {
@@ -83,13 +87,32 @@ const AdminInventoryView = ({ onShowRegisterInventory }) => {
   const moreInfo = (id) => {
     try {
       const equipment = inventory.find(item => item.id === id);
+      /*
+      equipment = {
+        id: '123',
+        nombre: 'Banco de pesas',
+        cantidad: 5,
+        estado: 'Operativo',
+        categoria: 'Pesas'
+        ejercicios: [[Nombre='Press de banca', Descripción='Ejercicio para pectorales', Zonas=[Pectorales, Tríceps]]]
+      */
       Swal.fire({
         title: 'Información del equipo',
         html: `
           <p><strong>Nombre:</strong> ${equipment.nombre}</p>
           <p><strong>Cantidad:</strong> ${equipment.cantidad}</p>
           <p><strong>Estado:</strong> ${equipment.estado}</p>
-          <p><strong>Descripción:</strong> ${equipment.descripcion}</p>
+          <p><strong>Categoría:</strong> ${equipment.categoria}</p>
+          <p><strong>Ejercicios:</strong></p>
+          <ul>
+            ${equipment.ejercicios.map(ejercicio => `
+              <li>
+                <strong>Nombre:</strong> ${ejercicio.nombre}<br>
+                <strong>Descripción:</strong> ${ejercicio.descripcion}<br>
+                <strong>Zonas:</strong> ${ejercicio.zonas.join(', ')}
+              </li>
+            `).join('')}
+          </ul>
         `,
         confirmButtonText: 'Entendido'
       });
@@ -113,27 +136,36 @@ const AdminInventoryView = ({ onShowRegisterInventory }) => {
     item.nombre && item.nombre.toLowerCase().includes(searchTerm)
   );
 
-  const displayedItems = filteredInventory.slice(currentPage * itemsPerPage, (currentPage + 1) * itemsPerPage);
+  if (sortOption === 'Nombre') {
+    filteredInventory.sort((a, b) => a.nombre.localeCompare(b.nombre));
+  }
+  if (sortOption === 'Cantidad') {
+    filteredInventory.sort((a, b) => a.cantidad - b.cantidad);
+  }
+  if (sortOption === 'Estado') {
+    filteredInventory.sort((a, b) => a.estado.localeCompare(b.estado));
+  }
 
- // Función para manejar la paginación
-  const handlePagination = (action) => {
-    switch (action) {
-      case 'first':
-        setCurrentPage(0);
-        break;
-      case 'prev':
-        setCurrentPage(prev => prev - 1);
-        break;
-      case 'next':
-        setCurrentPage(prev => prev + 1);
-        break;
-      case 'last':
-        setCurrentPage(Math.floor(filteredInventory.length / itemsPerPage));
-        break;
-      default:
-        break;
+
+  const displayedItems = filteredInventory.slice(currentPage * itemsPerPage, (currentPage + 1) * itemsPerPage);
+  
+
+  const handlePagination = (direction) => {
+    
+    if (direction === 'next') {
+      setCurrentPage(prev => prev + 1);
     }
+    if (direction === 'prev') {
+      setCurrentPage(prev => prev - 1);
+    }
+    if (direction === 'first') {
+      setCurrentPage(0);
+    }
+    if (direction === 'last') {
+      setCurrentPage(Math.floor(filteredInventory.length / itemsPerPage));
+    };
   };
+  
 
   return (
     <div className="admin-inventory-view">
@@ -209,7 +241,7 @@ const AdminInventoryView = ({ onShowRegisterInventory }) => {
                       </button>
                     </td>
                     <td>
-                      <button className='button-actions'>
+                      <button className='button-actions' onClick={() => editEquipment(item.id)}>
                         <Edit size={16} color="#F7E07F" />
                       </button>
                     </td>
@@ -239,13 +271,16 @@ const AdminInventoryView = ({ onShowRegisterInventory }) => {
             >
               <ChevronLeft size={24} />
             </button>
+            <span className="page-indicator">{currentPage + 1} de {Math.floor(filteredInventory.length / itemsPerPage) + 1}</span>
             <button className='button-actions'
               onClick={() => handlePagination('next')}
+              disabled={currentPage === Math.floor(filteredInventory.length / itemsPerPage)}
             >
               <ChevronRight size={24} />
             </button>
             <button className='button-actions'
               onClick={() => handlePagination('last')}
+              disabled={currentPage === Math.floor(filteredInventory.length / itemsPerPage)}
             >
               <ChevronsRight size={24} />
             </button>

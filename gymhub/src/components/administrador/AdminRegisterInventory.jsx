@@ -58,10 +58,17 @@ const AdminRegisterInventory = ({ gimnasioId, onClose }) => {
   const handleagregarProducto = async (e) => {
     e.preventDefault();
     try {
-      const producto = {
-        ...form,
-        fechaRegistro: formatDate(new Date()),
+      //elminar listas vacias dentro lista de ejercicios
+      form.ejercicios = form.ejercicios.filter(ejercicio => ejercicio.zonas.length > 0);
+      
+      const producto = { 
+        nombre: form.nombre,
+        cantidad: form.cantidad,
+        categoria: form.categoria,
+        estado: form.estado,
+        ejercicios: form.ejercicios,
       };
+
       await agregarProducto({producto, gimnasioId });
       Swal.fire('Éxito', 'Producto agregado correctamente', 'success');
       onClose();
@@ -107,28 +114,7 @@ const AdminRegisterInventory = ({ gimnasioId, onClose }) => {
           <option value="Fuera de servicio">Fuera de servicio</option>
         </select>
 
-        {/* Zonas y ejercicios */}
-        <div className="form-inline">
-          <input
-            type="text"
-            value={zona}
-            onChange={(e) => setZona(e.target.value)}
-            placeholder="Zona del cuerpo"
-            className="form-control"
-          />
-          <button type="button" className="btn-zone" onClick={handleAgregarZona}>
-            + Agregar Zona
-          </button>
-        </div>
-
-        {form.zonas.length > 0 && (
-          <ul className="zone-list">
-            {form.zonas.map((z, index) => (
-              <li key={index}>{z}</li>
-            ))}
-          </ul>
-        )}
-
+        
         <div className="form-inline">
           <input
             type="text"
@@ -144,6 +130,28 @@ const AdminRegisterInventory = ({ gimnasioId, onClose }) => {
             placeholder="Descripción del ejercicio"
             className="form-control"
           />
+          {/* Zonas y ejercicios */}
+        <div className="form-inline">
+          <input
+            type="text"
+            value={zona}
+            onChange={(e) => setZona(e.target.value)}
+            placeholder="Zona del cuerpo"
+            className="form-control"
+          />
+          <button type="button" className="btn-zone" onClick={handleAgregarZona}>
+            Enlistar Zona
+          </button>
+        </div>
+
+        {form.zonas.length > 0 && (
+          <ul className="zone-list">
+            {form.zonas.map((z, index) => (
+              <li key={index}>{z}</li>
+            ))}
+          </ul>
+        )}
+
           <button type="button" className="btn-add" onClick={handleAgregarEjercicio}>
             + Agregar Ejercicio
           </button>
@@ -167,7 +175,7 @@ const AdminRegisterInventory = ({ gimnasioId, onClose }) => {
           </div>
         )}
 
-        <button type="submit" className="btn-submit">Agregar Producto</button>
+        <button type="submit" className="btn-submit">Finalizar Equipo</button>
       </form>
     </div>
   );

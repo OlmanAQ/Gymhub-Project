@@ -5,11 +5,13 @@ import AdminRegisterUser from './AdminRegisterUser';
 import AdminUpdateUser from './AdminUpdateUser';
 import AdminInventoryView from './AdminInventoryView';
 import AdminRegisterInventory from './AdminRegisterInventory';
+import AdminEditInventory from './AdminEditInventory';
 
 const AdminComponent = () => {
   const [view, setView] = useState('userView');
   const [selectedUser, setSelectedUser] = useState(null);
-  const [gimnasioId, setGimnasioId] = useState(null); // Add state for gimnasioId
+  const [gimnasioId, setGimnasioId] = useState(null);
+  const [equipoId, setEquipoId] = useState(null);
 
   const handleShowRegisterUser = () => {
     setView('registerUser');
@@ -33,9 +35,15 @@ const AdminComponent = () => {
     setView('registerInventory');
   };
 
+  const handleShowEditInventory = (gimnasioId, equipoId) => {
+    setGimnasioId(gimnasioId);
+    setEquipoId(equipoId);
+    setView('editInventory');
+  };
+
   return (
     <>
-      <AdminNavBarComponent onShowInventory={handleShowInventoryView}  onShowUserView = {handleShowUserView}/>
+      <AdminNavBarComponent onShowInventory={handleShowInventoryView} onShowUserView={handleShowUserView} />
       {view === 'userView' && (
         <AdminUserView
           onShowRegisterUser={handleShowRegisterUser}
@@ -51,14 +59,20 @@ const AdminComponent = () => {
       )}
       {view === 'inventoryView' && (
         <AdminInventoryView
-          onShowRegisterUser={handleShowRegisterUser}
-          onShowUpdateUser={handleShowUpdateUser}
-          onShowRegisterInventory={handleShowRegisterInventory} // Add this line
+          onShowRegisterInventory={handleShowRegisterInventory}
+          onShowEditInventory={handleShowEditInventory}
         />
       )}
       {view === 'registerInventory' && (
         <AdminRegisterInventory
           gimnasioId={gimnasioId}
+          onClose={handleShowInventoryView}
+        />
+      )}
+      {view === 'editInventory' && (
+        <AdminEditInventory
+          gimnasioId={gimnasioId}
+          equipoId={equipoId}
           onClose={handleShowInventoryView}
         />
       )}
