@@ -1,0 +1,161 @@
+.admin-inventory-view {
+  padding: 20px;
+  background-color: #f8f9fa;
+}
+
+/* Sección compacta para seleccionar el gimnasio */
+.gym-selection-small {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 15px;
+}
+
+.gym-selection-small label {
+  font-size: 14px;
+  font-weight: bold;
+}
+
+.gym-select-small {
+  padding: 5px;
+  font-size: 14px;
+  border-radius: 4px;
+  border: 1px solid #ced4da;
+  width: 200px;
+}
+
+/* Acciones de inventario */
+.inventory-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.add-equipment-button {
+  background-color: #28a745;
+  color: white;
+  padding: 8px 12px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.search-and-sort {
+  display: flex;
+  gap: 20px;
+}
+
+.search-box {
+  display: flex;
+  align-items: center;
+  border: 1px solid #ced4da;
+  border-radius: 5px;
+  padding: 5px;
+}
+
+.search-box input {
+  border: none;
+  outline: none;
+  padding: 5px;
+  font-size: 14px;
+}
+
+.search-box .search-button {
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.sort-box select {
+  padding: 5px;
+  border: 1px solid #ced4da;
+  border-radius: 5px;
+}
+
+.inventory-table {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: #ffffff;
+  border-radius: 5px;
+  overflow: hidden;
+  margin-bottom: 20px;
+}
+
+.inventory-table th, .inventory-table td {
+  padding: 8px 10px; /* Reducir padding para hacer que las celdas sean más compactas */
+  border-bottom: 1px solid #dee2e6;
+  text-align: left;
+  font-size: 13px; /* Reducir el tamaño de la fuente */
+}
+
+.inventory-table th {
+  background-color: #343a40;
+  color: white;
+}
+
+/* Hacer las columnas más pequeñas */
+.inventory-table th, .inventory-table td {
+  width: auto; /* Permitir que las columnas se ajusten automáticamente */
+}
+
+
+
+/* Asegurar que los íconos de las acciones estén centrados */
+.actions button {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+
+/* Asegurarse de que el contenido esté centrado verticalmente */
+.inventory-table td {
+  vertical-align: middle;
+}
+
+/* Opcional: Ajustar los bordes y el color para dar más contraste */
+.inventory-table th, .inventory-table td {
+  border: 1px solid #ddd; /* Añadir borde más fino */
+}
+
+/* Paginación */
+.pagination {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+}
+
+.pagination button {
+  padding: 5px 8px; /* Reducir padding para hacer que los botones de paginación sean más compactos */
+  border-radius: 5px;
+  cursor: pointer;
+  background-color: #007bff;
+  color: white;
+  border: none;
+}
+
+.pagination button:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+.pagination span {
+  display: flex;
+  align-items: center;
+}
+
+
+/* Botones de acción en la tabla */
+.button-actions {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  margin: 0;
+}
+
+.button-actions:hover {
+  opacity: 0.8; /* Cambia la opacidad al pasar el ratón */
+}

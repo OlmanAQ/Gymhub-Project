@@ -1,18 +1,16 @@
-body {
-  background-color: #F0F0F0; /* Gris claro para el fondo */
-  color: #333333; /* Texto en gris oscuro */
-  background-image: url('../assets/fondogym2.png'); /* Cambia esta ruta por la de tu imagen */
-  background-size: cover;  /* Ajusta el tamaño de la imagen */
-  background-position: center;  /* Centra la imagen */
-  background-repeat: no-repeat;  /* Evita que la imagen se repita */
-}
-
 .login-container {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   height: 100vh;
+  background-color: #F0F0F0;
+  color: #333333;
+  background-image: url('../../src/assets/fondo3.png'); 
+  background-size: 100%;
+  background-size: cover;
+  background-position: center;  
+  background-repeat: no-repeat;  
 }
 
 .login-logo {

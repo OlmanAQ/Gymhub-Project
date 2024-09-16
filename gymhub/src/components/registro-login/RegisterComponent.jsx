@@ -1,9 +1,27 @@
 import React, { useState, useEffect } from 'react';
-import '../css/RegisterComponent.css';
+import '../../css/RegisterComponent.css';
 import { Eye, EyeOff, X } from 'lucide-react';
-import LogoGymHub from '../assets/LogoGymHub.png';
+import LogoGymHub from '../../assets/LogoGymHub.png';
+import Swal from 'sweetalert2';
+import { auth} from '../../firebaseConfig/firebase'
+import { createUserWithEmailAndPassword, sendEmailVerification, } from 'firebase/auth';
+import { agregarClienteConRol } from '../../cruds/Create';
+import { verificarCorreoExistente,verificarUsuario } from '../../cruds/Read';
+
+
+
 
 const RegisterComponent = ({ onShowLogin }) => {
+  
+
+  const formatDate = (date) => {
+    const day = String(date.getDate()).padStart(2, '0');
+    const month = String(date.getMonth() + 1).padStart(2, '0'); // Los meses en JavaScript son de 0 a 11
+    const year = date.getFullYear();
+    
+    return `${day}/${month}/${year}`;
+  };
+
   const [form, setForm] = useState({
     nombre: '',
     edad: '',
@@ -13,14 +31,15 @@ const RegisterComponent = ({ onShowLogin }) => {
     padecimientos: '',
     correo: '',
     telefono: '',
-    fechaInscripcion: new Date().toISOString().slice(0, 10), // Fecha actual
+    fechaInscripcion: formatDate(new Date()), // Fecha actual 
     tipoMembresia: '',
     renovacion: '',
-    contrasena: ''
+    contrasena: '',
+    usuario: ''
   });
 
+
   const [showPassword, setShowPassword] = useState(false);
-  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
   useEffect(() => {
     if (form.tipoMembresia) {
@@ -34,9 +53,12 @@ const RegisterComponent = ({ onShowLogin }) => {
   };
 
   const calculateRenovationDate = (tipo) => {
-    const fechaInscripcion = new Date(form.fechaInscripcion);
+    // Convierte la fecha de inscripción en formato DD/MM/YYYY a un objeto Date
+    const [day, month, year] = form.fechaInscripcion.split('/').map(Number);
+    const fechaInscripcion = new Date(year, month - 1, day); // Los meses en JavaScript son de 0 a 11
+  
     let renovacionDate;
-
+  
     switch (tipo) {
       case 'Dia':
         renovacionDate = new Date(fechaInscripcion);
@@ -55,29 +77,153 @@ const RegisterComponent = ({ onShowLogin }) => {
         renovacionDate.setFullYear(fechaInscripcion.getFullYear() + 1);
         break;
       default:
-        renovacionDate = '';
+        renovacionDate = null;
     }
-    setForm((prevForm) => ({ ...prevForm, renovacion: renovacionDate.toISOString().slice(0, 10) }));
+  
+    if (renovacionDate) {
+      const formattedDate = formatDate(renovacionDate); // Usa la función formatDate para formatear la fecha
+      setForm((prevForm) => ({ ...prevForm, renovacion: formattedDate }));
+    } else {
+      setForm((prevForm) => ({ ...prevForm, renovacion: '' }));
+    }
   };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    console.log('Formulario enviado', form);
-  };
-
+  
   const toggleShowPassword = () => {
     setShowPassword(!showPassword);
   };
   
+  const validateForm = () => {
+    // Verifica que todos los campos estén llenos y que no tengan datos por defecto
+    const requiredFields = ['nombre', 'edad', 'genero', 'estatura', 'peso', 'padecimientos', 'correo', 'telefono', 'tipoMembresia', 'contrasena', 'usuario'];
+    for (let field of requiredFields) {
+      if (form[field] === undefined || form[field].trim() === '') {
+        return false;
+      }
+    }
+  
+    // Verifica que los valores seleccionados en los campos de selección no sean los predeterminados
+    if (form.genero === '' || form.tipoMembresia === '' || form.genero === 'Seleccione' || form.tipoMembresia === 'Seleccione') {
+      return false;
+    }
+  
+    return true;
+  };
+
+  const agregarCliente = async (e) => {
+    e.preventDefault(); // Evita el comportamiento por defecto del formulario
+  
+    if (!validateForm()) {
+      Swal.fire({
+        icon: 'warning',
+        title: 'Registro incompleto',
+        text: 'Por favor, complete todos los campos correctamente.',
+        confirmButtonText: 'Entendido'
+      });
+      return;
+    }
+  
+    // Verificar si el correo ya existe en la base de datos
+    const correoExiste = await verificarCorreoExistente(form.correo);
+  
+    if (correoExiste) {
+      Swal.fire({
+        icon: 'error',
+        title: 'Correo ya registrado',
+        text: 'El correo ingresado ya está registrado. Por favor, utilice otro correo.',
+        confirmButtonText: 'Entendido'
+      });
+      return; // Detener el proceso de registro si el correo ya existe
+    }
+    const usuarioExistente = await verificarUsuario(form.usuario);
+  
+    if (usuarioExistente) {
+      Swal.fire({
+        icon: 'error',
+        title: 'Usuario ya registrado',
+        text: 'El usuario ya esta en uso. Por favor, utilice otro usuario.',
+        confirmButtonText: 'Entendido'
+      });
+      return; // Detener el proceso de registro si el usuario ya existe
+    }
+    const result = await Swal.fire({
+      title: 'Confirmar registro',
+      text: "¿Estás seguro de que desea registrarse?",
+      icon: 'question',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Sí, registrar',
+      cancelButtonText: 'Cancelar'
+    });
+  
+    if (result.isConfirmed) {
+      try {
+        
+        await createUserWithEmailAndPassword(auth, form.correo, form.contrasena);
+        await agregarClienteConRol(form); // Llama al método para agregar el cliente con rol
+        await sendEmailVerification(auth.currentUser);
+        Swal.fire({
+          icon: 'success',
+          title: 'Registrado',
+          text: 'Cliente registrado exitosamente.',
+          confirmButtonText: 'Ok'
+        }).then(() => {
+          // Limpiar el formulario después de un registro exitoso
+          setForm({
+            nombre: '',
+            edad: '',
+            genero: '',
+            estatura: '',
+            peso: '',
+            padecimientos: '',
+            correo: '',
+            telefono: '',
+            fechaInscripcion: formatDate(new Date()), // Fecha actual
+            tipoMembresia: '',
+            renovacion: '',
+            contrasena: '',
+            usuario: ''
+          });
+  
+          // Redirigir al componente de login
+          onShowLogin();
+
+
+          
+        });
+      } catch (error) {
+        console.error('Error al registrar el cliente:', error);
+        Swal.fire({
+          icon: 'error',
+          title: 'Error',
+          text: 'Hubo un error al registrar el cliente.',
+          confirmButtonText: 'Entendido'
+        });
+      }
+    }
+  };
+  
   return (
     <div className="register-container">
-      <img src={LogoGymHub} className="register-logo" />
-      <h2 className='titulo-form'>Registro de Membresía</h2>
-      <form onSubmit={handleSubmit}>
-        <div className="register-row">
+      <header className="register-header">
+        <img src={LogoGymHub} alt="Logo GymHub" className="register-logo" />
+        <h2 className="register-title">Registro de Membresía</h2>
         <button className="close-button" onClick={onShowLogin}>
           <X />
         </button>
+      </header>
+      <form className='register' onSubmit={agregarCliente}>
+          <div className="register-form-group">
+              <label htmlFor="usuario" className="register-label">Usuario</label>
+              <input 
+                type="text" 
+                id="usuario" 
+                name="usuario" 
+                value={form.usuario} 
+                onChange={handleChange} 
+                className="register-input register-input-usuario" 
+              />
+          </div>
           <div className="register-form-group">
             <label htmlFor="nombre" className="register-label">Nombre completo</label>
             <input 
@@ -101,8 +247,6 @@ const RegisterComponent = ({ onShowLogin }) => {
               min="0" 
             />
           </div>
-        </div>
-        <div className="register-row">
           <div className="register-form-group">
             <label htmlFor="genero" className="register-label">Género</label>
             <select 
@@ -115,6 +259,7 @@ const RegisterComponent = ({ onShowLogin }) => {
               <option value="">Seleccione</option>
               <option value="Hombre">Hombre</option>
               <option value="Mujer">Mujer</option>
+              <option value="Otro">Otro</option>
             </select>
           </div>
           <div className="register-form-group">
@@ -130,8 +275,6 @@ const RegisterComponent = ({ onShowLogin }) => {
               min="0" 
             />
           </div>
-        </div>
-        <div className="register-row">
           <div className="register-form-group">
             <label htmlFor="peso" className="register-label">Peso (kilos)</label>
             <input 
@@ -156,8 +299,6 @@ const RegisterComponent = ({ onShowLogin }) => {
               className="register-input register-input-padecimientos" 
             />
           </div>
-        </div>
-        <div className="register-row">
           <div className="register-form-group">
             <label htmlFor="correo" className="register-label">Correo</label>
             <input 
@@ -180,12 +321,10 @@ const RegisterComponent = ({ onShowLogin }) => {
               className="register-input register-input-telefono" 
             />
           </div>
-        </div>
-        <div className="register-row">
           <div className="register-form-group">
             <label htmlFor="fechaInscripcion" className="register-label">Fecha de inscripción</label>
             <input 
-              type="date" 
+              type="text" 
               id="fechaInscripcion" 
               name="fechaInscripcion" 
               value={form.fechaInscripcion} 
@@ -204,23 +343,22 @@ const RegisterComponent = ({ onShowLogin }) => {
               className="register-input register-input-tipo-membresia"
             >
               <option value="">Seleccione</option>
-              <option value="Dia">Día</option>
+              <option value="Dia">Dia</option>
               <option value="Semana">Semana</option>
               <option value="Mes">Mes</option>
               <option value="Año">Año</option>
             </select>
           </div>
-        </div>
-        <div className="register-row">
           <div className="register-form-group">
             <label htmlFor="renovacion" className="register-label">Renovación</label>
             <input 
-              type="date" 
+              type="text" 
               id="renovacion" 
               name="renovacion" 
               value={form.renovacion} 
               onChange={handleChange} 
               className="register-input register-input-renovacion" 
+              placeholder="dd/mm/yyy"
               disabled
             />
           </div>
@@ -240,11 +378,10 @@ const RegisterComponent = ({ onShowLogin }) => {
                 className="password-toggle-button" 
                 onClick={toggleShowPassword}
               >
-                {showPassword ? <EyeOff /> : <Eye />}
+                {showPassword ? <Eye /> : <EyeOff/>}
               </button>
             </div>
           </div>
-        </div>
         <button type="submit" className="register-submit-button">Registrarse</button>
       </form>
     </div>

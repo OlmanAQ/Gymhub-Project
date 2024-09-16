@@ -1,0 +1,125 @@
+.register-user-header {
+  margin-bottom: 20px; /* Espacio entre el título y el formulario */
+}
+
+.register-user-header h2 {
+  font-size: 2em; /* Tamaño del título */
+  color: #333; /* Color del título */
+  text-align: center; /* Centrar el texto */
+}
+.admin-update-user {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+  max-width: 800px;
+  margin: 0 auto;
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+  position: relative; /* Asegura que el título no afecte el sombreado del contenedor */
+}
+
+/* Estilos para el título */
+.admin-update-user h2 {
+  margin: 0; /* Elimina el margen para evitar que el título empuje el contenedor */
+  padding-bottom: 20px; /* Agrega espaciado debajo del título para separarlo del formulario */
+  font-size: 1.5em;
+  color: #333;
+  text-align: center; /* Centra el título */
+  width: 100%; /* Asegura que el título ocupe todo el ancho del contenedor */
+}
+
+/* Estilos para el formulario */
+.admin-update-user form {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+  width: 100%;
+}
+
+/* Estilos para las etiquetas y entradas del formulario */
+.admin-update-user label {
+  display: flex;
+  flex-direction: column;
+  font-size: 0.9em;
+  color: #555;
+}
+
+.admin-update-user input,
+.admin-update-user select {
+  padding: 8px;
+  font-size: 1em;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  background-color: #fff;
+  box-sizing: border-box;
+  width: 100%;
+}
+
+/* Estilos para los botones */
+.admin-update-user button {
+  grid-column: span 2;
+  padding: 10px;
+  font-size: 1em;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.admin-update-user button[type="submit"] {
+  background-color: #4caf50;
+  color: #fff;
+}
+
+.admin-update-user button[type="button"].cancel-button {
+  background-color: #f44336;
+  color: #fff;
+}
+
+/* Estilo hover para los botones */
+.admin-update-user button:hover {
+  opacity: 0.9;
+}
+
+/* Estilos para el contenedor de la contraseña */
+.password-input-container {
+  position: relative;
+}
+
+/* Estilos para el botón de mostrar/ocultar contraseña */
+.password-toggle-btn {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  background-color: transparent; /* Fondo transparente */
+  border: none; /* Sin bordes */
+  cursor: pointer;
+  padding: 0; /* Sin padding */
+  outline: none; /* Sin outline cuando está enfocado */
+}
+
+/* Estilos para el ícono de mostrar/ocultar contraseña */
+.eye-icon {
+  width: 1.5rem;
+  height: 1.5rem;
+  color: #333; /* Color independiente */
+  background: none; /* Sin fondo */
+}
+
+.close-button-admin-update-user {
+  position: absolute; /* Posiciona el botón en relación al contenedor */
+  top: -5px; /* Ajusta la distancia desde el borde superior */
+  right: 0px; /* Ajusta la distancia desde el borde derecho */
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  color: #333; /* Ajusta el color según el diseño */
+}
+
+/* Estilos para el botón de cierre cuando se pasa el mouse sobre él */
+.close-button-admin-update-user:hover {
+  color: #666; /* Cambia el color en hover si lo deseas */
+}

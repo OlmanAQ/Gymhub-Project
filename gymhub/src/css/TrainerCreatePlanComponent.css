@@ -1,0 +1,323 @@
+.mi-div {
+  background-color: rgb(255, 255, 255);
+  color: rgb(0, 0, 0);
+  padding: 20px;
+  margin: 0 auto;
+  margin-top: 15px;
+  display: flex;
+  flex-direction: column; 
+  align-items: center; 
+  width: 95%;
+}
+
+.title {
+  font-size: 2.5rem;
+  color: #ffffff;
+  text-align: center;
+  font-weight: 700;
+  margin-top: 0;
+  margin-bottom: 20px;
+  background: linear-gradient(90deg, #333333, #000000);
+  padding: 15px;
+  border-radius: 8px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
+  width: 100%;
+}
+
+
+
+.button-grd {
+  padding: 8px 12px;
+  background-color: #509B11;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  gap: 20px;
+}
+
+.exercise-menu {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: center;
+  width: 100%; 
+}
+
+
+.muscle-group {
+  flex: 1 1 calc(25% - 20px); 
+  min-width: 200px; 
+  margin-bottom: 10px; 
+}
+
+.muscle-group-button {
+  width: 100%;
+  background-color: #000000;
+  color: rgb(255, 255, 255);
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  text-align: center;
+}
+
+.muscle-group-button:focus {
+  outline: none;
+}
+
+.exercise-list {
+  margin-top: 10px;
+  padding-left: 20px;
+}
+
+.exercise-button {
+  display: block;
+  width: 100%;
+  background-color: #f8f9fa;
+  color: #333;
+  padding: 8px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  margin-bottom: 5px;
+  text-align: left;
+  cursor: pointer;
+}
+
+.exercise-button:focus {
+  outline: none;
+  background-color: #e9ecef;
+}
+
+
+
+.days-of-week {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.day-button {
+  flex: 1;
+  padding: 10px;
+  background-color: #f8f9fa;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  cursor: pointer;
+  margin: 0 5px;
+  text-align: center;
+}
+
+.day-button.active {
+  background-color: #007bff;
+  color: white;
+}
+
+.days-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 2px solid #1d1907;
+  background-color: #f1f1f1;
+  padding: 20px;
+  border-radius: 10px;
+  margin-bottom: 20px;
+  margin-top: 30px;
+  width: 100%;
+}
+
+.weekly-plan {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-template-rows: repeat(2, auto);
+  gap: 20px;
+  width: 100%; 
+}
+
+.day-column {
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  padding: 10px;
+  text-align: center;
+  cursor: pointer;
+}
+
+.day-column h2 {
+  font-size: 1.2rem;
+  margin-bottom: 10px;
+}
+
+.day-column ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.day-column li {
+  background-color: #b0e23c;
+  padding: 8px;
+  margin-bottom: 5px;
+  border-radius: 5px;
+  text-align: left;
+  justify-content: space-between;
+}
+
+.active-day {
+  border: 2px solid #64cf00;
+}
+
+.exercise-menu {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+
+
+.remove-button {
+  background-color: #ec3434;
+  border: none;
+  border-radius: 4px;
+  color: white;
+  font-size: 16px;
+  width: 24px;
+  height: 24px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  margin-left: 8px; 
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.remove-button:hover {
+  background-color: #ff1e00;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.remove-button:focus {
+  outline: none;
+}
+
+.remove-button:active {
+  background-color: #e03e1f;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.input-container {
+  display: flex;
+  justify-content: space-between;
+  gap: 15;
+  align-items: top;
+  margin-bottom: 20px;
+  padding: 20px;
+  border: 2px solid #0a0a0a;
+  border-radius: 10px;
+  background-color: #f3f9fc;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  width: 60%;
+}
+
+.input-container input {
+  width: 90%;
+  padding: 12px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  font-size: 16px;
+  background-color: #ffffff;
+}
+
+.user-list {
+  margin-top: 10px;
+  list-style-type: none;
+  padding: 0;
+  background-color: #ffffff;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  max-height: 150px;
+  overflow-y: auto;
+}
+
+.user-list li {
+  padding: 10px;
+  border-bottom: 1px solid #ddd;
+  cursor: pointer;
+}
+
+.user-list li:hover {
+  background-color: #e7f3ff;
+}
+
+.selected-user {
+  margin-top: 10px;
+  font-weight: bold;
+  color: #1b1a1a;
+}
+
+.user-search-container,
+.routine-name-container {
+  display: flex;
+  flex-direction: column;
+  width: 48%;
+}
+
+.user-search-input,
+.routine-name-input {
+  width: 100%;
+  padding: 12px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  font-size: 16px;
+  background-color: #ffffff;
+}
+
+.user-search-input::placeholder,
+.routine-name-input::placeholder {
+  color: #999;
+}
+
+
+
+.activity-state-container {
+  border: 2px solid #ddd; /* Borde verde elegante */
+  border-radius: 8px; /* Esquinas redondeadas */
+  padding: 10px; /* Espaciado interno */
+  margin: 0px 0; /* Separación con otros elementos */
+  background-color: #f9f9f9; /* Fondo claro */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra suave para darle profundidad */
+  height: 50%;
+}
+
+.activity-state-container label {
+  font-size: 16px; /* Tamaño del texto */
+  color: #333; /* Color del texto */
+  display: block; /* Cada etiqueta en su propia línea */
+  margin-bottom: 8px; /* Separación inferior */
+}
+
+.activity-state-container select {
+  width: 100%; /* Anchura completa */
+  padding: 10px; /* Espaciado interno */
+  border: 1px solid #ccc; /* Borde gris claro */
+  border-radius: 4px; /* Bordes redondeados */
+  font-size: 14px; /* Tamaño del texto */
+  background-color: #fff; /* Fondo blanco */
+  color: #333; /* Color del texto */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Sombra ligera */
+  outline: none; /* Sin borde de enfoque */
+}
+
+.user-search-button {
+  padding: 8px 12px;
+  margin-top: 10px;
+  background-color: #3c9bc0;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  width: 90%;
+  gap: 20px;
+}
