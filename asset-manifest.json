@@ -1,0 +1,17 @@
+{
+  "files": {
+    "main.css": "/Gymhub-Project/static/css/main.5caf1cdf.css",
+    "main.js": "/Gymhub-Project/static/js/main.0a3941dd.js",
+    "static/js/453.3c5ec6a4.chunk.js": "/Gymhub-Project/static/js/453.3c5ec6a4.chunk.js",
+    "static/media/fondo3.png": "/Gymhub-Project/static/media/fondo3.192c45f45fe4a0196f07.png",
+    "static/media/LogoGymHub.png": "/Gymhub-Project/static/media/LogoGymHub.012aa057b1337cfd071e.png",
+    "index.html": "/Gymhub-Project/index.html",
+    "main.5caf1cdf.css.map": "/Gymhub-Project/static/css/main.5caf1cdf.css.map",
+    "main.0a3941dd.js.map": "/Gymhub-Project/static/js/main.0a3941dd.js.map",
+    "453.3c5ec6a4.chunk.js.map": "/Gymhub-Project/static/js/453.3c5ec6a4.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.5caf1cdf.css",
+    "static/js/main.0a3941dd.js"
+  ]
+}
