@@ -8,16 +8,16 @@ import { getAuth } from 'firebase/auth';
 
 const auth = getAuth(appFirebase);
 
-const AdminNavBarComponent = ({onShowInventory, onShowUserView}) => {
+const AdminNavBarComponent = ({ onShowInventory, onShowUserView }) => {
   const [isDropdownVisible, setDropdownVisible] = useState(false);
 
   // bottom log out
   const handleLogout = () => {
     auth.signOut().then(() => {
-        console.log('Sesión cerrada');
-        
+      console.log('Sesión cerrada');
+
     }).catch((error) => {
-        console.log('Error al cerrar sesión', error);
+      console.log('Error al cerrar sesión', error);
     });
   };
 
@@ -27,7 +27,9 @@ const AdminNavBarComponent = ({onShowInventory, onShowUserView}) => {
       <div className="navbar-logo">
         <img src={logo} alt="Logo" />
       </div>
-        <ul className="navbar-menu">
+
+      <div className="navbar-menu">
+        <ul>
           <li><a href="#Inicio">Inicio</a></li>
           <li><a href="#usuarios" onClick={onShowUserView}>Usuarios</a></li>
           <li><a href="#alertas">Alertas</a></li>
@@ -37,20 +39,22 @@ const AdminNavBarComponent = ({onShowInventory, onShowUserView}) => {
           <li><a href="#ventas">Ventas</a></li>
           <li><a href="#premiacion">Premiación</a></li>
         </ul>
-        <div
-          className="navbar-profile"
-          onMouseEnter={() => setDropdownVisible(true)}
-          onMouseLeave={() => setDropdownVisible(false)}
-        >
-          <User className="navbar-icon" />
-          <span className="navbar-username">Mi Perfil</span>
-          {isDropdownVisible && (
-            <ul className="navbar-dropdown">
-              <li><a href="#ver-perfil">Ver Perfil</a></li>
-              <li><a href="#cerrar-sesion" onClick={handleLogout}>Cerrar sesión</a></li>
-            </ul>
-          )}
-        </div>
+      </div>
+
+      <div
+        className="navbar-profile"
+        onMouseEnter={() => setDropdownVisible(true)}
+        onMouseLeave={() => setDropdownVisible(false)}
+      >
+        <User className="navbar-icon" />
+        <span className="navbar-username">Mi Perfil</span>
+        {isDropdownVisible && (
+          <ul className="navbar-dropdown">
+            <li><a href="#ver-perfil">Ver Perfil</a></li>
+            <li><a href="#cerrar-sesion" onClick={handleLogout}>Cerrar sesión</a></li>
+          </ul>
+        )}
+      </div>
     </nav>
   );
 }

@@ -99,7 +99,7 @@ const LoginComponent = ({ onShowRegister }) => {
 
   return (
     <div className="login-container">
-      <img src={LogoGymHub} className="login-logo" />
+      <img src={LogoGymHub} alt="Logo" className="login-logo" />
       <form>
         <div className="login-form-group">
           <label htmlFor="username" className="login-label">Usuario</label>

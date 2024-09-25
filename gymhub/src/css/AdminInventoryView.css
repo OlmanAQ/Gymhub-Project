@@ -159,3 +159,22 @@
 .button-actions:hover {
   opacity: 0.8; /* Cambia la opacidad al pasar el ratón */
 }
+
+
+@media screen and (max-width: 768px) {
+  .inventory-table th, .inventory-table td {
+    padding: 5px; /* Reducir el relleno para hacer que las celdas sean más compactas */
+    font-size: 12px; /* Reducir el tamaño de la fuente */
+  }
+
+  .inventory-table th {
+    font-size: 12px; /* Reducir el tamaño de la fuente */
+  }
+
+  .inventory-table th, .inventory-table td {
+    width: auto; /* Permitir que las columnas se ajusten automáticamente */
+  }
+
+  
+  
+}

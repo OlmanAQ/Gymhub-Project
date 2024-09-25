@@ -42,7 +42,7 @@ const InicioSesionComponent = () => {
 
 
   return (
-    <div>
+    <>
       {usuario.isAuthenticated ? (
         usuario.role === 'administrador' ? (
           <AdminComponent />
@@ -60,7 +60,7 @@ const InicioSesionComponent = () => {
           <RegisterComponent onShowLogin={showLogin} />
         )
       )}
-    </div>
+    </>
   );
 };
 

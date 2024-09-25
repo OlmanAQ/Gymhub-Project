@@ -203,3 +203,8 @@ th:nth-last-child(-n+2), td:nth-last-child(-n+2) {
   background-color:#e2e6ea;
 }
 
+@media screen and (max-width: 768px) {
+  .controls-container {
+    flex-direction: column; /* Apila los controles en dispositivos móviles */
+  }
+}

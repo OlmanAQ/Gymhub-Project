@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import logo from '../../assets/LogoGymHub.png';
 import { User } from 'lucide-react';
-import '../../css/TrainerNavBarComponent.css';
+import '../../css/AdminNavBarComponent.css';
 import TrainerCreatePlanComponent from './TrainerCreatePlanComponent';
 import TrainerSearchPlanComponent from './TrainerSearchPlanComponent';
 
