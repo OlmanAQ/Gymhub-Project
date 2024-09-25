@@ -6,24 +6,23 @@ import { actualizarUsuario } from '../../cruds/Update';
 import { obtenerInfoUsuarioCorreo } from '../../cruds/Read';
 import '../../css/AdminUpdateUser.css';
 
-const ProfileView = (onClose) => {
+const ProfileView = ({ onClose }) => {
     const usuario = useSelector((state) => state.user);
     const [user, setUser] = useState(null);
 
     useEffect(() => {
         if (usuario.isAuthenticated) {
-            obtenerInfoUsuarioCorreo(usuario.correo).then((usuario) => {
+            obtenerInfoUsuarioCorreo(usuario.email).then((usuario) => {
                 setUser(usuario);
             });
         }
     }, [usuario]);
-    
+
 
     const [formData, setFormData] = useState({
         nombre: '',
         usuario: '',
         correo: '',
-        contrasena: '',
         edad: '',
         estatura: '',
         peso: '',
@@ -32,7 +31,6 @@ const ProfileView = (onClose) => {
         telefono: '',
         tipoMembresia: '',
         renovacion: '', // Usar formato dd/mm/yyyy para el input de tipo text
-        rol: '',
         fechaInscripcion: '' // Añadido para mostrar la fecha de inscripción
     });
 
@@ -131,13 +129,13 @@ const ProfileView = (onClose) => {
 
     const validateForm = () => {
         const {
-            nombre, usuario, correo, contrasena, edad, estatura, peso, genero, padecimientos, telefono, tipoMembresia, rol, renovacion, fechaInscripcion
+            nombre, usuario, correo, edad, estatura, peso, genero, padecimientos, telefono, tipoMembresia, renovacion, fechaInscripcion
         } = formData;
 
         console.log('Datos del formulario:', formData);
 
         // Verificar que los campos no estén vacíos y que los selects no tengan la opción por defecto "Seleccione"
-        if (!nombre || !usuario || !correo || !contrasena || !edad || !estatura || !peso || !genero || !padecimientos || !telefono || !renovacion || !fechaInscripcion || tipoMembresia === '' || rol === '') {
+        if (!nombre || !usuario || !correo || !edad || !estatura || !peso || !genero || !padecimientos || !telefono || !renovacion || !fechaInscripcion || tipoMembresia === '') {
             Swal.fire({
                 icon: 'warning',
                 title: 'Campos incompletos',
@@ -194,7 +192,7 @@ const ProfileView = (onClose) => {
     return (
         <>
             <div className="register-user-header">
-                <h2>Editar Usuario</h2>
+                <h2>Editar Perfil</h2>
             </div>
             <div className="admin-update-user">
                 <button className="close-button-admin-update-user" onClick={handleClose}>
@@ -230,25 +228,6 @@ const ProfileView = (onClose) => {
                             value={formData.correo}
                             onChange={handleChange}
                         />
-                    </label>
-                    <label>
-                        Contraseña:
-                        <div className="password-input-container">
-                            <input
-                                type={showPassword ? "text" : "password"}
-                                name="contrasena"
-                                placeholder="Nueva contraseña"
-                                value={formData.contrasena}
-                                onChange={handleChange}
-                            />
-                            <button
-                                type="button"
-                                className="password-toggle-btn"
-                                onClick={togglePasswordVisibility}
-                            >
-                                {showPassword ? <Eye size={20} /> : <EyeOff size={20} />}
-                            </button>
-                        </div>
                     </label>
                     <label>
                         Edad actual: {user?.edad}
@@ -315,7 +294,7 @@ const ProfileView = (onClose) => {
                         />
                     </label>
                     <label>
-                        Tipo de membresía: { user?.tipoMembresia}
+                        Tipo de membresía: {user?.tipoMembresia}
                         <select
                             name="tipoMembresia"
                             value={formData.tipoMembresia}
@@ -341,20 +320,7 @@ const ProfileView = (onClose) => {
                         />
                     </label>
                     <label>
-                        Rol actual: {user?.rol}
-                        <select
-                            name="rol"
-                            value={formData.rol}
-                            onChange={handleChange}
-                        >
-                            <option value="">Seleccione</option>
-                            <option value="Cliente">Cliente</option>
-                            <option value="Entrenador">Entrenador</option>
-                            <option value="Administrador">Administrador</option>
-                        </select>
-                    </label>
-                    <label>
-                        Fecha de inscripción:{ user?.fechaInscripcion}
+                        Fecha de inscripción:{user?.fechaInscripcion}
                         <input
                             type="text"
                             value={formData.fechaInscripcion || user?.fechaInscripcion}
