@@ -19,7 +19,7 @@
 }
 
 form {
-  width: 100%;
+  width: 400px; /* Ampliar el ancho del formulario */
   background-color: #FFFFFF; /* Blanco para el fondo del formulario */
   padding: 20px;
   border-radius: 8px;
