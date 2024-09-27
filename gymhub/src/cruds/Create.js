@@ -1,6 +1,6 @@
-import { doc, setDoc, addDoc, collection} from 'firebase/firestore';
-import { db, auth } from '../firebaseConfig/firebase';
-
+import { addDoc, collection} from 'firebase/firestore';
+import { db, auth, storage } from '../firebaseConfig/firebase';
+import { getDownloadURL, ref, uploadBytes } from 'firebase/storage';
 
 export const agregarClienteConRol = async (cliente) => {
     try {
@@ -30,5 +30,23 @@ export const agregarUsuario = async (usuario) => {
   }
 };
 
+export const agregarProducto = async (producto, imagen) => {
+  try {
+    const storageRef = ref(storage, `products/${imagen.name}`);
+    const snapshot = await uploadBytes(storageRef, imagen);
+    console.log('Imagen subida exitosamente:', snapshot);
 
+    const imageUrl = await getDownloadURL(snapshot.ref);
+    console.log('URL de descarga de la imagen:', imageUrl);
 
+    const productoConImagen = {
+      ...producto,
+      imageID: imageUrl,
+    };
+
+    await addDoc(collection(db, 'Sales'), productoConImagen);
+    console.log('Producto agregado exitosamente con imagen.');
+  } catch (error) {
+    console.error('Error al agregar el producto: ', error);
+  }
+};

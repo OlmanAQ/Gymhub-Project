@@ -6,6 +6,7 @@ import AdminUpdateUser from './AdminUpdateUser';
 import AdminInventoryView from './AdminInventoryView';
 import AdminRegisterInventory from './AdminRegisterInventory';
 import AdminEditInventory from './AdminEditInventory';
+import AdminSalesView from './AdminSalesView'; // Asegúrate de importar este componente
 
 const AdminComponent = () => {
   const [view, setView] = useState('userView');
@@ -41,9 +42,17 @@ const AdminComponent = () => {
     setView('editInventory');
   };
 
+  const handleShowSalesView = () => {
+    setView('salesView');
+  };
+
   return (
     <>
-      <AdminNavBarComponent onShowInventory={handleShowInventoryView} onShowUserView={handleShowUserView} />
+      <AdminNavBarComponent 
+        onShowInventory={handleShowInventoryView} 
+        onShowUserView={handleShowUserView} 
+        onShowSales={handleShowSalesView} // Añade esta línea
+      />
       {view === 'userView' && (
         <AdminUserView
           onShowRegisterUser={handleShowRegisterUser}
@@ -76,6 +85,7 @@ const AdminComponent = () => {
           onClose={handleShowInventoryView}
         />
       )}
+      {view === 'salesView' && <AdminSalesView />}
     </>
   );
 };
