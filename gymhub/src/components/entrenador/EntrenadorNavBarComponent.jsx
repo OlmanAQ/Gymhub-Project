@@ -5,6 +5,8 @@ import '../../css/AdminNavBarComponent.css';
 import appFirebase from '../../firebaseConfig/firebase';
 import TrainerCreatePlanComponent from './TrainerCreatePlanComponent';
 import TrainerSearchPlanComponent from './TrainerSearchPlanComponent';
+import EntrenadorInventoryView from './EntrenadorInventoryView';
+import EntrenadorEditInventory from './EntrenadorEditInventory';
 import { getAuth } from 'firebase/auth';
 
 const auth = getAuth(appFirebase);
@@ -13,8 +15,10 @@ const EntrenadorNavBarComponent = () => {
   const [isDropdownVisible, setDropdownVisible] = useState(false);
   const [showTrainingPlans, setShowTrainingPlans] = useState(false);
   const [showSearchPlanComp, setShowSearchPlanComp] = useState (false);
-
-
+  const [showInventario, setShowInventario] = useState (false);
+  const [showEditInventory, setShowEditInventory] = useState(false);
+  const [gimnasioId, setGimnasioId] = useState('');
+  const [equipoId, setEquipoId] = useState('');
   
   const handleLogout = () => {
     auth.signOut().then(() => {
@@ -31,6 +35,21 @@ const EntrenadorNavBarComponent = () => {
     setShowTrainingPlans (false);
   };
 
+  const handleInventarioClick = () => {
+    setShowInventario(true);
+    setShowTrainingPlans (false);
+    setShowSearchPlanComp(false);
+    setShowEditInventory(false);
+  }
+
+  const handleEditInventory = (gimnasioId, equipoId) => {
+    setGimnasioId(gimnasioId);
+    setEquipoId(equipoId);
+    setShowEditInventory(true);
+    setShowInventario(false);
+  }
+    
+
   return (
     <div>
       {/* Barra de navegación */}
@@ -41,7 +60,7 @@ const EntrenadorNavBarComponent = () => {
         <ul className="navbar-menu">
           <li><a href="#planes" onClick={handleSearchPlansClick}>Planes de entrenamiento</a></li>
           <li><a href="#inventario de maquinas">Máquinas</a></li>
-          <li><a href="#inventario">Inventario</a></li>
+          <li><a href="#inventario" onClick={handleInventarioClick}>Inventario</a></li>
         </ul>
         <div
           className="navbar-profile"
@@ -63,6 +82,8 @@ const EntrenadorNavBarComponent = () => {
       <div className="content">
         {showTrainingPlans && <TrainerCreatePlanComponent />}
         {showSearchPlanComp && <TrainerSearchPlanComponent />}
+        {showInventario && <EntrenadorInventoryView onShowEditInventory={handleEditInventory} />}
+        {showEditInventory && <EntrenadorEditInventory gimnasioId={gimnasioId} equipoId={equipoId} onClose={handleInventarioClick}/>}
       </div>
     </div>
   );
