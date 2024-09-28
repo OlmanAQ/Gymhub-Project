@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { obtenerTodosLosProductos } from '../../cruds/Read';
 import { eliminarProducto } from '../../cruds/Delete';
-import { Edit, Trash, Search, Paintbrush, Plus } from 'lucide-react';
+import { Edit, Trash, Search, Paintbrush, Plus, ShoppingCart } from 'lucide-react'; // Agrega ShoppingCart
 import AdminUpdateProduct from './AdminUpdateProduct';
 import AdminAddProduct from './AdminAddProduct';
+import FloatingCart from '../sales/FloatingCart';
 import Swal from 'sweetalert2';
 import '../../css/AdminSalesView.css';
 
@@ -80,19 +81,18 @@ const AdminSalesView = () => {
   };
 
   const filteredAndSortedProducts = productos
-  .filter((producto) => {
-    return producto.name.toLowerCase().includes(searchTerm.toLowerCase());
-  })
-  .sort((a, b) => {
-    if (filter === "Precio mayor") {
-      return b.price - a.price;
-    } else if (filter === "Precio menor") {
-      return a.price - b.price;
-    } else {
-      return 0;
-    }
-  });
-
+    .filter((producto) => {
+      return producto.name.toLowerCase().includes(searchTerm.toLowerCase());
+    })
+    .sort((a, b) => {
+      if (filter === "Precio mayor") {
+        return b.price - a.price;
+      } else if (filter === "Precio menor") {
+        return a.price - b.price;
+      } else {
+        return 0;
+      }
+    });
 
   if (cargando) return <p>Cargando productos...</p>;
 
@@ -151,6 +151,11 @@ const AdminSalesView = () => {
                 <p>Cantidad disponible: {producto.quantity}</p>
                 <p>Estado: {producto.state}</p>
                 <div className="producto-actions">
+                  <ShoppingCart
+                    className="icono-comprar"
+                    color="green"
+                    size={24}
+                  />
                   <Edit
                     className="icono-editar"
                     color="yellow"
@@ -167,6 +172,7 @@ const AdminSalesView = () => {
               </div>
             ))}
           </div>
+          <FloatingCart />
         </>
       )}
     </div>
