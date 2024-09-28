@@ -6,7 +6,7 @@ import AdminUpdateUser from './AdminUpdateUser';
 import AdminInventoryView from './AdminInventoryView';
 import AdminRegisterInventory from './AdminRegisterInventory';
 import AdminEditInventory from './AdminEditInventory';
-import ProfileView from './ProfileView';
+import ProfileView from '../ProfileView';
 
 const AdminComponent = () => {
   const [view, setView] = useState('userView');

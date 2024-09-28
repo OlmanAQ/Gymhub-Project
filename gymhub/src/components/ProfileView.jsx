@@ -2,9 +2,9 @@ import React, { useState, useEffect } from 'react';
 import Swal from 'sweetalert2';
 import { Eye, EyeOff, X } from 'lucide-react';
 import { useSelector } from 'react-redux';
-import { actualizarUsuario } from '../../cruds/Update';
-import { obtenerInfoUsuarioCorreo } from '../../cruds/Read';
-import '../../css/AdminUpdateUser.css';
+import { actualizarUsuario } from '../cruds/Update';
+import { obtenerInfoUsuarioCorreo } from '../cruds/Read';
+import '../css/AdminUpdateUser.css';
 
 const ProfileView = ({ onClose }) => {
     const usuario = useSelector((state) => state.user);
