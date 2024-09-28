@@ -17,7 +17,6 @@ const AdminComponent = () => {
   const handleShowRegisterUser = () => {
     setView('registerUser');
   };
-
   const handleShowUserView = () => {
     setView('userView');
   };
