@@ -3,6 +3,7 @@ import { obtenerTodosLosProductos } from '../../cruds/Read';
 import { eliminarProducto } from '../../cruds/Delete';
 import { comprarProducto } from '../../cruds/Update';
 import { Edit, Trash, Search, Paintbrush, Plus, ShoppingCart } from 'lucide-react';
+import {useSelector} from 'react-redux';
 import AdminUpdateProduct from './AdminUpdateProduct';
 import AdminAddProduct from './AdminAddProduct';
 import FloatingCart from '../sales/FloatingCart';
@@ -27,12 +28,10 @@ const AdminSalesView = ({ usuario }) => {
       setCargando(false);
     }
   };
-  useEffect(() => {
-    console.log("Usuario autenticado:", usuario);
-  }, [usuario]);
-  
+
   useEffect(() => {
     loadProducts('');
+    console.log(useSelector);
   }, []);
 
   useEffect(() => {
