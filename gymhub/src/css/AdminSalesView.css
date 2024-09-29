@@ -47,6 +47,7 @@
 /* Estilos para los iconos de comprar, editar y eliminar */
 .producto-actions {
   position: absolute;
+  margin-top: 10px;
   bottom: 10px;
   right: 10px; /* Coloca todos los íconos a la derecha */
   display: flex;

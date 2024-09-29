@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useSelector } from 'react-redux';
 import AdminNavBarComponent from './AdminNavBarComponent';
 import AdminUserView from './AdminUserView';
 import AdminRegisterUser from './AdminRegisterUser';
@@ -6,13 +7,14 @@ import AdminUpdateUser from './AdminUpdateUser';
 import AdminInventoryView from './AdminInventoryView';
 import AdminRegisterInventory from './AdminRegisterInventory';
 import AdminEditInventory from './AdminEditInventory';
-import AdminSalesView from './AdminSalesView'; // Asegúrate de importar este componente
+import AdminSalesView from './AdminSalesView';
 
 const AdminComponent = () => {
   const [view, setView] = useState('userView');
   const [selectedUser, setSelectedUser] = useState(null);
   const [gimnasioId, setGimnasioId] = useState(null);
   const [equipoId, setEquipoId] = useState(null);
+  const usuario = useSelector((state) => state.user);
 
   const handleShowRegisterUser = () => {
     setView('registerUser');
@@ -50,8 +52,11 @@ const AdminComponent = () => {
       <AdminNavBarComponent 
         onShowInventory={handleShowInventoryView} 
         onShowUserView={handleShowUserView} 
-        onShowSales={handleShowSalesView} // Añade esta línea
-      />
+        onShowSales={handleShowSalesView}
+        usuario={usuario}
+        />
+      {view === 'salesView' &&
+       <AdminSalesView usuario={usuario} />}
       {view === 'userView' && (
         <AdminUserView
           onShowRegisterUser={handleShowRegisterUser}

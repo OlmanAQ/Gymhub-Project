@@ -1,14 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import { obtenerTodosLosProductos } from '../../cruds/Read';
 import { eliminarProducto } from '../../cruds/Delete';
-import { Edit, Trash, Search, Paintbrush, Plus, ShoppingCart } from 'lucide-react'; // Agrega ShoppingCart
+import { comprarProducto } from '../../cruds/Update';
+import { Edit, Trash, Search, Paintbrush, Plus, ShoppingCart } from 'lucide-react';
 import AdminUpdateProduct from './AdminUpdateProduct';
 import AdminAddProduct from './AdminAddProduct';
 import FloatingCart from '../sales/FloatingCart';
 import Swal from 'sweetalert2';
 import '../../css/AdminSalesView.css';
 
-const AdminSalesView = () => {
+const AdminSalesView = ({ usuario }) => {
   const [productos, setProductos] = useState([]);
   const [cargando, setCargando] = useState(true);
   const [productoAEditar, setProductoAEditar] = useState(null);
@@ -26,7 +27,10 @@ const AdminSalesView = () => {
       setCargando(false);
     }
   };
-
+  useEffect(() => {
+    console.log("Usuario autenticado:", usuario);
+  }, [usuario]);
+  
   useEffect(() => {
     loadProducts('');
   }, []);
@@ -155,6 +159,18 @@ const AdminSalesView = () => {
                     className="icono-comprar"
                     color="green"
                     size={24}
+                    onClick={async () => {
+                      if (producto.quantity === "0") {
+                        Swal.fire({
+                          title: 'Producto agotado',
+                          text: 'Este producto no está disponible.',
+                          icon: 'warning',
+                        });
+                      } else {
+                        await comprarProducto(producto.id);  // Llama al método para actualizar el producto
+                        recargarAdminSalesView();  // Refresca la vista de productos
+                      }
+                    }}
                   />
                   <Edit
                     className="icono-editar"

@@ -58,3 +58,37 @@ export const actualizarProducto = async (productoId, productoNuevo) => {
     console.error('Error al actualizar el producto en ventas:', error);
   }
 };
+
+export const comprarProducto = async (productoId) => {
+  try {
+    const sanitizedProductoId = productoId.replace(/^\/+/, '');
+    console.log('ID del producto recibido:', productoId);
+    const productoDocRef = doc(db, 'Sales', sanitizedProductoId);
+    const productoDoc = await getDoc(productoDocRef);
+    
+    if (productoDoc.exists()) {
+      const productoData = productoDoc.data();
+      let { quantity, state } = productoData;
+      
+      const cantidadNumerica = parseInt(quantity, 10);
+      
+      if (cantidadNumerica > 0) {
+        const nuevaCantidad = cantidadNumerica - 1;
+        const nuevoEstado = nuevaCantidad === 0 ? 'Agotado' : 'Disponible';
+
+        await updateDoc(productoDocRef, {
+          quantity: nuevaCantidad.toString(),
+          state: nuevoEstado
+        });
+        
+        console.log(`Producto actualizado: cantidad = ${nuevaCantidad}, estado = ${nuevoEstado}`);
+      } else {
+        console.log('El producto ya está agotado.');
+      }
+    } else {
+      console.log('No se encontró el documento del producto.');
+    }
+  } catch (error) {
+    console.error('Error al actualizar el producto:', error);
+  }
+};
