@@ -7,7 +7,7 @@ import { getAuth } from 'firebase/auth';
 
 const auth = getAuth(appFirebase);
 
-const ClientNavBarComponent = () => {
+const ClientNavBarComponent = ({onShowProfileView}) => {
   const [isDropdownVisible, setDropdownVisible] = useState(false);
 
   // bottom lpg out
@@ -43,7 +43,7 @@ const ClientNavBarComponent = () => {
         <span className="navbar-username">Mi Perfil</span>
         {isDropdownVisible && (
           <ul className="navbar-dropdown">
-            <li><a href="#ver-perfil">Ver Perfil</a></li>
+            <li><a href="#ver-perfil" onClick={onShowProfileView}>Ver Perfil</a></li>
             <li><a href="home" onClick={handleLogout}>Cerrar Sesión</a></li>
           </ul>
         )}

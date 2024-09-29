@@ -22,7 +22,7 @@ const ClienteComponent = () => {
       <ClientNavBarComponent 
         onShowProfileView={handleShowProfileView}
       />
-      {view === 'userView' && (
+      {view === 'profileView' && (
         <ProfileView onClose={handleShowUserView} />
       )}
       
