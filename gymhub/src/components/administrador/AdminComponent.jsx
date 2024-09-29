@@ -6,6 +6,7 @@ import AdminUpdateUser from './AdminUpdateUser';
 import AdminInventoryView from './AdminInventoryView';
 import AdminRegisterInventory from './AdminRegisterInventory';
 import AdminEditInventory from './AdminEditInventory';
+import AdminSuplements from './AdminSuplements'
 
 const AdminComponent = () => {
   const [view, setView] = useState('userView');
@@ -25,6 +26,11 @@ const AdminComponent = () => {
     setView('inventoryView');
   };
 
+  const handleShowSuplementosView = () => {
+    setView('suplementosView');
+  };
+  
+
   const handleShowUpdateUser = (user) => {
     setSelectedUser(user);
     setView('updateUser');
@@ -43,7 +49,11 @@ const AdminComponent = () => {
 
   return (
     <>
-      <AdminNavBarComponent onShowInventory={handleShowInventoryView} onShowUserView={handleShowUserView} />
+      <AdminNavBarComponent 
+        onShowInventory={handleShowInventoryView} 
+        onShowUserView={handleShowUserView}
+        onShowSuplementos={handleShowSuplementosView} 
+      />
       {view === 'userView' && (
         <AdminUserView
           onShowRegisterUser={handleShowRegisterUser}
@@ -76,6 +86,7 @@ const AdminComponent = () => {
           onClose={handleShowInventoryView}
         />
       )}
+      {view === 'suplementosView' && <AdminSuplements />}
     </>
   );
 };
