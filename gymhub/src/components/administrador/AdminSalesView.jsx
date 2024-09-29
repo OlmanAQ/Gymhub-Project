@@ -3,21 +3,21 @@ import { obtenerTodosLosProductos } from '../../cruds/Read';
 import { eliminarProducto } from '../../cruds/Delete';
 import { comprarProducto } from '../../cruds/Update';
 import { Edit, Trash, Search, Paintbrush, Plus, ShoppingCart } from 'lucide-react';
-import {useSelector} from 'react-redux';
 import AdminUpdateProduct from './AdminUpdateProduct';
+import {useSelector } from 'react-redux';
 import AdminAddProduct from './AdminAddProduct';
 import FloatingCart from '../sales/FloatingCart';
 import Swal from 'sweetalert2';
 import '../../css/AdminSalesView.css';
 
-const AdminSalesView = ({ usuario }) => {
+const AdminSalesView = () => {
   const [productos, setProductos] = useState([]);
   const [cargando, setCargando] = useState(true);
   const [productoAEditar, setProductoAEditar] = useState(null);
   const [searchTerm, setSearchTerm] = useState('');
   const [filter, setFilter] = useState('');
   const [mostrarAgregarProducto, setMostrarAgregarProducto] = useState(false);
-
+  const usuario = useSelector((state) => state.user);
   const loadProducts = async (filter) => {
     try {
       const productosObtenidos = await obtenerTodosLosProductos(filter);
@@ -31,7 +31,6 @@ const AdminSalesView = ({ usuario }) => {
 
   useEffect(() => {
     loadProducts('');
-    console.log(useSelector);
   }, []);
 
   useEffect(() => {
