@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { collection, doc, getDoc, deleteField, updateDoc } from 'firebase/firestore';
+import { doc, getDoc, deleteField, updateDoc } from 'firebase/firestore';
 import { db } from '../../firebaseConfig/firebase';
 import Swal from 'sweetalert2';
 import { Edit, Trash } from 'lucide-react';
 import '../../css/AdminSuplements.css';
 
-const AdminSuplemenstComp = () => {
+const AdminSuplemenstComp = ({onShowAddSuplements}) => {
   const [suplementos, setSuplementos] = useState([]);
   
   // Obtener los suplementos de la base de datos
@@ -34,9 +34,9 @@ const AdminSuplemenstComp = () => {
   const handleDelete = async (id) => {
     // Mostrar alerta de confirmación con SweetAlert
     Swal.fire({
-      title: '¿Seguro que deseas eliminar este suplemento?',
+      title: '¿Eliminar suplemento?',
       showCancelButton: true,
-      confirmButtonText: 'Sí, eliminar',
+      confirmButtonText: 'Eliminar',
       cancelButtonText: 'Cancelar',
     }).then(async (result) => {
       if (result.isConfirmed) {
@@ -76,7 +76,7 @@ const AdminSuplemenstComp = () => {
 
         <div className='container-buttons'>
           <button className="button-gback"> Volver </button>
-          <button className="button-create"> Agregar suplemento </button>
+          <button className="button-create" onClick={onShowAddSuplements}> Agregar suplemento </button>
         </div>
 
         <div className="suplementos-container">

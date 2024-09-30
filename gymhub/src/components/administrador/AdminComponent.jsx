@@ -7,6 +7,7 @@ import AdminInventoryView from './AdminInventoryView';
 import AdminRegisterInventory from './AdminRegisterInventory';
 import AdminEditInventory from './AdminEditInventory';
 import AdminSuplements from './AdminSuplements'
+import AdminAddSuplement from './AdminAddSuplement';
 
 const AdminComponent = () => {
   const [view, setView] = useState('userView');
@@ -28,6 +29,10 @@ const AdminComponent = () => {
 
   const handleShowSuplementosView = () => {
     setView('suplementosView');
+  };
+
+  const handleShowAddSuplementsView = () => {
+    setView('addSuplementsView');
   };
   
 
@@ -86,7 +91,13 @@ const AdminComponent = () => {
           onClose={handleShowInventoryView}
         />
       )}
-      {view === 'suplementosView' && <AdminSuplements />}
+      {view === 'suplementosView' && ( 
+        <AdminSuplements 
+          onShowAddSuplements={handleShowAddSuplementsView}
+        />
+      )}
+      {view === 'addSuplementsView' && <AdminAddSuplement onClose={handleShowSuplementosView} />}
+      
     </>
   );
 };
