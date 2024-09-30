@@ -5,7 +5,7 @@
 
 .container-buttons{
     display: flex;
-    justify-content: space-between; /* Coloca un botón a la izquierda y otro a la derecha */
+    justify-content: flex-start; /* Coloca un botón a la izquierda y otro a la derecha */
     padding: 10px;
 }
 

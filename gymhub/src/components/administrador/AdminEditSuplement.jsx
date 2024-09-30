@@ -1,26 +1,28 @@
 import React, { useState } from 'react';
-import { doc, updateDoc } from 'firebase/firestore';
+import { doc, updateDoc, deleteField } from 'firebase/firestore';
 import { db } from '../../firebaseConfig/firebase';
 import Swal from 'sweetalert2';
-import '../../css/AdminAddSuplement.css';
+import '../../css/AdminEditSuplement.css';
 
-const AdminAddSuplement = ({onClose}) => {
-  const [nombre, setNombre] = useState('');
-  const [cantidad, setCantidad] = useState(0);
-  const [descripcion, setDescripcion] = useState('');
-  const [disponible, setDisponible] = useState(true);
-  const [precio, setPrecio] = useState(0);
-  const [url, setUrl] = useState('');
+const AdminEditSuplement = ({ suplemento, onClose }) => {
+  // Mantén el ID antiguo (no cambiante) y agrega un estado para el nuevo nombre (ID)
+  const [nombre, setNombre] = useState(suplemento.id); // ID actual del suplemento
+  const [nuevoNombre, setNuevoNombre] = useState(suplemento.id); // El nuevo ID del suplemento
+  const [cantidad, setCantidad] = useState(suplemento.cantidad);
+  const [descripcion, setDescripcion] = useState(suplemento.descripcion);
+  const [disponible, setDisponible] = useState(suplemento.disponible);
+  const [precio, setPrecio] = useState(suplemento.precio);
+  const [url, setUrl] = useState(suplemento.url);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (!nombre || !descripcion || !url) {
+    if (!nuevoNombre || !descripcion || !url) {
       Swal.fire('Error', 'Por favor, completa todos los campos.', 'error');
       return;
     }
 
-    const newSuplement = {
+    const updatedSuplement = {
       cantidad,
       descripcion,
       disponible,
@@ -29,41 +31,40 @@ const AdminAddSuplement = ({onClose}) => {
     };
 
     try {
-      const docRef = doc(db, 'suplementslist', 'FkhKVhtSuwkyiSl7VvN9'); // Asegúrate de que el ID sea correcto
+      const docRef = doc(db, 'suplementslist', 'FkhKVhtSuwkyiSl7VvN9');
+
+      // 1. Agregar el nuevo suplemento con el nuevo ID
       await updateDoc(docRef, {
-        [nombre]: newSuplement, // Utiliza el nombre como ID del suplemento
+        [nuevoNombre]: updatedSuplement,
       });
 
-      // Reseteamos los campos del formulario
-      setNombre('');
-      setCantidad(0);
-      setDescripcion('');
-      setDisponible(true);
-      setPrecio(0);
-      setUrl('');
+      // 2. Eliminar el suplemento con el antiguo ID si el nombre ha cambiado
+      if (nombre !== nuevoNombre) {
+        await updateDoc(docRef, {
+          [nombre]: deleteField(),
+        });
+      }
 
-      Swal.fire('Excelente', 'Suplemento agregado correctamente.', 'success');
-      
+      Swal.fire('Éxito', 'Suplemento actualizado correctamente.', 'success');
+      onClose(); // Cerrar el formulario de edición
+
     } catch (error) {
-      console.error('Error al agregar suplemento:', error);
-      Swal.fire('Error', 'Hubo un error al agregar el suplemento.', 'error');
+      console.error('Error al actualizar suplemento:', error);
+      Swal.fire('Error', 'Hubo un error al actualizar el suplemento.', 'error');
     }
   };
 
   return (
     <div className="add-suplement-container">
-      <h1 className='ttl'>Agregar nuevo suplemento</h1>
-      <div className='cont-butb'>
-        <button type="button" className="button-rback" onClick={onClose}>Volver</button>
-      </div>
+      <h1 className="ttl">Editar suplemento</h1>
       <form onSubmit={handleSubmit} className="add-suplement-form">
         <div className="form-group">
-          <label htmlFor="nombre">Nombre</label>
+          <label htmlFor="nuevoNombre">Nombre (ID)</label>
           <input
             type="text"
-            id="nombre"
-            value={nombre}
-            onChange={(e) => setNombre(e.target.value)}
+            id="nuevoNombre"
+            value={nuevoNombre}
+            onChange={(e) => setNuevoNombre(e.target.value)}
             required
           />
         </div>
@@ -124,10 +125,11 @@ const AdminAddSuplement = ({onClose}) => {
           />
         </div>
 
-        <button type="submit" className="button-add">Agregar</button>
+        <button type="submit" className="button-add">Actualizar</button>
+        <button type="button" className="button-cancel" onClick={onClose}>Cancelar</button>
       </form>
     </div>
   );
 };
 
-export default AdminAddSuplement;
+export default AdminEditSuplement;

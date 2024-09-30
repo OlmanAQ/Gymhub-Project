@@ -5,7 +5,7 @@ import Swal from 'sweetalert2';
 import { Edit, Trash } from 'lucide-react';
 import '../../css/AdminSuplements.css';
 
-const AdminSuplemenstComp = ({onShowAddSuplements}) => {
+const AdminSuplemenstComp = ({onShowAddSuplements,onShowEditSuplements}) => {
   const [suplementos, setSuplementos] = useState([]);
   
   // Obtener los suplementos de la base de datos
@@ -75,7 +75,6 @@ const AdminSuplemenstComp = ({onShowAddSuplements}) => {
         </div>
 
         <div className='container-buttons'>
-          <button className="button-gback"> Volver </button>
           <button className="button-create" onClick={onShowAddSuplements}> Agregar suplemento </button>
         </div>
 
@@ -93,7 +92,7 @@ const AdminSuplemenstComp = ({onShowAddSuplements}) => {
                     <Trash size={28} color="#FF5C5C" />
                     Eliminar
                 </button>
-                <button className="button-sec">
+                <button className="button-sec" onClick={() => onShowEditSuplements(suplemento)}>
                     <Edit size={28} color="#F7E07F" />
                     Editar
                 </button>

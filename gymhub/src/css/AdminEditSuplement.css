@@ -59,6 +59,7 @@
     border-radius: 4px;
     font-size: 16px;
     cursor: pointer;
+    margin-top: 15px;
   }
   
   .button-add:hover {
@@ -83,25 +84,24 @@
     box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
     width: 100%;
   }
-  
 
-  .button-rback {
-    padding: 10px 20px;
-    background-color: #007bff;
+
+  .button-cancel {
+    padding: 10px 15px;
+    background-color: #ce2c2c;
     color: white;
     border: none;
-    border-radius: 5px;
+    border-radius: 4px;
+    font-size: 16px;
     cursor: pointer;
+    margin-top: 15px;
   }
   
-  .button-rback:hover {
-    background-color: #0056b3;
+  .button-cancel:hover {
+    background-color: #660b0b;
   }
-
-
-  .cont-butb{
-    display: flex;
-    justify-content: flex-start; /* Coloca un botón a la izquierda y otro a la derecha */
-    padding: 10px;
-    width: 100%;
+  
+  .button-cancel:focus {
+    outline: none;
   }
+  

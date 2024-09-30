@@ -8,12 +8,15 @@ import AdminRegisterInventory from './AdminRegisterInventory';
 import AdminEditInventory from './AdminEditInventory';
 import AdminSuplements from './AdminSuplements'
 import AdminAddSuplement from './AdminAddSuplement';
+import AdminEditSuplement from './AdminEditSuplement';
 
 const AdminComponent = () => {
   const [view, setView] = useState('userView');
   const [selectedUser, setSelectedUser] = useState(null);
   const [gimnasioId, setGimnasioId] = useState(null);
   const [equipoId, setEquipoId] = useState(null);
+  const [selectedSuplement, setSelectedSuplement] = useState(null);
+
 
   const handleShowRegisterUser = () => {
     setView('registerUser');
@@ -34,6 +37,12 @@ const AdminComponent = () => {
   const handleShowAddSuplementsView = () => {
     setView('addSuplementsView');
   };
+
+  const handleShowEditSuplement = (suplement) => {
+    setSelectedSuplement(suplement);
+    setView('editSuplementsView');
+  };
+  
   
 
   const handleShowUpdateUser = (user) => {
@@ -94,10 +103,17 @@ const AdminComponent = () => {
       {view === 'suplementosView' && ( 
         <AdminSuplements 
           onShowAddSuplements={handleShowAddSuplementsView}
+          onShowEditSuplements={handleShowEditSuplement}
         />
       )}
       {view === 'addSuplementsView' && <AdminAddSuplement onClose={handleShowSuplementosView} />}
-      
+      {view === 'editSuplementsView' && (
+        <AdminEditSuplement
+          suplemento={selectedSuplement} // Pasar el suplemento seleccionado
+          onClose={handleShowSuplementosView} // Función para cerrar la vista de edición
+        />
+      )}
+
     </>
   );
 };
