@@ -5,9 +5,8 @@ import Swal from 'sweetalert2';
 import '../../css/AdminEditSuplement.css';
 
 const AdminEditSuplement = ({ suplemento, onClose }) => {
-  // Mantén el ID antiguo (no cambiante) y agrega un estado para el nuevo nombre (ID)
-  const [nombre, setNombre] = useState(suplemento.id); // ID actual del suplemento
-  const [nuevoNombre, setNuevoNombre] = useState(suplemento.id); // El nuevo ID del suplemento
+  const [nombre, setNombre] = useState(suplemento.id); 
+  const [nuevoNombre, setNuevoNombre] = useState(suplemento.id); 
   const [cantidad, setCantidad] = useState(suplemento.cantidad);
   const [descripcion, setDescripcion] = useState(suplemento.descripcion);
   const [disponible, setDisponible] = useState(suplemento.disponible);
@@ -33,12 +32,10 @@ const AdminEditSuplement = ({ suplemento, onClose }) => {
     try {
       const docRef = doc(db, 'suplementslist', 'FkhKVhtSuwkyiSl7VvN9');
 
-      // 1. Agregar el nuevo suplemento con el nuevo ID
       await updateDoc(docRef, {
         [nuevoNombre]: updatedSuplement,
       });
 
-      // 2. Eliminar el suplemento con el antiguo ID si el nombre ha cambiado
       if (nombre !== nuevoNombre) {
         await updateDoc(docRef, {
           [nombre]: deleteField(),
@@ -46,7 +43,7 @@ const AdminEditSuplement = ({ suplemento, onClose }) => {
       }
 
       Swal.fire('Éxito', 'Suplemento actualizado correctamente.', 'success');
-      onClose(); // Cerrar el formulario de edición
+      onClose(); 
 
     } catch (error) {
       console.error('Error al actualizar suplemento:', error);
