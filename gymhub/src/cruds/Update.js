@@ -1,4 +1,4 @@
-import { doc, updateDoc, getDoc } from 'firebase/firestore';
+import { doc, updateDoc, getDoc, collection, query, where, getDocs, setDoc} from 'firebase/firestore';
 import { db } from '../firebaseConfig/firebase';
 
 // Método para actualizar un usuario en la colección "User"
@@ -59,19 +59,17 @@ export const actualizarProducto = async (productoId, productoNuevo) => {
   }
 };
 
-export const comprarProducto = async (productoId) => {
+export const comprarProducto = async (productoId, usuarioId) => {
   try {
     const sanitizedProductoId = productoId.replace(/^\/+/, '');
-    console.log('ID del producto recibido:', productoId);
     const productoDocRef = doc(db, 'Sales', sanitizedProductoId);
     const productoDoc = await getDoc(productoDocRef);
-    
+
     if (productoDoc.exists()) {
       const productoData = productoDoc.data();
       let { quantity, state } = productoData;
-      
       const cantidadNumerica = parseInt(quantity, 10);
-      
+
       if (cantidadNumerica > 0) {
         const nuevaCantidad = cantidadNumerica - 1;
         const nuevoEstado = nuevaCantidad === 0 ? 'Agotado' : 'Disponible';
@@ -80,15 +78,59 @@ export const comprarProducto = async (productoId) => {
           quantity: nuevaCantidad.toString(),
           state: nuevoEstado
         });
+
+        // Agregar o actualizar en la colección ShopingCar
+        const shopingCarRef = collection(db, 'ShopingCar');
+        const q = query(shopingCarRef, where("idProduct", "==", productoId), where("idUser", "==", usuarioId));
+        const querySnapshot = await getDocs(q);
         
-        console.log(`Producto actualizado: cantidad = ${nuevaCantidad}, estado = ${nuevoEstado}`);
-      } else {
-        console.log('El producto ya está agotado.');
+        if (!querySnapshot.empty) {
+          // Si el producto ya existe en el carrito, actualizar la cantidad
+          const carItemRef = querySnapshot.docs[0].ref;
+          const carItemData = querySnapshot.docs[0].data();
+          const nuevaCantidadCar = parseInt(carItemData.quantity, 10) + 1;
+          const nuevoTotal = parseInt(productoData.price, 10) * nuevaCantidadCar;
+
+          await updateDoc(carItemRef, {
+            quantity: nuevaCantidadCar.toString(),
+            totalAmount: nuevoTotal.toString()
+          });
+        } else {
+          // Si no existe, agregarlo al carrito
+          const totalAmount = parseInt(productoData.price, 10);
+          await setDoc(doc(shopingCarRef), {
+            idProduct: productoId,
+            idUser: usuarioId,
+            name: productoData.name,
+            description: productoData.description,
+            imageID: productoData.imageID,
+            price: productoData.price,
+            quantity: "1",
+            totalAmount: totalAmount.toString()
+          });
+        }
       }
-    } else {
-      console.log('No se encontró el documento del producto.');
     }
   } catch (error) {
     console.error('Error al actualizar el producto:', error);
+  }
+};
+
+
+export const contarProductosEnCarrito = async (usuarioId) => {
+  try {
+    const shopingCarRef = collection(db, 'ShopingCar');
+    const q = query(shopingCarRef, where("idUser", "==", usuarioId));
+    const querySnapshot = await getDocs(q);
+
+    let totalProductos = 0;
+    querySnapshot.forEach((doc) => {
+      totalProductos += parseInt(doc.data().quantity, 10);
+    });
+
+    return totalProductos;
+  } catch (error) {
+    console.error('Error al contar productos en el carrito:', error);
+    return 0;
   }
 };

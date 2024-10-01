@@ -22,15 +22,17 @@ const InicioSesionComponent = () => {
     const unsubscribe = onAuthStateChanged(auth, (userF) => {
       if (userF) {
         obtenerInfoUsuarioCorreo(userF.email).then((usuario) => {
-          dispatch(login(usuario));
+          if (usuario) {
+            dispatch(login(usuario));
+          }
         });
       } else {
         dispatch(logout());
       }
     });
-
+  
     return () => unsubscribe();
-  }, [dispatch]);
+  }, [dispatch]);  
 
   const showRegister = () => {
     setIsLoginVisible(false);

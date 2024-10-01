@@ -148,3 +148,21 @@ export const obtenerProducto = async (productId, filter) => {
     throw new Error('Producto no encontrado');
   }
 };
+
+export const obtenerCarritoCompras = async (usuarioId) => {
+  try {
+    const carritoRef = collection(db, 'ShopingCar');
+    const q = query(carritoRef, where('idUser', '==', usuarioId));
+    const querySnapshot = await getDocs(q);
+
+    const carrito = querySnapshot.docs.map(doc => ({
+      id: doc.id,
+      ...doc.data()
+    }));
+
+    return carrito;
+  } catch (error) {
+    console.error('Error al obtener el carrito de compras: ', error);
+    throw new Error('No se pudo obtener el carrito de compras.');
+  }
+};

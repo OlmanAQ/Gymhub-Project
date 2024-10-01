@@ -46,19 +46,29 @@
 
 /* Estilos para los iconos de comprar, editar y eliminar */
 .producto-actions {
-  position: absolute;
-  margin-top: 10px;
-  bottom: 10px;
-  right: 10px; /* Coloca todos los íconos a la derecha */
+  position: relative;
   display: flex;
-  gap: 15px; /* Añade un espacio entre los íconos */
+  flex-direction: row; /* Alinea los íconos en fila */
 }
 
-.icono-comprar,
-.icono-editar,
-.icono-eliminar {
+.icono-comprar{
+  position: relative;
   cursor: pointer;
   transition: transform 0.2s ease;
+  left: 70%;
+}
+.icono-editar{
+  position: relative;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+  left: 75%;
+}
+.icono-eliminar {
+  position: relative;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+  left: 80%;
+  top: 2%;
 }
 
 .icono-comprar:hover,
@@ -66,6 +76,7 @@
 .icono-eliminar:hover {
   transform: scale(1.1);
 }
+
 
 .icono-comprar {
   color: green;

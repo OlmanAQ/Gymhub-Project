@@ -1,11 +1,21 @@
-import React from 'react'
-import ClientNavBarComponent from './ClientNavBarComponent'
-
+import React, { useState } from 'react';
+import ClientNavBarComponent from './ClientNavBarComponent';
+import ClientSalesView from './ClientSalesView';
 
 const ClienteComponent = () => {
-  return (
-    <ClientNavBarComponent />
-)
-}
+  const [view, setView] = useState('defaultView');
 
-export default ClienteComponent
+  const handleShowSalesView = () => {
+    setView('salesView');
+  };
+
+  return (
+    <>
+      <ClientNavBarComponent onShowSales={handleShowSalesView} />
+      {view === 'defaultView' && <div>Contenido predeterminado</div>}
+      {view === 'salesView' && <ClientSalesView />}
+    </>
+  );
+};
+
+export default ClienteComponent;

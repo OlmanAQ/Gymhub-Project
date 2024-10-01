@@ -1,21 +1,36 @@
 .floating-cart {
-    position: fixed;
-    bottom: 10%; /* Ubicar un 10% por encima del borde inferior */
-    right: 20px;  /* Mantener a 20px del borde derecho */
-    background-color: #28a745; /* Fondo verde */
-    border-radius: 50%;
-    padding: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    cursor: pointer;
-    z-index: 1000; /* Mantenerlo en la parte superior de otros elementos */
-    transition: transform 0.3s ease;
-  }
-  
-  .floating-cart:hover {
-    transform: scale(1.1); /* Ampliar al pasar el cursor */
-  }
-  
-  .floating-cart svg {
-    color: white; /* Cambiar el color del ícono a blanco */
-  }
-  
+  position: fixed;
+  bottom: 10%;
+  right: 20px;
+  background-color: #28a745;
+  border-radius: 50%;
+  padding: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  cursor: pointer;
+  z-index: 1000;
+  transition: transform 0.3s ease;
+}
+
+.floating-cart:hover {
+  transform: scale(1.1);
+}
+
+.floating-cart svg {
+  color: white;
+}
+
+.cart-counter {
+  position: absolute;
+  top: -10px;
+  right: -10px;
+  background-color: red;
+  color: white;
+  border-radius: 50%;
+  padding: 5px;
+  width: 20px;
+  height: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 12px;
+}
