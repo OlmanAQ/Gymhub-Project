@@ -104,6 +104,7 @@ const AdminComponent = () => {
         <AdminSuplements 
           onShowAddSuplements={handleShowAddSuplementsView}
           onShowEditSuplements={handleShowEditSuplement}
+          role = "admin"
         />
       )}
       {view === 'addSuplementsView' && <AdminAddSuplement onClose={handleShowSuplementosView} />}

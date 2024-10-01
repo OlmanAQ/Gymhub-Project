@@ -1,13 +1,23 @@
 .cont-principal{
     display: inline-block;
     margin-top: 20px;
+    padding: 0px 15px;
+    width: 100%;
 }
 
 .container-buttons{
     display: flex;
-    justify-content: flex-start; /* Coloca un botón a la izquierda y otro a la derecha */
+    justify-content: space-between; /* Coloca un botón a la izquierda y otro a la derecha */
     padding: 10px;
 }
+
+.container-DE{
+  display: flex;
+  justify-content: space-between; /* Coloca un botón a la izquierda y otro a la derecha */
+  padding: 10px;
+  margin-top: auto;
+}
+
 
 .suplementos-container {
     display: grid;
@@ -22,10 +32,12 @@
     border-radius: 8px;
     padding: 15px;
     width: 100%;
-    max-width: 300px; /* Ajusta el ancho máximo de las tarjetas */
+    max-width: 300px; 
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
     text-align: left;
     transition: transform 0.3s ease;
+    display: grid;            
+    grid-template-rows: auto 1fr;
   }
   
   .suplemento-card:hover {
@@ -117,4 +129,46 @@
   }
 
 
+
+
+  .flex-container {
+    display: flex;
+    align-items: center;
+    width: 35%;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+  
+  .search-input-flex {
+    flex: 1;
+    padding: 10px;
+    border: white;
+    outline: none;
+  }
+  
+  .search-button-flex {
+    background-color: #ffffff;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    cursor: pointer;
+    border-radius: 0 5px 5px 0; /* Ajusta solo la esquina derecha */
+  }
+  
+  .search-button-flex:hover {
+    background-color: #e0e0e0;
+  }
+
+  .button-refresh {
+    background-color: #ffffff;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    cursor: pointer;
+    border-radius: 0 5px 5px 0; /* Ajusta solo la esquina derecha */
+  }
+  
+  .button-refresh:hover {
+    background-color: #e0e0e0;
+  }
   

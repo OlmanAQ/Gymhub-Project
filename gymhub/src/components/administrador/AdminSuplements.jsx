@@ -2,12 +2,14 @@ import React, { useState, useEffect } from 'react';
 import { doc, getDoc, deleteField, updateDoc } from 'firebase/firestore';
 import { db } from '../../firebaseConfig/firebase';
 import Swal from 'sweetalert2';
-import { Edit, Trash } from 'lucide-react';
+import { Edit, Trash, Search, Paintbrush } from 'lucide-react';
 import '../../css/AdminSuplements.css';
 
-const AdminSuplemenstComp = ({onShowAddSuplements,onShowEditSuplements}) => {
+const AdminSuplemenstComp = ({ onShowAddSuplements, onShowEditSuplements, role }) => {
   const [suplementos, setSuplementos] = useState([]);
-  
+  const [searchTerm, setSearchTerm] = useState('');
+  const [filteredSuplementos, setFilteredSuplementos] = useState([]);
+
   // Obtener los suplementos de la base de datos
   const fetchSuplementos = async () => {
     try {
@@ -21,7 +23,7 @@ const AdminSuplemenstComp = ({onShowAddSuplements,onShowEditSuplements}) => {
           ...suplementosData[key],
         }));
         setSuplementos(suplementosList);
-        console.log(suplementosList)
+        setFilteredSuplementos(suplementosList); // Inicializamos los filtrados con todos
       } else {
         console.log('No se encontró el documento.');
       }
@@ -32,7 +34,6 @@ const AdminSuplemenstComp = ({onShowAddSuplements,onShowEditSuplements}) => {
 
   // Función para eliminar un suplemento
   const handleDelete = async (id) => {
-    // Mostrar alerta de confirmación con SweetAlert
     Swal.fire({
       title: '¿Eliminar suplemento?',
       showCancelButton: true,
@@ -41,18 +42,15 @@ const AdminSuplemenstComp = ({onShowAddSuplements,onShowEditSuplements}) => {
     }).then(async (result) => {
       if (result.isConfirmed) {
         try {
-          // Referencia al documento que contiene los suplementos
-          const docRef = doc(db, 'suplementslist', 'FkhKVhtSuwkyiSl7VvN9'); // Ajusta con el ID real del documento
-          
-          // Eliminar el campo con el ID proporcionado (suplemento específico)
+          const docRef = doc(db, 'suplementslist', 'FkhKVhtSuwkyiSl7VvN9');
           await updateDoc(docRef, {
             [id]: deleteField(),
           });
   
-          // Actualizar estado local para reflejar eliminación en la UI
-          setSuplementos(suplementos.filter(suplemento => suplemento.id !== id));
+          const updatedSuplementos = suplementos.filter(suplemento => suplemento.id !== id);
+          setSuplementos(updatedSuplementos);
+          setFilteredSuplementos(updatedSuplementos);
   
-          // Mostrar notificación de éxito
           Swal.fire('Eliminado', 'El suplemento ha sido eliminado.', 'success');
         } catch (error) {
           console.error('Error al eliminar el suplemento: ', error);
@@ -61,7 +59,20 @@ const AdminSuplemenstComp = ({onShowAddSuplements,onShowEditSuplements}) => {
       }
     });
   };
-  
+
+  // Función para buscar suplementos por nombre
+  const handleSearch = () => {
+    const results = suplementos.filter((suplemento) =>
+      suplemento.id.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+    setFilteredSuplementos(results);
+  };
+
+  // Función para refrescar la lista de suplementos
+  const handleRefresh = () => {
+    setFilteredSuplementos(suplementos);
+    setSearchTerm('');
+  };
 
   useEffect(() => {
     fetchSuplementos();
@@ -69,42 +80,62 @@ const AdminSuplemenstComp = ({onShowAddSuplements,onShowEditSuplements}) => {
 
   return (
     <div className="cont-principal">
+      <div> 
+        <h1 className="titulo">Suplementos</h1>
+      </div>
 
-        <div> 
-          <h1 className="titulo">Suplementos</h1>
+      <div className='container-buttons'>
+        <div className='flex-container'>
+            <input
+              type="text"
+              placeholder="Buscar suplemento"
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              className="search-input-flex"
+            />
+            <button className="search-button-flex" onClick={handleSearch}>
+              <Search size={28} color="#000000" />
+            </button>
+            <button className="button-refresh" onClick={handleRefresh}>
+              <Paintbrush size={28} color="#000000" />
+            </button>
         </div>
 
-        <div className='container-buttons'>
+        {role === 'admin' && (
           <button className="button-create" onClick={onShowAddSuplements}> Agregar suplemento </button>
-        </div>
+        )}
+      </div>
 
-        <div className="suplementos-container">
-        {suplementos.length > 0 ? (
-        suplementos.map((suplemento) => (
+      <div className="suplementos-container">
+        {filteredSuplementos.length > 0 ? (
+        filteredSuplementos.map((suplemento) => (
             <div key={suplemento.id} className="suplemento-card">
-                <img src={suplemento.url} alt={suplemento.id} className="suplemento-img" />
-                <h2>{suplemento.id}</h2>
-                <p>Precio: ₡{suplemento.precio}</p>
-                <p>Cantidad: {suplemento.cantidad}</p>
-                <p>Estado: {suplemento.disponible ? 'Disponible' : 'No disponible'}</p>
-                <p>Descripción: {suplemento.descripcion || 'Sin descripción disponible'}</p>
-                <button className="button-sec" onClick={() => handleDelete(suplemento.id)}>
+              <div>
+                  <img src={suplemento.url} alt={suplemento.id} className="suplemento-img" />
+                  <h2>{suplemento.id}</h2>
+                  <p>Precio: ₡{suplemento.precio}</p>
+                  <p>Cantidad: {suplemento.cantidad}</p>
+                  <p>Estado: {suplemento.disponible ? 'Disponible' : 'No disponible'}</p>
+                  <p>Descripción: {suplemento.descripcion || 'Sin descripción disponible'}</p>
+              </div>
+              {role === 'admin' && (
+                <div className="container-DE">
+                  <button className="button-sec" onClick={() => handleDelete(suplemento.id)}>
                     <Trash size={28} color="#FF5C5C" />
                     Eliminar
-                </button>
-                <button className="button-sec" onClick={() => onShowEditSuplements(suplemento)}>
+                  </button>
+                  <button className="button-sec" onClick={() => onShowEditSuplements(suplemento)}>
                     <Edit size={28} color="#F7E07F" />
                     Editar
-                </button>
+                  </button>
+                </div>
+              )}
             </div>
         ))
         ) : (
         <p>No hay suplementos disponibles.</p>
         )}
-
-        </div>
-
-
+      </div>
     </div>
   );
 };
