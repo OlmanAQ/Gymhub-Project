@@ -10,6 +10,12 @@ import ProfileView from '../ProfileView';
 import AdminExpenseView   from './AdminExpenseView';
 import AdminRegisterExpense from './AdminRegisterExpense';
 import AdminEditExpense from './AdminEditExpense';
+import AdminSuplements from './AdminSuplements'
+import AdminAddSuplement from './AdminAddSuplement';
+import AdminEditSuplement from './AdminEditSuplement';
+import AdminRewardsComp from './AdminRewardsComp';
+import AdminSalesView from './AdminSalesView';
+import Profile from '../user-info/Profile';
 
 const AdminComponent = () => {
   const [view, setView] = useState('userView');
@@ -17,6 +23,8 @@ const AdminComponent = () => {
   const [gimnasioId, setGimnasioId] = useState(null);
   const [equipoId, setEquipoId] = useState(null);
   const [gastoId, setGastoId] = useState(null);
+  const [selectedSuplement, setSelectedSuplement] = useState(null);
+
 
   const handleShowRegisterUser = () => {
     setView('registerUser');
@@ -27,6 +35,23 @@ const AdminComponent = () => {
 
   const handleShowInventoryView = () => {
     setView('inventoryView');
+  };
+
+  const handleShowSuplementosView = () => {
+    setView('suplementosView');
+  };
+
+  const handleShowAddSuplementsView = () => {
+    setView('addSuplementsView');
+  };
+
+  const handleShowEditSuplement = (suplement) => {
+    setSelectedSuplement(suplement);
+    setView('editSuplementsView');
+  };
+  
+  const handleShowRewardsView = () => {
+    setView('rewardsView');
   };
 
   const handleShowUpdateUser = (user) => {
@@ -59,18 +84,26 @@ const AdminComponent = () => {
     setView('editExpense');
   }
 
-  const handleShowProfileView = () => {
+  const handleShowSalesView = () => {
+    setView('salesView');
+  };
+
+  const handleShowProfile = () => {
     setView('profileView');
-  }
+  };
 
   return (
     <>
-      <AdminNavBarComponent
-        onShowInventory={handleShowInventoryView}
+      <AdminNavBarComponent 
+        onShowInventory={handleShowInventoryView} 
         onShowUserView={handleShowUserView}
-        onShowProfileView={handleShowProfileView}
         onShowExpenseView={handleShowExpenseView}
+        onShowSuplementos={handleShowSuplementosView}
+        onShowRewards={handleShowRewardsView}
+        onShowSales={handleShowSalesView}
+        onShowProfile={handleShowProfile}
       />
+
       {view === 'userView' && (
         <AdminUserView
           onShowRegisterUser={handleShowRegisterUser}
@@ -103,7 +136,6 @@ const AdminComponent = () => {
           onClose={handleShowInventoryView}
         />
       )}
-      {view === 'profileView' && <ProfileView onClose={handleShowUserView} />}
       {view === 'expenseView' && (
         <AdminExpenseView
           onShowRegisterExpense={handleShowRegisterExpense}
@@ -117,6 +149,28 @@ const AdminComponent = () => {
           onClose={handleShowExpenseView}
         />
       )}
+      {view === 'suplementosView' && ( 
+        <AdminSuplements 
+          onShowAddSuplements={handleShowAddSuplementsView}
+          onShowEditSuplements={handleShowEditSuplement}
+          role = "admin"
+        />
+      )}
+      {view === 'addSuplementsView' && <AdminAddSuplement onClose={handleShowSuplementosView} />}
+      {view === 'editSuplementsView' && (
+        <AdminEditSuplement
+          suplemento={selectedSuplement} 
+          onClose={handleShowSuplementosView} 
+        />
+      )}
+      {view === 'rewardsView' && (
+        <AdminRewardsComp 
+          role = "admin" 
+        />
+      )}
+      {view === 'salesView' && <AdminSalesView />}
+
+      {view === 'profileView' && <Profile />}
     </>
   );
 };

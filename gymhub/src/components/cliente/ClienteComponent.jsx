@@ -1,38 +1,46 @@
-import React from 'react'
-import { useState } from 'react'
+import React, { useState } from 'react';
 import ClientNavBarComponent from './ClientNavBarComponent'
-import ProfileView from '../ProfileView';
-import ClientPlanViewComponent from './ClientPlanViewComponent';
-
-
-
+import AdminSuplementsComp from '../administrador/AdminSuplements';
+import AdminRewardsComp from '../administrador/AdminRewardsComp';
+import ClientSalesView from './ClientSalesView';
 
 const ClienteComponent = () => {
   const [view, setView] = useState('userView');
 
-  const handleShowProfileView = () => {
-    setView('profileView');
-  }
+  const handleShowSuplementosView = () => {
+    setView('suplementosView');
+  };
 
-  const handleShowPlanView = () => {
-    setView('planView');
-  }
-  
+  const handleShowRewardsView = () => {
+    setView('rewardsView');
+  };
+
+  const handleShowSalesView = () => {
+    setView('salesView');
+  };
 
   return (
     <>
-      <ClientNavBarComponent 
-        onShowProfileView={handleShowProfileView}
-        onShowPlanView={handleShowPlanView}
+      <ClientNavBarComponent
+        onShowSuplements={handleShowSuplementosView}
+        onShowRewards={handleShowRewardsView}
+        onShowSales={handleShowSalesView}
       />
-      {view === 'profileView' && (
-        <ProfileView onClose={handleShowPlanView} />
+      {view === 'suplementosView' && (
+        <AdminSuplementsComp
+          role="cliente"
+        />
       )}
-      {view === 'planView' && (
-        <ClientPlanViewComponent />
+      {view === 'rewardsView' && (
+        <AdminRewardsComp
+          role="client"
+        />
       )}
+      {view === 'salesView' && <ClientSalesView />}
     </>
-  );
+  )
 }
 
-export default ClienteComponent
+export default ClienteComponent;
+
+

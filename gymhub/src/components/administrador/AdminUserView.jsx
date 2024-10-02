@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import Swal from 'sweetalert2';
 import { obtenerTodosLosUsuarios, obtenerInfoUsuario } from '../../cruds/Read';
 import { eliminarUsuario } from '../../cruds/Delete';
-import { Edit, Trash, Info, ChevronLeft, ChevronRight, ChevronsLeft, ChevronsRight, UserPlus, Search, RefreshCcw } from 'lucide-react';
+import { Edit, Trash, Info, ChevronLeft, ChevronRight, ChevronsLeft, ChevronsRight, UserPlus, Search, Paintbrush } from 'lucide-react';
 import '../../css/AdminUserView.css';
 
 const AdminUserView = ({ onShowRegisterUser, onShowUpdateUser }) => {
@@ -14,6 +14,7 @@ const AdminUserView = ({ onShowRegisterUser, onShowUpdateUser }) => {
   const [loading, setLoading] = useState(true);
 
   const [selectedUser, setSelectedUser] = useState(null);
+
   useEffect(() => {
     const fetchUsers = async () => {
       try {
@@ -161,7 +162,6 @@ const AdminUserView = ({ onShowRegisterUser, onShowUpdateUser }) => {
     }
   };
 
-  /*busqueda de elementos cuando se da click en la lupa o enter*/
   const search = () => {
     const searchTerm = document.querySelector('.buscador-input').value.toLowerCase();
     const searchBy = document.querySelector('.buscador-select').value;
@@ -211,7 +211,7 @@ const AdminUserView = ({ onShowRegisterUser, onShowUpdateUser }) => {
         <div className='buscador-container'>
           <div className="buscador-wrapper">
             <button className='refresh-button' onClick={refreshUsers}>
-              <RefreshCcw size={24} color="#007BFF" />
+              <Paintbrush size={24} color="#007BFF" />
             </button>
             <input
               type="text"

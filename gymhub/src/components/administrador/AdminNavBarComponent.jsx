@@ -7,15 +7,22 @@ import { getAuth } from 'firebase/auth';
 
 const auth = getAuth(appFirebase);
 
-const AdminNavBarComponent = ({ onShowInventory, onShowUserView, onShowProfileView, onShowExpenseView }) => {
+
+const AdminNavBarComponent = ({  onShowInventory, onShowUserView, onShowSales, onShowProfile , onShowProfileView, onShowSuplementos, onShowRewards, onShowExpenseView }) => {
   const [isDropdownVisible, setDropdownVisible] = useState(false);
 
   const handleLogout = () => {
     auth.signOut().then(() => {
-      console.log('Sesión cerrada');
+        console.log('Sesión cerrada');
+        
     }).catch((error) => {
       console.log('Error al cerrar sesión', error);
     });
+  };
+
+  const handleShowProfile = () => {
+    onShowProfile();
+    setDropdownVisible(false);
   };
 
   return (
@@ -23,34 +30,31 @@ const AdminNavBarComponent = ({ onShowInventory, onShowUserView, onShowProfileVi
       <div className="navbar-logo">
         <img src={logo} alt="Logo" />
       </div>
-
-      <div className="navbar-menu">
-        <ul>
+        <ul className="navbar-menu">
+          <li><a href="#Inicio">Inicio</a></li>
           <li><a href="#usuarios" onClick={onShowUserView}>Usuarios</a></li>
           <li><a href="#alertas">Alertas</a></li>
           <li><a href="#inventario" onClick={onShowInventory}>Inventario</a></li>
           <li><a href="#gastos" onClick={onShowExpenseView}>Gastos</a></li>
           <li><a href="#estadisticas">Estadísticas</a></li>
-          <li><a href="#suplementos">Suplementos</a></li>
-          <li><a href="#ventas">Ventas</a></li>
-          <li><a href="#premiacion">Premiación</a></li>
+          <li><a href="#suplementos" onClick={onShowSuplementos}>Suplementos</a></li>
+          <li><a href="#premiacion" onClick={onShowRewards}>Premiación</a></li>
+          <li><a href="#ventas" onClick={onShowSales}>Ventas</a></li>
         </ul>
-      </div>
-
-      <div
-        className="navbar-profile"
-        onMouseEnter={() => setDropdownVisible(true)}
-        onMouseLeave={() => setDropdownVisible(false)}
-      >
-        <User className="navbar-icon" />
-        <span className="navbar-username">Mi Perfil</span>
-        {isDropdownVisible && (
-          <ul className="navbar-dropdown">
-            <li><a href="#ver-perfil">Ver Perfil</a></li>
-            <li><a href="#cerrar-sesion" onClick={handleLogout}>Cerrar sesión</a></li>
-          </ul>
-        )}
-      </div>
+        <div
+          className="navbar-profile"
+          onMouseEnter={() => setDropdownVisible(true)}
+          onMouseLeave={() => setDropdownVisible(false)}
+        >
+          <User className="navbar-icon" />
+          <span className="navbar-username">Mi Perfil</span>
+          {isDropdownVisible && (
+            <ul className="navbar-dropdown">
+              <li><a href="#ver-perfil" onClick={handleShowProfile}>Ver Perfil</a></li>
+              <li><a href="#cerrar-sesion" onClick={handleLogout}>Cerrar sesión</a></li>
+            </ul>
+          )}
+        </div>
     </nav>
   );
 };
