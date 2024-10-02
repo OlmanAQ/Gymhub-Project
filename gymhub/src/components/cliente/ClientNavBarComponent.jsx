@@ -18,6 +18,8 @@ const ClientNavBarComponent = ({ onShowSales }) => {
     });
   };
 
+  
+
   return (
     <nav className="client-navbar">
       <div className="client-navbar-logo">

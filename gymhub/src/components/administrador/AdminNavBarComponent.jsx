@@ -48,7 +48,7 @@ const AdminNavBarComponent = ({  onShowInventory, onShowUserView, onShowSales, o
           <span className="navbar-username">Mi Perfil</span>
           {isDropdownVisible && (
             <ul className="navbar-dropdown">
-              <li><a href="#ver-perfil">Ver Perfil</a></li>
+              <li><a href="#ver-perfil" onClick={handleShowProfile}>Ver Perfil</a></li>
               <li><a href="#cerrar-sesion" onClick={handleLogout}>Cerrar sesión</a></li>
             </ul>
           )}

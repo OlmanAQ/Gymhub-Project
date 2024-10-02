@@ -12,7 +12,7 @@ import { getAuth } from 'firebase/auth';
 
 const auth = getAuth(appFirebase);
 
-const EntrenadorNavBarComponent = () => {
+const EntrenadorNavBarComponent = ({onShowProfile,ProfileView }) => {
   const [isDropdownVisible, setDropdownVisible] = useState(false);
   const [showProfileVIew, setShowProfileView] = useState(false);
   const [showTrainingPlans, setShowTrainingPlans] = useState(false);
@@ -22,6 +22,11 @@ const EntrenadorNavBarComponent = () => {
   const [showSales, setShowSales] = useState(false);
   const [gimnasioId, setGimnasioId] = useState('');
   const [equipoId, setEquipoId] = useState('');
+
+  const handleShowProfileView = () => {
+    onShowProfile();
+    setDropdownVisible(false);
+  };
 
   const handleLogout = () => {
     auth.signOut().then(() => {
@@ -60,6 +65,7 @@ const EntrenadorNavBarComponent = () => {
     setShowInventario(false);
     setShowEditInventory(false);
   };
+  
 
   return (
     <div>
