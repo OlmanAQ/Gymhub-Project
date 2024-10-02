@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import LoginComponent from './LoginComponent';
 import RegisterComponent from './RegisterComponent';
-import {auth} from '../../firebaseConfig/firebase';
+import { auth } from '../../firebaseConfig/firebase';
 import { onAuthStateChanged } from 'firebase/auth';
 import AdminComponent from '../administrador/AdminComponent';
 import ClienteComponent from '../cliente/ClienteComponent';
@@ -30,9 +30,9 @@ const InicioSesionComponent = () => {
         dispatch(logout());
       }
     });
-  
+
     return () => unsubscribe();
-  }, [dispatch]);  
+  }, [dispatch]);
 
   const showRegister = () => {
     setIsLoginVisible(false);

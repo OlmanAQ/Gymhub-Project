@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import ClientNavBarComponent from './ClientNavBarComponent'
-import AdminSuplementsComp from '../administrador/AdminSuplements'; 
+import AdminSuplementsComp from '../administrador/AdminSuplements';
 import AdminRewardsComp from '../administrador/AdminRewardsComp';
 import ClientSalesView from './ClientSalesView';
 
@@ -21,24 +21,26 @@ const ClienteComponent = () => {
 
   return (
     <>
-      <ClientNavBarComponent 
+      <ClientNavBarComponent
         onShowSuplements={handleShowSuplementosView}
         onShowRewards={handleShowRewardsView}
         onShowSales={handleShowSalesView}
       />
-      {view === 'suplementosView' && ( 
-        <AdminSuplementsComp 
-          role = "cliente"
+      {view === 'suplementosView' && (
+        <AdminSuplementsComp
+          role="cliente"
         />
       )}
       {view === 'rewardsView' && (
-        <AdminRewardsComp 
-          role = "client" 
+        <AdminRewardsComp
+          role="client"
         />
       )}
       {view === 'salesView' && <ClientSalesView />}
     </>
-)
+  )
 }
+
+export default ClienteComponent;
 
 
