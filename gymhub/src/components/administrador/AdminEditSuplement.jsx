@@ -56,7 +56,7 @@ const AdminEditSuplement = ({ suplemento, onClose }) => {
       <h1 className="ttl">Editar suplemento</h1>
       <form onSubmit={handleSubmit} className="add-suplement-form">
         <div className="form-group">
-          <label htmlFor="nuevoNombre">Nombre (ID)</label>
+          <label htmlFor="nuevoNombre">Nombre</label>
           <input
             type="text"
             id="nuevoNombre"

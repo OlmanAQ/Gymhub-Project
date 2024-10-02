@@ -51,7 +51,7 @@ const AdminRewardsComp = ({ role }) => {
           setRewards(updatedRewards);
           setFilteredRewards(updatedRewards);
 
-          Swal.fire('Eliminado', 'El premio ha sido eliminado.', 'success');
+          Swal.fire('¡Muy bien!', 'El premio ha sido eliminado', 'success');
         } catch (error) {
           console.error('Error al eliminar el premio: ', error);
           Swal.fire('Error', 'Hubo un error al eliminar el premio.', 'error');
@@ -94,10 +94,10 @@ const AdminRewardsComp = ({ role }) => {
             className="search-input-flex"
           />
           <button className="search-button-flex" onClick={handleSearch}>
-            <Search size={28} color="#000000" />
+            <Search size={28} color="#007BFF" />
           </button>
           <button className="button-refresh" onClick={handleRefresh}>
-            <Paintbrush size={28} color="#000000" />
+            <Paintbrush size={28} color="#007BFF" />
           </button>
         </div>
 
@@ -114,7 +114,7 @@ const AdminRewardsComp = ({ role }) => {
                 <img src={reward.url} alt={reward.id} className="suplemento-img" />
                 <h2>{reward.id}</h2>
                 <p>Descripción: {reward.descripcion}</p>
-                <p>Usuario: {reward.ganador}</p>
+                <p>Ganador: {reward.ganador}</p>
                 <p>Válido hasta: {reward.valido}</p>
               </div>
               {role === 'admin' && (

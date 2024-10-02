@@ -93,10 +93,10 @@ const AdminSuplemenstComp = ({ onShowAddSuplements, onShowEditSuplements, role }
               className="search-input-flex"
             />
             <button className="search-button-flex" onClick={handleSearch}>
-              <Search size={28} color="#000000" />
+              <Search size={28} color="#007BFF" />
             </button>
             <button className="button-refresh" onClick={handleRefresh}>
-              <Paintbrush size={28} color="#000000" />
+              <Paintbrush size={28} color="#007BFF" />
             </button>
         </div>
 
