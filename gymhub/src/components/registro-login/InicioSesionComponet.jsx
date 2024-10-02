@@ -2,32 +2,30 @@ import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import LoginComponent from './LoginComponent';
 import RegisterComponent from './RegisterComponent';
-import appFirebase from '../../firebaseConfig/firebase';
-import { getAuth, onAuthStateChanged } from 'firebase/auth';
+import {auth} from '../../firebaseConfig/firebase';
+import { onAuthStateChanged } from 'firebase/auth';
 import AdminComponent from '../administrador/AdminComponent';
 import ClienteComponent from '../cliente/ClienteComponent';
 import TrainerComponent from '../entrenador/TrainerComponent';
-import { setUser } from '../../actions/userActions';
+import { login, logout } from '../../actions/userActions';
 import { obtenerInfoUsuarioCorreo } from '../../cruds/Read';
-const auth = getAuth(appFirebase);
+
 
 const InicioSesionComponent = () => {
   const [isLoginVisible, setIsLoginVisible] = useState(true);
-  const [rol, setRol] = useState('');
   const dispatch = useDispatch();
-  const usuario = useSelector((state) => state.user.user);
+  const usuario = useSelector((state) => state.user);
+
 
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (userF) => {
       if (userF) {
-        dispatch(setUser(userF.uid));
         obtenerInfoUsuarioCorreo(userF.email).then((usuario) => {
-          setRol(usuario.rol);
-        }
-        );
+          dispatch(login(usuario));
+        });
       } else {
-        dispatch(setUser(null));
+        dispatch(logout());
       }
     });
 
@@ -45,12 +43,12 @@ const InicioSesionComponent = () => {
 
   return (
     <div>
-      {usuario ? (
-        rol === 'administrador' ? (
+      {usuario.isAuthenticated ? (
+        usuario.role === 'administrador' ? (
           <AdminComponent />
-        ) : rol === 'cliente' ? (
+        ) : usuario.role === 'cliente' ? (
           <ClienteComponent />
-        ) : rol === 'entrenador' ? (
+        ) : usuario.role === 'entrenador' ? (
           <TrainerComponent />
         ) : (
           <div>Cargando...</div>

@@ -1,18 +1,19 @@
-import appFirebase from '../firebaseConfig/firebase';
-import { getAuth, onAuthStateChanged } from 'firebase/auth';
-
-const auth = getAuth(appFirebase);
+import {auth, db} from '../firebaseConfig/firebase';
+import {onAuthStateChanged } from 'firebase/auth';
+import { doc, getDoc } from 'firebase/firestore';
 
 
 // Function to check authentication status and return user
-const checkAuth = (setUser) => {
-  onAuthStateChanged(auth, (userF) => {
-    if (userF) {
-      setUser(userF);
+const checkAuth = (callback) => {
+  onAuthStateChanged(auth, async (user) => {
+    if (user) {
+      const userRef = doc(db, 'users', user.uid);
+      const userSnap = await getDoc(userRef);
+      const userData = userSnap.data();
+      callback(userData);
     } else {
-      setUser(null);
+      callback(null);
     }
   });
 };
-
 export default checkAuth;
