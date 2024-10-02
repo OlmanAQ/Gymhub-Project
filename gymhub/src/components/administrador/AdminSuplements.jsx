@@ -10,20 +10,19 @@ const AdminSuplemenstComp = ({ onShowAddSuplements, onShowEditSuplements, role }
   const [searchTerm, setSearchTerm] = useState('');
   const [filteredSuplementos, setFilteredSuplementos] = useState([]);
 
-  // Obtener los suplementos de la base de datos
   const fetchSuplementos = async () => {
     try {
-      const docRef = doc(db, 'suplementslist', 'FkhKVhtSuwkyiSl7VvN9'); // Ajusta 'documentoID' según corresponda
+      const docRef = doc(db, 'suplementslist', 'FkhKVhtSuwkyiSl7VvN9'); 
       const docSnap = await getDoc(docRef);
 
       if (docSnap.exists()) {
         const suplementosData = docSnap.data();
         const suplementosList = Object.keys(suplementosData).map((key) => ({
-          id: key, // nombre del suplemento
+          id: key, 
           ...suplementosData[key],
         }));
         setSuplementos(suplementosList);
-        setFilteredSuplementos(suplementosList); // Inicializamos los filtrados con todos
+        setFilteredSuplementos(suplementosList); 
       } else {
         console.log('No se encontró el documento.');
       }
@@ -32,7 +31,7 @@ const AdminSuplemenstComp = ({ onShowAddSuplements, onShowEditSuplements, role }
     }
   };
 
-  // Función para eliminar un suplemento
+ 
   const handleDelete = async (id) => {
     Swal.fire({
       title: '¿Eliminar suplemento?',
@@ -60,7 +59,7 @@ const AdminSuplemenstComp = ({ onShowAddSuplements, onShowEditSuplements, role }
     });
   };
 
-  // Función para buscar suplementos por nombre
+
   const handleSearch = () => {
     const results = suplementos.filter((suplemento) =>
       suplemento.id.toLowerCase().includes(searchTerm.toLowerCase())
@@ -68,7 +67,7 @@ const AdminSuplemenstComp = ({ onShowAddSuplements, onShowEditSuplements, role }
     setFilteredSuplementos(results);
   };
 
-  // Función para refrescar la lista de suplementos
+
   const handleRefresh = () => {
     setFilteredSuplementos(suplementos);
     setSearchTerm('');

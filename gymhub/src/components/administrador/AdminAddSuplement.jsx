@@ -29,12 +29,12 @@ const AdminAddSuplement = ({onClose}) => {
     };
 
     try {
-      const docRef = doc(db, 'suplementslist', 'FkhKVhtSuwkyiSl7VvN9'); // Asegúrate de que el ID sea correcto
+      const docRef = doc(db, 'suplementslist', 'FkhKVhtSuwkyiSl7VvN9'); 
       await updateDoc(docRef, {
-        [nombre]: newSuplement, // Utiliza el nombre como ID del suplemento
+        [nombre]: newSuplement, 
       });
 
-      // Reseteamos los campos del formulario
+      
       setNombre('');
       setCantidad(0);
       setDescripcion('');

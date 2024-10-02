@@ -7,10 +7,10 @@ import { getAuth } from 'firebase/auth';
 
 const auth = getAuth(appFirebase);
 
-const ClientNavBarComponent = () => {
+const ClientNavBarComponent = ({ onShowSuplements }) => {
   const [isDropdownVisible, setDropdownVisible] = useState(false);
 
-  // bottom lpg out
+  
   const handleLogout = () => {
     auth.signOut().then(() => {
         console.log('Sesión cerrada');
@@ -28,7 +28,7 @@ const ClientNavBarComponent = () => {
         <ul className="navbar-menu">
           <li><a href="#rutinas">Rutinas</a></li>
           <li><a href="#alertas">Alertas</a></li>
-          <li><a href="#suplementos">Suplementos</a></li>
+          <li><a href="#suplementos" onClick={onShowSuplements}>Suplementos</a></li>
           <li><a href="#ventas">Ventas</a></li>
           <li><a href="#premiacion">Premiación</a></li>
         </ul>

@@ -110,8 +110,8 @@ const AdminComponent = () => {
       {view === 'addSuplementsView' && <AdminAddSuplement onClose={handleShowSuplementosView} />}
       {view === 'editSuplementsView' && (
         <AdminEditSuplement
-          suplemento={selectedSuplement} // Pasar el suplemento seleccionado
-          onClose={handleShowSuplementosView} // Función para cerrar la vista de edición
+          suplemento={selectedSuplement} 
+          onClose={handleShowSuplementosView} 
         />
       )}
 

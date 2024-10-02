@@ -1,10 +1,8 @@
-/* AdminAddSuplement.css */
-
 .add-suplement-container {
     width: 100%;
-    display: flex; /* Cambia a flex */
-    flex-direction: column; /* Coloca los elementos en columna */
-    align-items: center; /* Centra horizontalmente */
+    display: flex; 
+    flex-direction: column; 
+    align-items: center; 
     padding: 20px;
     background-color: #f5f5f5;
 }
@@ -101,7 +99,7 @@
 
   .cont-butb{
     display: flex;
-    justify-content: flex-start; /* Coloca un botón a la izquierda y otro a la derecha */
+    justify-content: flex-start; 
     padding: 10px;
     width: 100%;
   }

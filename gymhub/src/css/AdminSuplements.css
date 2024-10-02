@@ -7,13 +7,13 @@
 
 .container-buttons{
     display: flex;
-    justify-content: space-between; /* Coloca un botón a la izquierda y otro a la derecha */
+    justify-content: space-between; 
     padding: 10px;
 }
 
 .container-DE{
   display: flex;
-  justify-content: space-between; /* Coloca un botón a la izquierda y otro a la derecha */
+  justify-content: space-between; 
   padding: 10px;
   margin-top: auto;
 }
@@ -21,7 +21,7 @@
 
 .suplementos-container {
     display: grid;
-    grid-template-columns: repeat(4, 1fr); /* Máximo 4 columnas */
+    grid-template-columns: repeat(4, 1fr); 
     gap: 20px;
     padding: 20px;
   }
@@ -45,14 +45,14 @@
   }
   
   .suplemento-img {
-    width: 100%; /* Mantiene la imagen a 100% del ancho del contenedor */
-    height: 200px; /* Ajusta la altura de la imagen */
-    object-fit: cover; /* Asegura que la imagen mantenga su proporción */
+    width: 100%; 
+    height: 200px; 
+    object-fit: cover; 
     border-radius: 8px;
   }
   
   .suplemento-card h2 {
-    font-size: 18px; /* Tamaño de fuente ajustado */
+    font-size: 18px; 
     margin: 10px 0;
   }
   
@@ -152,7 +152,7 @@
     border: none;
     padding: 10px 15px;
     cursor: pointer;
-    border-radius: 0 5px 5px 0; /* Ajusta solo la esquina derecha */
+    border-radius: 0 5px 5px 0; 
   }
   
   .search-button-flex:hover {
@@ -165,7 +165,7 @@
     border: none;
     padding: 10px 15px;
     cursor: pointer;
-    border-radius: 0 5px 5px 0; /* Ajusta solo la esquina derecha */
+    border-radius: 0 5px 5px 0; 
   }
   
   .button-refresh:hover {

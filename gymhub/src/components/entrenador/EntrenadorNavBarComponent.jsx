@@ -9,7 +9,7 @@ import { getAuth } from 'firebase/auth';
 
 const auth = getAuth(appFirebase);
 
-const EntrenadorNavBarComponent = () => {
+const EntrenadorNavBarComponent = ({ onShowSuplements }) => {
   const [isDropdownVisible, setDropdownVisible] = useState(false);
   const [showTrainingPlans, setShowTrainingPlans] = useState(false);
   const [showSearchPlanComp, setShowSearchPlanComp] = useState (false);
@@ -40,6 +40,7 @@ const EntrenadorNavBarComponent = () => {
         </div>
         <ul className="navbar-menu">
           <li><a href="#planes" onClick={handleSearchPlansClick}>Planes de entrenamiento</a></li>
+          <li><a href="#suplementos" onClick={onShowSuplements}>Suplementos</a></li>
           <li><a href="#inventario de maquinas">Máquinas</a></li>
           <li><a href="#inventario">Inventario</a></li>
         </ul>

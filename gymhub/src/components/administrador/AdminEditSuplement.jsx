@@ -5,7 +5,7 @@ import Swal from 'sweetalert2';
 import '../../css/AdminEditSuplement.css';
 
 const AdminEditSuplement = ({ suplemento, onClose }) => {
-  const [nombre, setNombre] = useState(suplemento.id); 
+  const [nombre] = useState(suplemento.id); 
   const [nuevoNombre, setNuevoNombre] = useState(suplemento.id); 
   const [cantidad, setCantidad] = useState(suplemento.cantidad);
   const [descripcion, setDescripcion] = useState(suplemento.descripcion);
