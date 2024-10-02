@@ -1,0 +1,194 @@
+.update-product-container {
+  padding: 30px;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  max-width: 900px;
+  margin: 0 auto;
+  height: auto;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Añadir sombra */
+}
+
+.update-product-header {
+  position: relative; /* Importante para el posicionamiento absoluto del título */
+  display: flex;
+  justify-content: flex-end; /* Mantiene la X alineada a la derecha */
+  align-items: center;
+}
+
+.update-product-title {
+  font-size: 24px;
+  font-weight: bold; /* Aumenta el grosor del texto */
+  color: #333;
+  position: absolute; /* Hace que el título esté centrado dentro del contenedor */
+  left: 50%;
+  transform: translateX(-50%); /* Ajusta el título para que esté centrado horizontalmente */
+}
+
+.update-product-close-icon {
+  cursor: pointer;
+  color: #000000;
+  font-size: 20px; /* Aumenta el tamaño del icono */
+}
+
+.update-product-close-icon:hover {
+  color: #ff0000;
+}
+
+.update-product-form {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+  width: 100%;
+  flex-wrap: wrap;
+}
+
+.product-image-container {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Centrar imagen y botones en el contenedor */
+  gap: 15px; /* Añadir espacio entre los elementos */
+}
+
+/* Estilo personalizado para el botón de cargar archivo */
+.update-product-file-input {
+  display: none; /* Ocultamos el input original */
+}
+
+.custom-file-button {
+  display: inline-block;
+  padding: 10px 20px;
+  background-color: #000000;
+  color: #ffffff;
+  border: none;
+  border-radius: 0; /* Para un estilo cuadrado */
+  cursor: pointer;
+  font-size: 16px;
+  text-align: center;
+  width: 150px;
+  transition: background-color 0.3s ease; /* Añadir transición */
+}
+
+.custom-file-button:hover {
+  background-color: #333333;
+}
+
+.product-info-container {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center; /* Centramos los labels y inputs */
+  gap: 10px;
+  max-width: 300px;
+}
+
+.product-image {
+  width: 100%;
+  max-width: 130px;
+  margin-bottom: 10px;
+  border-radius: 5px; /* Bordes redondeados en la imagen */
+}
+
+.preview-image-container {
+  margin-top: 0;
+}
+
+.file-and-preview-container {
+  display: flex;
+  align-items: center; /* Centra verticalmente el botón y la imagen */
+  gap: 10px; /* Espacio entre el botón y la imagen */
+}
+
+.image-preview-container {
+  display: flex;
+  align-items: center; /* Centra verticalmente el contenido */
+  margin-left: 10px; /* Espacio entre el botón y la imagen */
+}
+
+.preview-image {
+  width: 100px; /* Ajusta el tamaño según sea necesario */
+  height: auto;
+  border: 1px solid #ccc;
+  padding: 5px;
+  border-radius: 5px; /* Bordes redondeados */
+}
+
+.update-product-label {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 10px;
+  color: #555;
+  width: 100%;
+  align-items: center;
+  text-align: center;
+  font-weight: 500; /* Aumenta el peso de la fuente */
+}
+
+.update-product-input,
+.update-product-textarea,
+.update-product-select,
+.update-product-file-input {
+  padding: 10px; /* Aumentar el padding para mayor usabilidad */
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 16px;
+  width: 80%;
+  box-sizing: border-box;
+}
+
+.update-product-input {
+  height: 40px;
+}
+
+.update-product-textarea {
+  resize: vertical;
+  height: 100px; /* Aumentar la altura por defecto */
+}
+
+.update-product-button {
+  position: absolute;
+  padding: 10px 20px;
+  background-color: #28a745;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  align-self: flex-end;
+  transition: background-color 0.3s ease; /* Transición suave */
+  top: 85%;
+  right: 26%;
+}
+
+.update-product-button:hover {
+  background-color: #218838;
+}
+
+@media (max-width: 600px) {
+  .update-product-form {
+    flex-direction: column;
+  }
+
+  .product-image-container,
+  .product-info-container {
+    width: 100%;
+    align-items: center;
+  }
+
+  .update-product-label,
+  .update-product-input,
+  .update-product-select {
+    align-items: center;
+    width: 100%;
+    text-align: center;
+  }
+
+  .custom-file-button {
+    width: 100%; /* Botón ocupa todo el ancho en pantallas pequeñas */
+  }
+
+  .update-product-button {
+    width: 100%; /* El botón de enviar también ocupa todo el ancho */
+    text-align: center;
+  }
+}

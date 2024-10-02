@@ -6,6 +6,8 @@ import AdminUpdateUser from './AdminUpdateUser';
 import AdminInventoryView from './AdminInventoryView';
 import AdminRegisterInventory from './AdminRegisterInventory';
 import AdminEditInventory from './AdminEditInventory';
+import AdminSalesView from './AdminSalesView';
+import Profile from '../user-info/Profile';
 import ProfileView from '../ProfileView';
 
 const AdminComponent = () => {
@@ -17,7 +19,6 @@ const AdminComponent = () => {
   const handleShowRegisterUser = () => {
     setView('registerUser');
   };
-
   const handleShowUserView = () => {
     setView('userView');
   };
@@ -42,17 +43,9 @@ const AdminComponent = () => {
     setView('editInventory');
   };
 
-  const handleShowProfileView = () => {
-    setView('profileView');
-  }
-
   return (
     <>
-      <AdminNavBarComponent
-        onShowInventory={handleShowInventoryView}
-        onShowUserView={handleShowUserView}
-        onShowProfileView={handleShowProfileView}
-      />
+      <AdminNavBarComponent onShowInventory={handleShowInventoryView} onShowUserView={handleShowUserView} />
       {view === 'userView' && (
         <AdminUserView
           onShowRegisterUser={handleShowRegisterUser}
@@ -85,7 +78,6 @@ const AdminComponent = () => {
           onClose={handleShowInventoryView}
         />
       )}
-      {view === 'profileView' && <ProfileView onClose={handleShowUserView} />}
     </>
   );
 };

@@ -1,20 +1,15 @@
-import { collection, query, where, getDocs, getDoc, doc} from 'firebase/firestore';
+import { collection, query, where, getDocs, getDoc, doc, orderBy } from 'firebase/firestore';
 
 import { db } from '../firebaseConfig/firebase';
 
 export const verificarCorreoExistente = async (correo) => {
   try {
-    // Crear una consulta a la colección 'User' para verificar si existe un documento con el correo proporcionado
     const q = query(collection(db, 'User'), where('correo', '==', correo));
-    
-    // Ejecutar la consulta
     const querySnapshot = await getDocs(q);
-
-    // Verificar si se encontró algún documento
     if (!querySnapshot.empty) {
-      return true; // El correo ya está registrado
+      return true;
     } else {
-      return false; // El correo no está registrado
+      return false;
     }
   } catch (error) {
     console.error('Error al verificar el correo: ', error);
@@ -24,17 +19,12 @@ export const verificarCorreoExistente = async (correo) => {
 
 export const verificarUsuario = async (usuario) => {
     try {
-      // Crear una consulta a la colección 'User' para verificar si existe un documento con el usuario proporcionado
       const q = query(collection(db, 'User'), where('usuario', '==', usuario));
-      
-      // Ejecutar la consulta
       const querySnapshot = await getDocs(q);
-  
-      // Verificar si se encontró algún documento
       if (!querySnapshot.empty) {
-        return true; // El usuario ya está registrado
+        return true;
       } else {
-        return false; // El usuario no está registrado
+        return false;
       }
     } catch (error) {
       console.error('Error al verificar el usuario: ', error);
@@ -46,21 +36,13 @@ export const obtenerTodosLosUsuarios = async (sortOption) => {
   try {
     const q = query(collection(db, 'User'));
     const querySnapshot = await getDocs(q);
-
-    // Mapear los documentos a un array de objetos
     const usuarios = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-
-    // Función para convertir fecha en formato dd/mm/yyyy a un objeto Date
     const parseFecha = (fechaStr) => {
       const [day, month, year] = fechaStr.split('/').map(Number);
-      return new Date(year, month - 1, day); // Meses en JavaScript están basados en 0
+      return new Date(year, month - 1, day);
     };
-
-    // Obtener la fecha actual sin la parte de la hora
     const fechaActual = new Date();
-    fechaActual.setHours(0, 0, 0, 0); // Ajustar la hora para la comparación de fechas
-
-    // Ordenar los usuarios según la opción de ordenación
+    fechaActual.setHours(0, 0, 0, 0);
     if (sortOption === 'Nombre completo (A-Z)') {
       usuarios.sort((a, b) => a.nombre.localeCompare(b.nombre));
     } else if (sortOption === 'Usuario (A-Z)') {
@@ -71,12 +53,8 @@ export const obtenerTodosLosUsuarios = async (sortOption) => {
         const fechaInscripcionB = parseFecha(b.fechaInscripcion);
         fechaInscripcionA.setHours(0, 0, 0, 0);
         fechaInscripcionB.setHours(0, 0, 0, 0);
-
-        // Calcular la diferencia en días entre la fecha de inscripción y la fecha actual
         const diffA = Math.abs(fechaActual - fechaInscripcionA);
         const diffB = Math.abs(fechaActual - fechaInscripcionB);
-
-        // Ordenar en orden ascendente de proximidad a la fecha actual
         return diffA - diffB;
       });
     } else if (sortOption === 'Rol') {
@@ -116,6 +94,27 @@ export const obtenerInfoUsuario = async (correo, usuario) => {
   }
 };
 
+export const obtenerInfoUsuarioPorUid = async (uid) => {
+  try {
+    // Consultar en Firestore la colección 'User' donde el campo 'uid' coincida con el uid de Firebase Auth
+    const q = query(
+      collection(db, 'User'),
+      where('uid', '==', uid)
+    );
+
+    const querySnapshot = await getDocs(q);
+
+    if (!querySnapshot.empty) {
+      const usuarioDoc = querySnapshot.docs[0];
+      return { id: usuarioDoc.id, ...usuarioDoc.data() };
+    } else {
+      return null;
+    }
+  } catch (error) {
+    console.error('Error al obtener el usuario por UID: ', error);
+    throw new Error('No se pudo obtener la información del usuario.');
+  }
+};
 
 export const obtenerInfoUsuarioCorreo = async (correo) => {
   try {
@@ -135,5 +134,57 @@ export const obtenerInfoUsuarioCorreo = async (correo) => {
   } catch (error) {
     console.error('Error al obtener el usuario: ', error);
     throw new Error('No se pudo obtener la información del usuario.');
+  }
+};
+
+export const obtenerTodosLosProductos = async (filter) => {
+  const productosRef = collection(db, 'Sales');
+  
+  let productosQuery;
+  if (filter === "Precio mayor") {
+    productosQuery = query(productosRef, orderBy("price", "desc"));
+  } else if (filter === "Precio menor") {
+    productosQuery = query(productosRef, orderBy("price", "asc"));
+  } else {
+    productosQuery = productosRef;
+  }
+
+  const productosSnapshot = await getDocs(productosQuery);
+  
+  return productosSnapshot.docs.map(doc => {
+    const data = doc.data();
+    return {
+      id: doc.id,
+      ...data,
+      price: parseFloat(data.price) // Convertimos el price de cadena a número
+    };
+  });
+};
+
+export const obtenerProducto = async (productId, filter) => {
+  const docRef = doc(db, 'Sales', productId);
+  const productoDoc = await getDoc(docRef);
+  if (productoDoc.exists()) {
+    return productoDoc.data();
+  } else {
+    throw new Error('Producto no encontrado');
+  }
+};
+
+export const obtenerCarritoCompras = async (usuarioId) => {
+  try {
+    const carritoRef = collection(db, 'ShopingCar');
+    const q = query(carritoRef, where('idUser', '==', usuarioId));
+    const querySnapshot = await getDocs(q);
+
+    const carrito = querySnapshot.docs.map(doc => ({
+      id: doc.id,
+      ...doc.data()
+    }));
+
+    return carrito;
+  } catch (error) {
+    console.error('Error al obtener el carrito de compras: ', error);
+    throw new Error('No se pudo obtener el carrito de compras.');
   }
 };
