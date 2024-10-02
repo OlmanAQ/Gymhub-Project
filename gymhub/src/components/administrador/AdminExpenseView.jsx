@@ -93,12 +93,12 @@ const AdminExpenseView = ({ onShowRegisterExpense, onShowEditExpense }) => {
                   <td>{expense.fecha}</td>
                   <td>
                     <button className='button-actions' onClick={() => onShowEditExpense(expense.id)}>
-                      Edit
+                    <Info size={16} color="#007BFF" />
                     </button>
                   </td>
                   <td>
                     <button className='button-actions' onClick={() => deleteExpense(expense.id)}>
-                      Eliminar
+                    <Trash size={16} color="#DC3545" />
                     </button>
                   </td>
                 </tr>
@@ -109,11 +109,11 @@ const AdminExpenseView = ({ onShowRegisterExpense, onShowEditExpense }) => {
       </div>
       <div className="pagination-buttons">
         <button className='button-actions' onClick={() => handlePagination('prev')} disabled={currentPage === 0}>
-          Anterior
+        <ChevronLeft size={24} />
         </button>
         <span className="page-indicator">{currentPage + 1} de {Math.floor(filteredExpenses.length / itemsPerPage) + 1}</span>
         <button className='button-actions' onClick={() => handlePagination('next')} disabled={currentPage === Math.floor(filteredExpenses.length / itemsPerPage)}>
-          Siguiente
+        <ChevronRight size={24} />
         </button>
       </div>
     </div>

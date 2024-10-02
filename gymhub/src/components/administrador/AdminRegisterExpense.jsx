@@ -4,11 +4,19 @@ import Swal from 'sweetalert2';
 import '../../css/AdminRegisterExpense.css';
 
 const AdminRegisterExpense = ({ onClose }) => {
+    const formatDate = (date) => {
+        const day = String(date.getDate()).padStart(2, '0');
+        const month = String(date.getMonth() + 1).padStart(2, '0');
+        const year = date.getFullYear();
+    
+        return `${day}/${month}/${year}`;
+      };
+
     const [form, setForm] = useState({
         nombre: '',
         monto: '',
         categoria: '',
-        fecha: '',
+        fecha: formatDate(new Date()),
     });
 
     const handleChange = (e) => {
