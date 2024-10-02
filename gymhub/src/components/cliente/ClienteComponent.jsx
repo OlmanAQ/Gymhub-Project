@@ -3,6 +3,7 @@ import ClientNavBarComponent from './ClientNavBarComponent'
 import AdminSuplementsComp from '../administrador/AdminSuplements';
 import AdminRewardsComp from '../administrador/AdminRewardsComp';
 import ClientSalesView from './ClientSalesView';
+import ClientPlanViewComponent from './ClientPlanViewComponent';
 
 const ClienteComponent = () => {
   const [view, setView] = useState('userView');
@@ -19,12 +20,17 @@ const ClienteComponent = () => {
     setView('salesView');
   };
 
+  const handleShowPlanView = () => {
+    setView('planView');
+  };
+
   return (
     <>
       <ClientNavBarComponent
         onShowSuplements={handleShowSuplementosView}
         onShowRewards={handleShowRewardsView}
         onShowSales={handleShowSalesView}
+        onShowPlan={handleShowPlanView}
       />
       {view === 'suplementosView' && (
         <AdminSuplementsComp
@@ -37,6 +43,7 @@ const ClienteComponent = () => {
         />
       )}
       {view === 'salesView' && <ClientSalesView />}
+      {view === 'planView' && <ClientPlanViewComponent />}
     </>
   )
 }
