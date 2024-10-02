@@ -9,6 +9,7 @@ import AdminEditInventory from './AdminEditInventory';
 import AdminSuplements from './AdminSuplements'
 import AdminAddSuplement from './AdminAddSuplement';
 import AdminEditSuplement from './AdminEditSuplement';
+import AdminRewardsComp from './AdminRewardsComp';
 
 const AdminComponent = () => {
   const [view, setView] = useState('userView');
@@ -43,7 +44,9 @@ const AdminComponent = () => {
     setView('editSuplementsView');
   };
   
-  
+  const handleShowRewardsView = () => {
+    setView('rewardsView');
+  };
 
   const handleShowUpdateUser = (user) => {
     setSelectedUser(user);
@@ -66,7 +69,8 @@ const AdminComponent = () => {
       <AdminNavBarComponent 
         onShowInventory={handleShowInventoryView} 
         onShowUserView={handleShowUserView}
-        onShowSuplementos={handleShowSuplementosView} 
+        onShowSuplementos={handleShowSuplementosView}
+        onShowRewards={handleShowRewardsView} 
       />
       {view === 'userView' && (
         <AdminUserView
@@ -114,7 +118,11 @@ const AdminComponent = () => {
           onClose={handleShowSuplementosView} 
         />
       )}
-
+      {view === 'rewardsView' && (
+        <AdminRewardsComp 
+          role = "admin" 
+        />
+      )}
     </>
   );
 };

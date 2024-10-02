@@ -8,7 +8,7 @@ import { getAuth } from 'firebase/auth';
 
 const auth = getAuth(appFirebase);
 
-const AdminNavBarComponent = ({onShowInventory, onShowUserView, onShowSuplementos}) => {
+const AdminNavBarComponent = ({onShowInventory, onShowUserView, onShowSuplementos, onShowRewards}) => {
   const [isDropdownVisible, setDropdownVisible] = useState(false);
 
   // bottom log out
@@ -35,7 +35,7 @@ const AdminNavBarComponent = ({onShowInventory, onShowUserView, onShowSuplemento
           <li><a href="#estadisticas">Estadísticas</a></li>
           <li><a href="#suplementos" onClick={onShowSuplementos}>Suplementos</a></li>
           <li><a href="#ventas">Ventas</a></li>
-          <li><a href="#premiacion">Premiación</a></li>
+          <li><a href="#premiacion" onClick={onShowRewards}>Premiación</a></li>
         </ul>
         <div
           className="navbar-profile"
