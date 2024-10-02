@@ -2,57 +2,57 @@
 .table-container {
   position: relative;
   justify-content: center;
-  width: 100%; /* Asegura que el contenedor ocupe todo el ancho disponible */
-  max-width: 100%; /* Limita el ancho máximo al 100% */
-  overflow-x: auto; /* Añade un scrollbar horizontal si el contenido se desborda */
-  background-color: #ffffff; /* Fondo blanco para el contenedor */
-  border-radius: 8px; /* Bordes redondeados */
-  margin: 20px 0; /* Espaciado alrededor del contenedor */
-  padding: 0 50px; /* Añade un espacio a los lados para evitar que toque los márgenes */
+  width: 100%; 
+  max-width: 100%; 
+  overflow-x: auto;
+  background-color: #ffffff; 
+  border-radius: 8px; 
+  margin: 20px 0; 
+  padding: 0 50px; 
   top: 20px;
 }
 
 /* Estilos para la tabla */
 table {
-  width: 100%; /* Asegura que la tabla ocupe el ancho del contenedor */
-  border-collapse: collapse; /* Combina los bordes de las celdas */
-  background-color: #ffffff; /* Fondo blanco para la tabla */
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra suave */
+  width: 100%; 
+  border-collapse: collapse; 
+  background-color: #ffffff; 
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
 }
 
 /* Encabezado de la tabla */
 thead {
-  background-color: #333; /* Fondo negro para el encabezado */
-  color: #ffffff; /* Texto blanco en el encabezado */
+  background-color: #333;
+  color: #ffffff; 
   justify-content: center;
 }
 
 th {
   padding: 12px;
   text-align: left;
-  font-weight: bold; /* Negrita en el encabezado */
-  border-bottom: 2px solid #ddd; /* Línea de separación entre el encabezado y las filas */
+  font-weight: bold; 
+  border-bottom: 2px solid #ddd;
 }
 
 /* Celdas de la tabla */
 td {
   padding: 12px;
   text-align: left;
-  border-bottom: 1px solid #ddd; /* Línea de separación entre filas */
+  border-bottom: 1px solid #ddd;
   justify-content: center;
-  white-space: nowrap; /* Evita que el texto se ajuste en múltiples líneas */
-  overflow: hidden; /* Oculta el texto que se desborda */
-  text-overflow: ellipsis; /* Añade puntos suspensivos (...) si el texto es demasiado largo */
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 /* Filas alternas */
 tbody tr:nth-child(even) {
-  background-color: #f9f9f9; /* Color de fondo para filas pares */
+  background-color: #f9f9f9;
 }
 
 /* Efecto al pasar el ratón sobre una fila */
 tbody tr:hover {
-  background-color: #e0e0e0; /* Color de fondo al pasar el ratón */
+  background-color: #e0e0e0;
 }
 
 /* Última fila sin borde inferior */
@@ -70,17 +70,17 @@ tbody tr:last-child td {
 }
 
 .button-actions:hover {
-  opacity: 0.8; /* Cambia la opacidad al pasar el ratón */
+  opacity: 0.8;
 }
 
 /* Ajusta el tamaño de los iconos */
 svg {
-  vertical-align: middle; /* Alinea el icono verticalmente en el centro */
+  vertical-align: middle;
 }
 
 /* Opcional: Estilo para las nuevas columnas de acción */
 th:nth-last-child(-n+2), td:nth-last-child(-n+2) {
-  width: 50px; /* Ajusta el ancho de las columnas de acción */
+  width: 50px;
 }
 
 /* Estilos para los controles de paginación */
@@ -88,13 +88,13 @@ th:nth-last-child(-n+2), td:nth-last-child(-n+2) {
   display: flex;
   justify-content: center;
   gap: 10px;
-  margin-top: 20px; /* Espaciado superior para los controles de paginación */
+  margin-top: 20px;
 }
 
 
 .controls-container {
   display: flex;
-  justify-content: space-between; /* Distribuye el espacio entre los contenedores */
+  justify-content: space-between;
   align-items: center; 
   margin-bottom: 20px;
   padding: 10px;
@@ -103,7 +103,7 @@ th:nth-last-child(-n+2), td:nth-last-child(-n+2) {
 
 /* Contenedor para agregar usuario */
 .add-user-container {
-  flex: 0 1 auto; /* No permite que el contenedor se estire más allá de su contenido */
+  flex: 0 1 auto;
 }
 
 /* Estilo del botón de agregar usuario */
@@ -130,37 +130,37 @@ th:nth-last-child(-n+2), td:nth-last-child(-n+2) {
   display: flex;
   align-items: center;
   gap: 10px;
-  padding: 5px; /* Ajusta el relleno para adaptarse al contenido */
-  border-radius: 4px; /* Bordes redondeados opcionales */
-  margin: 0 10px; /* Espaciado horizontal */
-  flex: 0 1 auto; /* Permite que el contenedor se ajuste a su contenido */
+  padding: 5px; 
+  border-radius: 4px;
+  margin: 0 10px; 
+  flex: 0 1 auto; 
 }
 
 /* Contenedor del input y botón */
 .buscador-wrapper {
   display: flex;
   align-items: center;
-  position: relative; /* Necesario para posicionar el botón dentro del input */
+  position: relative;
   flex: 1;
 }
 
 /* Estilo del input de búsqueda */
 .buscador-input {
-  width: 100%; /* Hace que el input ocupe todo el espacio disponible */
-  padding: 5px 40px 5px 10px; /* Añade relleno para el botón */
+  width: 100%;
+  padding: 5px 40px 5px 10px;
   border-radius: 4px;
   border: 1px solid #ccc;
 }
 
 /* Estilo del botón de búsqueda */
 .buscador-button {
-  position: absolute; /* Posiciona el botón dentro del input */
-  right: 10px; /* Espacio desde el borde derecho del input */
+  position: absolute;
+  right: 10px;
   top: 50%;
-  transform: translateY(-50%); /* Centra verticalmente el botón */
+  transform: translateY(-50%);
   padding: 5px;
-  border: none; /* Elimina el borde del botón */
-  background-color: transparent; /* Fondo transparente */
+  border: none;
+  background-color: transparent; 
   cursor: pointer;
 }
 
@@ -174,11 +174,9 @@ th:nth-last-child(-n+2), td:nth-last-child(-n+2) {
   border: 1px solid #ccc;
 }
 
-
-
 /* Contenedor de filtro */
 .filter-container {
-  flex: 0 1 auto; /* No permite que el contenedor se estire más allá de su contenido */
+  flex: 0 1 auto;
   display: flex;
   align-items: center;
   padding: 10px;
@@ -197,9 +195,12 @@ th:nth-last-child(-n+2), td:nth-last-child(-n+2) {
   padding: 0.5em 1em;
   margin-left: 1em;
   border-radius: 0.25em;
+  background-color: white;
 }
 
-.refresh-button:hover {
-  background-color:#e2e6ea;
-}
 
+@media screen and (max-width: 768px) {
+  .controls-container {
+    flex-direction: column; /* Apila los controles en dispositivos móviles */
+  }
+}

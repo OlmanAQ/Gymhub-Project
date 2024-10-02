@@ -1,35 +1,36 @@
 import React, { useState } from 'react';
-import logo from '../../assets/LogoGymHub.png';
 import { User } from 'lucide-react';
-import '../../css/AdminNavBarComponent.css';
-import appFirebase from '../../firebaseConfig/firebase';
 import { getAuth } from 'firebase/auth';
+import appFirebase from '../../firebaseConfig/firebase';
+import '../../css/ClientNavBarComponent.css';
+import logo from '../../assets/LogoGymHub.png';
 
 const auth = getAuth(appFirebase);
 
-const ClientNavBarComponent = ({ onShowSuplements, onShowRewards }) => {
+const ClientNavBarComponent = ({ onShowSuplements, onShowRewards, onShowSales }) => {
   const [isDropdownVisible, setDropdownVisible] = useState(false);
 
   
   const handleLogout = () => {
     auth.signOut().then(() => {
-        console.log('Sesión cerrada');
-        
+      console.log('Sesión cerrada');
     }).catch((error) => {
-        console.log('Error al cerrar sesión', error);
+      console.log('Error al cerrar sesión', error);
     });
-};
+  };
+
+  
 
   return (
-    <nav className="navbar">
-      <div className="navbar-logo">
+    <nav className="client-navbar">
+      <div className="client-navbar-logo">
         <img src={logo} alt="Logo" />
       </div>
         <ul className="navbar-menu">
           <li><a href="#rutinas">Rutinas</a></li>
           <li><a href="#alertas">Alertas</a></li>
           <li><a href="#suplementos" onClick={onShowSuplements}>Suplementos</a></li>
-          <li><a href="#ventas">Ventas</a></li>
+          <li><a href="#ventas" onClick={onShowSales}>Ventas</a></li>
           <li><a href="#premiacion"onClick={onShowRewards}>Premiación</a></li>
         </ul>
         <div
@@ -48,6 +49,6 @@ const ClientNavBarComponent = ({ onShowSuplements, onShowRewards }) => {
         </div>
     </nav>
   );
-}
+};
 
 export default ClientNavBarComponent;

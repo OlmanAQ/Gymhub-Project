@@ -9,5 +9,3 @@ function App() {
 }
 
 export default App;
-// Bug de la paginacion
-// Boton refrescar tabla

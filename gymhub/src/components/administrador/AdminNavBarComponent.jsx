@@ -3,24 +3,27 @@ import logo from '../../assets/LogoGymHub.png';
 import { User } from 'lucide-react';
 import '../../css/AdminNavBarComponent.css';
 import appFirebase from '../../firebaseConfig/firebase';
-
 import { getAuth } from 'firebase/auth';
 
 const auth = getAuth(appFirebase);
 
-const AdminNavBarComponent = ({onShowInventory, onShowUserView, onShowSuplementos, onShowRewards}) => {
+
+const AdminNavBarComponent = ({  onShowInventory, onShowUserView, onShowSales, onShowProfile , onShowProfileView, onShowSuplementos, onShowRewards }) => {
   const [isDropdownVisible, setDropdownVisible] = useState(false);
 
-  // bottom log out
   const handleLogout = () => {
     auth.signOut().then(() => {
         console.log('Sesión cerrada');
         
     }).catch((error) => {
-        console.log('Error al cerrar sesión', error);
+      console.log('Error al cerrar sesión', error);
     });
   };
 
+  const handleShowProfile = () => {
+    onShowProfile();
+    setDropdownVisible(false);
+  };
 
   return (
     <nav className="navbar">
@@ -34,8 +37,8 @@ const AdminNavBarComponent = ({onShowInventory, onShowUserView, onShowSuplemento
           <li><a href="#inventario" onClick={onShowInventory}>Inventario</a></li>
           <li><a href="#estadisticas">Estadísticas</a></li>
           <li><a href="#suplementos" onClick={onShowSuplementos}>Suplementos</a></li>
-          <li><a href="#ventas">Ventas</a></li>
           <li><a href="#premiacion" onClick={onShowRewards}>Premiación</a></li>
+          <li><a href="#ventas" onClick={onShowSales}>Ventas</a></li>
         </ul>
         <div
           className="navbar-profile"
@@ -46,13 +49,13 @@ const AdminNavBarComponent = ({onShowInventory, onShowUserView, onShowSuplemento
           <span className="navbar-username">Mi Perfil</span>
           {isDropdownVisible && (
             <ul className="navbar-dropdown">
-              <li><a href="#ver-perfil">Ver Perfil</a></li>
+              <li><a href="#ver-perfil" onClick={handleShowProfile}>Ver Perfil</a></li>
               <li><a href="#cerrar-sesion" onClick={handleLogout}>Cerrar sesión</a></li>
             </ul>
           )}
         </div>
     </nav>
   );
-}
+};
 
 export default AdminNavBarComponent;

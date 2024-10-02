@@ -1,39 +1,21 @@
-import { doc, updateDoc, getDoc } from 'firebase/firestore';
+import { doc, updateDoc, getDoc, collection, query, where, getDocs, setDoc} from 'firebase/firestore';
 import { db } from '../firebaseConfig/firebase';
 
+// Método para actualizar un usuario en la colección "User"
 export const actualizarUsuario = async (usuarioId, usuarioNuevo) => {
   try {
-    // Limpiar el ID si es necesario (por ejemplo, eliminando una barra al inicio)
     const sanitizedUserId = usuarioId.replace(/^\/+/, '');
-
-    // Imprimir ID recibido y el ID sanitizado
     console.log('ID del usuario recibido:', usuarioId);
     console.log('ID del usuario sanitizado:', sanitizedUserId);
-
-    // Crear una referencia al documento del usuario específico usando el ID sanitizado
     const usuarioDocRef = doc(db, 'User', sanitizedUserId);
-
-    // Obtener el documento actual del usuario
     const usuarioDoc = await getDoc(usuarioDocRef);
-
-    // Imprimir referencia y datos del documento
     console.log('Referencia del documento:', usuarioDocRef.path);
     console.log('Datos del documento obtenido:', usuarioDoc.exists() ? usuarioDoc.data() : 'No existe');
-
-    // Verificar si se encontró el documento del usuario
     if (usuarioDoc.exists()) {
-      console.log('Documento encontrado:', usuarioDoc.id); // Depuración
-
-      // Mostrar datos del documento actual
+      console.log('Documento encontrado:', usuarioDoc.id);
       console.log('Datos actuales del documento:', usuarioDoc.data());
-
-      // Mostrar datos nuevos que se están intentando actualizar
       console.log('Datos a actualizar:', usuarioNuevo);
-
-      // Actualizar el documento con los datos del nuevo usuario
       await updateDoc(usuarioDocRef, usuarioNuevo);
-
-      // Verificar la actualización
       const updatedDoc = await getDoc(usuarioDocRef);
       if (updatedDoc.exists()) {
         console.log('Usuario actualizado correctamente:', updatedDoc.data());
@@ -45,5 +27,110 @@ export const actualizarUsuario = async (usuarioId, usuarioNuevo) => {
     }
   } catch (error) {
     console.error('Error al actualizar el usuario:', error);
+  }
+};
+
+// Método para actualizar un producto en la colección "Sales"
+export const actualizarProducto = async (productoId, productoNuevo) => {
+  try {
+    const sanitizedProductoId = productoId.replace(/^\/+/, '');
+    console.log('ID del producto recibido:', productoId);
+    console.log('ID del producto sanitizado:', sanitizedProductoId);
+    const productoDocRef = doc(db, 'Sales', sanitizedProductoId);
+    const productoDoc = await getDoc(productoDocRef);
+    console.log('Referencia del documento:', productoDocRef.path);
+    console.log('Datos del documento obtenido:', productoDoc.exists() ? productoDoc.data() : 'No existe');
+    if (productoDoc.exists()) {
+      console.log('Documento encontrado:', productoDoc.id);
+      console.log('Datos actuales del documento:', productoDoc.data());
+      console.log('Datos a actualizar:', productoNuevo);
+      await updateDoc(productoDocRef, productoNuevo);
+      const updatedDoc = await getDoc(productoDocRef);
+      if (updatedDoc.exists()) {
+        console.log('Producto actualizado correctamente:', updatedDoc.data());
+      } else {
+        console.log('Error al actualizar el producto: El documento no existe después de la actualización');
+      }
+    } else {
+      console.log('No se encontró el documento del producto en la base de datos');
+    }
+  } catch (error) {
+    console.error('Error al actualizar el producto en ventas:', error);
+  }
+};
+
+export const comprarProducto = async (productoId, usuarioId) => {
+  try {
+    const sanitizedProductoId = productoId.replace(/^\/+/, '');
+    const productoDocRef = doc(db, 'Sales', sanitizedProductoId);
+    const productoDoc = await getDoc(productoDocRef);
+
+    if (productoDoc.exists()) {
+      const productoData = productoDoc.data();
+      let { quantity, state } = productoData;
+      const cantidadNumerica = parseInt(quantity, 10);
+
+      if (cantidadNumerica > 0) {
+        const nuevaCantidad = cantidadNumerica - 1;
+        const nuevoEstado = nuevaCantidad === 0 ? 'Agotado' : 'Disponible';
+
+        await updateDoc(productoDocRef, {
+          quantity: nuevaCantidad.toString(),
+          state: nuevoEstado
+        });
+
+        // Agregar o actualizar en la colección ShopingCar
+        const shopingCarRef = collection(db, 'ShopingCar');
+        const q = query(shopingCarRef, where("idProduct", "==", productoId), where("idUser", "==", usuarioId));
+        const querySnapshot = await getDocs(q);
+        
+        if (!querySnapshot.empty) {
+          // Si el producto ya existe en el carrito, actualizar la cantidad
+          const carItemRef = querySnapshot.docs[0].ref;
+          const carItemData = querySnapshot.docs[0].data();
+          const nuevaCantidadCar = parseInt(carItemData.quantity, 10) + 1;
+          const nuevoTotal = parseInt(productoData.price, 10) * nuevaCantidadCar;
+
+          await updateDoc(carItemRef, {
+            quantity: nuevaCantidadCar.toString(),
+            totalAmount: nuevoTotal.toString()
+          });
+        } else {
+          // Si no existe, agregarlo al carrito
+          const totalAmount = parseInt(productoData.price, 10);
+          await setDoc(doc(shopingCarRef), {
+            idProduct: productoId,
+            idUser: usuarioId,
+            name: productoData.name,
+            description: productoData.description,
+            imageID: productoData.imageID,
+            price: productoData.price,
+            quantity: "1",
+            totalAmount: totalAmount.toString()
+          });
+        }
+      }
+    }
+  } catch (error) {
+    console.error('Error al actualizar el producto:', error);
+  }
+};
+
+
+export const contarProductosEnCarrito = async (usuarioId) => {
+  try {
+    const shopingCarRef = collection(db, 'ShopingCar');
+    const q = query(shopingCarRef, where("idUser", "==", usuarioId));
+    const querySnapshot = await getDocs(q);
+
+    let totalProductos = 0;
+    querySnapshot.forEach((doc) => {
+      totalProductos += parseInt(doc.data().quantity, 10);
+    });
+
+    return totalProductos;
+  } catch (error) {
+    console.error('Error al contar productos en el carrito:', error);
+    return 0;
   }
 };

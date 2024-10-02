@@ -1,17 +1,12 @@
 body {
   position: relative;
-  margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-    background-color: #F0F0F0; /* Gris claro para el fondo */
-    /*background-size: 100%;*/
-    background-size: cover;
-    background-position: center;  /* Centra la imagen */
-    background-repeat: no-repeat;  /* Evita que la imagen se repita */
-  
+  background-color: #F0F0F0;
+  /* Gris claro para el fondo */
 }
 
 code {
