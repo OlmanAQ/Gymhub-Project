@@ -2,6 +2,8 @@ import React from 'react'
 import { useState } from 'react'
 import ClientNavBarComponent from './ClientNavBarComponent'
 import ProfileView from '../ProfileView';
+import ClientPlanViewComponent from './ClientPlanViewComponent';
+
 
 
 
@@ -12,8 +14,8 @@ const ClienteComponent = () => {
     setView('profileView');
   }
 
-  const handleShowUserView = () => {
-    setView('userView');
+  const handleShowPlanView = () => {
+    setView('planView');
   }
   
 
@@ -21,11 +23,14 @@ const ClienteComponent = () => {
     <>
       <ClientNavBarComponent 
         onShowProfileView={handleShowProfileView}
+        onShowPlanView={handleShowPlanView}
       />
       {view === 'profileView' && (
-        <ProfileView onClose={handleShowUserView} />
+        <ProfileView onClose={handleShowPlanView} />
       )}
-      
+      {view === 'planView' && (
+        <ClientPlanViewComponent />
+      )}
     </>
   );
 }

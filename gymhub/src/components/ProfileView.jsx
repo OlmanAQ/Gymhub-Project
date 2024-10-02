@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Swal from 'sweetalert2';
-import { Eye, EyeOff, X } from 'lucide-react';
+import { X } from 'lucide-react';
 import { useSelector } from 'react-redux';
 import { actualizarUsuario } from '../cruds/Update';
 import { obtenerInfoUsuarioCorreo } from '../cruds/Read';
@@ -34,10 +34,7 @@ const ProfileView = ({ onClose }) => {
         fechaInscripcion: '' // Añadido para mostrar la fecha de inscripción
     });
 
-    const [showPassword, setShowPassword] = useState(false); // Estado para controlar la visibilidad de la contraseña
-    const togglePasswordVisibility = () => {
-        setShowPassword(!showPassword);
-    };
+    
 
     useEffect(() => {
         if (user) {

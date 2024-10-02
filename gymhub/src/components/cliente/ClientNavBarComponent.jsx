@@ -7,7 +7,7 @@ import { getAuth } from 'firebase/auth';
 
 const auth = getAuth(appFirebase);
 
-const ClientNavBarComponent = ({onShowProfileView}) => {
+const ClientNavBarComponent = ({onShowProfileView, onShowPlanView}) => {
   const [isDropdownVisible, setDropdownVisible] = useState(false);
 
   // bottom lpg out
@@ -28,8 +28,7 @@ const ClientNavBarComponent = ({onShowProfileView}) => {
         <img src={logo} alt="Logo" />
       </div>
       <ul className="navbar-menu">
-        <li><a href="#rutinas">Rutinas</a></li>
-        <li><a href="#alertas">Alertas</a></li>
+        <li><a href="#rutinas" onClick={onShowPlanView}>Rutinas</a></li>
         <li><a href="#suplementos">Suplementos</a></li>
         <li><a href="#ventas">Ventas</a></li>
         <li><a href="#premiacion">Premiación</a></li>
