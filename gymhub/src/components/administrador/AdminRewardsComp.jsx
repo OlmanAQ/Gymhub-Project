@@ -115,7 +115,7 @@ const AdminRewardsComp = ({ role }) => {
                 <h2>{reward.id}</h2>
                 <p>Descripción: {reward.descripcion}</p>
                 <p>Usuario: {reward.ganador}</p>
-                <p>Fecha válida: {reward.valido}</p>
+                <p>Válido hasta: {reward.valido}</p>
               </div>
               {role === 'admin' && (
                 <div className="container-DE">

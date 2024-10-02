@@ -22,10 +22,10 @@ const AdminEditSuplement = ({ suplemento, onClose }) => {
     }
 
     const updatedSuplement = {
-      cantidad,
+      cantidad: parseInt(cantidad, 10), 
       descripcion,
       disponible,
-      precio,
+      precio: parseFloat(precio), 
       url,
     };
 
@@ -71,7 +71,7 @@ const AdminEditSuplement = ({ suplemento, onClose }) => {
           <input
             type="number"
             id="cantidad"
-            value={cantidad}
+            value={cantidad === 0 ? '' : cantidad}
             onChange={(e) => setCantidad(Number(e.target.value))}
             required
           />
@@ -105,7 +105,7 @@ const AdminEditSuplement = ({ suplemento, onClose }) => {
           <input
             type="number"
             id="precio"
-            value={precio}
+            value={precio === 0 ? '' : precio}
             onChange={(e) => setPrecio(Number(e.target.value))}
             required
           />

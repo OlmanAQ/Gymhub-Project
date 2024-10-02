@@ -6,10 +6,10 @@ import '../../css/AdminAddSuplement.css';
 
 const AdminAddSuplement = ({onClose}) => {
   const [nombre, setNombre] = useState('');
-  const [cantidad, setCantidad] = useState(0);
+  const [cantidad, setCantidad] = useState('');
   const [descripcion, setDescripcion] = useState('');
   const [disponible, setDisponible] = useState(true);
-  const [precio, setPrecio] = useState(0);
+  const [precio, setPrecio] = useState('');
   const [url, setUrl] = useState('');
 
   const handleSubmit = async (e) => {
@@ -21,10 +21,10 @@ const AdminAddSuplement = ({onClose}) => {
     }
 
     const newSuplement = {
-      cantidad,
+      cantidad: parseInt(cantidad, 10), 
       descripcion,
       disponible,
-      precio,
+      precio: parseFloat(precio), 
       url,
     };
 
@@ -73,7 +73,7 @@ const AdminAddSuplement = ({onClose}) => {
           <input
             type="number"
             id="cantidad"
-            value={cantidad}
+            value={cantidad === 0 ? '' : cantidad}
             onChange={(e) => setCantidad(Number(e.target.value))}
             required
           />
@@ -107,7 +107,7 @@ const AdminAddSuplement = ({onClose}) => {
           <input
             type="number"
             id="precio"
-            value={precio}
+            value={precio === 0 ? '' : precio}
             onChange={(e) => setPrecio(Number(e.target.value))}
             required
           />
