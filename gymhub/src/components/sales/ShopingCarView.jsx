@@ -24,7 +24,7 @@ const ShopingCarView = ({ onClose }) => {
   const handleDelete = async (productoId, idProduct, quantity) => {
     try {
       await eliminarProductoCarrito(productoId, idProduct, quantity);
-      loadCarrito(); // Reload the cart after deletion
+      loadCarrito();
     } catch (error) {
       console.error('Error al eliminar el producto del carrito:', error);
     }

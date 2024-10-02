@@ -7,6 +7,7 @@ import AdminInventoryView from './AdminInventoryView';
 import AdminRegisterInventory from './AdminRegisterInventory';
 import AdminEditInventory from './AdminEditInventory';
 import AdminSalesView from './AdminSalesView';
+import Profile from '../user-info/Profile';
 
 const AdminComponent = () => {
   const [view, setView] = useState('userView');
@@ -45,13 +46,19 @@ const AdminComponent = () => {
     setView('salesView');
   };
 
+  const handleShowProfile = () => {
+    setView('profileView');
+  };
+
   return (
     <>
       <AdminNavBarComponent 
         onShowInventory={handleShowInventoryView} 
         onShowUserView={handleShowUserView} 
         onShowSales={handleShowSalesView}
+        onShowProfile={handleShowProfile}
       />
+
       {view === 'userView' && (
         <AdminUserView
           onShowRegisterUser={handleShowRegisterUser}
@@ -85,6 +92,8 @@ const AdminComponent = () => {
         />
       )}
       {view === 'salesView' && <AdminSalesView />}
+
+      {view === 'profileView' && <Profile />}
     </>
   );
 };

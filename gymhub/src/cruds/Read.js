@@ -94,6 +94,28 @@ export const obtenerInfoUsuario = async (correo, usuario) => {
   }
 };
 
+export const obtenerInfoUsuarioPorUid = async (uid) => {
+  try {
+    // Consultar en Firestore la colección 'User' donde el campo 'uid' coincida con el uid de Firebase Auth
+    const q = query(
+      collection(db, 'User'),
+      where('uid', '==', uid)
+    );
+
+    const querySnapshot = await getDocs(q);
+
+    if (!querySnapshot.empty) {
+      const usuarioDoc = querySnapshot.docs[0];
+      return { id: usuarioDoc.id, ...usuarioDoc.data() };
+    } else {
+      return null;
+    }
+  } catch (error) {
+    console.error('Error al obtener el usuario por UID: ', error);
+    throw new Error('No se pudo obtener la información del usuario.');
+  }
+};
+
 export const obtenerInfoUsuarioCorreo = async (correo) => {
   try {
     const q = query(

@@ -14,17 +14,17 @@
   }
   
   .client-navbar-logo {
-    flex: 1; /* Asegura que el logo ocupe el espacio disponible a la izquierda */
+    flex: 1; 
   }
 
   .client-navbar-menu {
     position: relative;
     list-style: none;
     display: flex;
-    margin: 0 auto; /* Alinea la lista de navegación al centro */
+    margin: 0 auto;
     padding: 0;
-    justify-content: center; /* Asegura que los elementos del menú estén centrados */
-    flex: 1; /* Ocupa el espacio disponible */
+    justify-content: center; 
+    flex: 1;
   }
   
   .client-navbar-menu li {
