@@ -74,51 +74,16 @@
   border-radius: 5px;
 }
 
-.inventory-table {
-  width: 100%;
-  border-collapse: collapse;
-  background-color: #ffffff;
-  border-radius: 5px;
-  overflow: hidden;
-  margin-bottom: 20px;
-}
 
-.inventory-table th, .inventory-table td {
-  padding: 8px 10px; /* Reducir padding para hacer que las celdas sean más compactas */
-  border-bottom: 1px solid #dee2e6;
-  text-align: left;
-  font-size: 13px; /* Reducir el tamaño de la fuente */
-}
 
 .inventory-table th {
   background-color: #343a40;
   color: white;
 }
 
-/* Hacer las columnas más pequeñas */
-.inventory-table th, .inventory-table td {
-  width: auto; /* Permitir que las columnas se ajusten automáticamente */
-}
 
 
 
-/* Asegurar que los íconos de las acciones estén centrados */
-.actions button {
-  display: inline-flex;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-}
-
-/* Asegurarse de que el contenido esté centrado verticalmente */
-.inventory-table td {
-  vertical-align: middle;
-}
-
-/* Opcional: Ajustar los bordes y el color para dar más contraste */
-.inventory-table th, .inventory-table td {
-  border: 1px solid #ddd; /* Añadir borde más fino */
-}
 
 /* Paginación */
 .pagination {
@@ -162,19 +127,34 @@
 
 
 @media screen and (max-width: 768px) {
-  .inventory-table th, .inventory-table td {
-    padding: 5px; /* Reducir el relleno para hacer que las celdas sean más compactas */
-    font-size: 12px; /* Reducir el tamaño de la fuente */
+  .gym-selection-small {
+    flex-direction: column;
+    gap: 10px;
   }
 
-  .inventory-table th {
-    font-size: 12px; /* Reducir el tamaño de la fuente */
+  .gym-selection-small label {
+    margin-bottom: 5px;
   }
 
-  .inventory-table th, .inventory-table td {
-    width: auto; /* Permitir que las columnas se ajusten automáticamente */
+  .gym-select-small {
+    width: 100%;
+  }
+
+  .search-and-sort {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .search-box {
+    width: 100%;
+  }
+
+  .sort-box select {
+    width: 100%;
   }
 
   
   
 }
+
+

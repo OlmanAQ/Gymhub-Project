@@ -7,17 +7,20 @@ import AdminInventoryView from './AdminInventoryView';
 import AdminRegisterInventory from './AdminRegisterInventory';
 import AdminEditInventory from './AdminEditInventory';
 import ProfileView from '../ProfileView';
+import AdminExpenseView   from './AdminExpenseView';
+import AdminRegisterExpense from './AdminRegisterExpense';
+import AdminEditExpense from './AdminEditExpense';
 
 const AdminComponent = () => {
   const [view, setView] = useState('userView');
   const [selectedUser, setSelectedUser] = useState(null);
   const [gimnasioId, setGimnasioId] = useState(null);
   const [equipoId, setEquipoId] = useState(null);
+  const [gastoId, setGastoId] = useState(null);
 
   const handleShowRegisterUser = () => {
     setView('registerUser');
   };
-
   const handleShowUserView = () => {
     setView('userView');
   };
@@ -42,6 +45,20 @@ const AdminComponent = () => {
     setView('editInventory');
   };
 
+
+  const handleShowExpenseView = () => {
+    setView('expenseView');
+  }
+
+  const handleShowRegisterExpense = () => {
+    setView('registerExpense');
+  }
+
+  const handleShowEditExpense = (gastoId) => {
+    setGastoId(gastoId);
+    setView('editExpense');
+  }
+
   const handleShowProfileView = () => {
     setView('profileView');
   }
@@ -52,6 +69,7 @@ const AdminComponent = () => {
         onShowInventory={handleShowInventoryView}
         onShowUserView={handleShowUserView}
         onShowProfileView={handleShowProfileView}
+        onShowExpenseView={handleShowExpenseView}
       />
       {view === 'userView' && (
         <AdminUserView
@@ -86,6 +104,19 @@ const AdminComponent = () => {
         />
       )}
       {view === 'profileView' && <ProfileView onClose={handleShowUserView} />}
+      {view === 'expenseView' && (
+        <AdminExpenseView
+          onShowRegisterExpense={handleShowRegisterExpense}
+          onShowEditExpense={handleShowEditExpense}
+        />
+      )}
+      {view === 'registerExpense' && <AdminRegisterExpense onClose={handleShowExpenseView} />}
+      {view === 'editExpense' && (
+        <AdminEditExpense
+          gastoId={gastoId}
+          onClose={handleShowExpenseView}
+        />
+      )}
     </>
   );
 };

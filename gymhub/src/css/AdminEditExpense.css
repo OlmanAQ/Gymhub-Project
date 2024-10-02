@@ -1,0 +1,78 @@
+.admin-edit-expense-view {
+    padding: 20px;
+    background-color: #f8f9fa;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    position: relative;
+  }
+  
+  .admin-edit-expense-view h2 {
+    margin-bottom: 20px;
+    font-size: 24px;
+    color: #343a40;
+  }
+  
+  .btn-close {
+    background: none;
+    border: none;
+    font-size: 20px;
+    cursor: pointer;
+    position: absolute;
+    top: 20px;
+    right: 20px;
+  }
+  
+  .expense-form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+  }
+  
+  .expense-form .form-control {
+    padding: 10px;
+    font-size: 14px;
+    border: 1px solid #ced4da;
+    border-radius: 5px;
+  }
+  
+  .expense-form .form-control:focus {
+    outline: none;
+    border-color: #007bff;
+  }
+  
+  .expense-form select.form-control {
+    padding: 10px;
+  }
+  
+  .form-buttons {
+    display: flex;
+    gap: 10px;
+  }
+  
+  .btn-submit {
+    background-color: #28a745;
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+  }
+  
+  .btn-submit:hover {
+    background-color: #218838;
+  }
+  
+  .btn-cancel {
+    background-color: #dc3545;
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+  }
+  
+  .btn-cancel:hover {
+    background-color: #c82333;
+  }
