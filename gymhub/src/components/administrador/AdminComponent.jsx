@@ -6,7 +6,6 @@ import AdminUpdateUser from './AdminUpdateUser';
 import AdminInventoryView from './AdminInventoryView';
 import AdminRegisterInventory from './AdminRegisterInventory';
 import AdminEditInventory from './AdminEditInventory';
-import ProfileView from '../ProfileView';
 import AdminExpenseView   from './AdminExpenseView';
 import AdminRegisterExpense from './AdminRegisterExpense';
 import AdminEditExpense from './AdminEditExpense';
