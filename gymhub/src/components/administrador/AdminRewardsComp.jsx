@@ -5,7 +5,7 @@ import Swal from 'sweetalert2';
 import { Edit, Trash, Search, Paintbrush } from 'lucide-react';
 import '../../css/AdminRewardsComp.css'; 
 
-const AdminRewardsComp = ({ role }) => {
+const AdminRewardsComp = ({ role, onShowAddRewards }) => {
   const [rewards, setRewards] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
   const [filteredRewards, setFilteredRewards] = useState([]);
@@ -102,7 +102,7 @@ const AdminRewardsComp = ({ role }) => {
         </div>
 
         {role === 'admin' && (
-          <button className="button-create"> Agregar premio </button>
+          <button className="button-create" onClick={onShowAddRewards}> Agregar premio </button>
         )}
       </div>
 
@@ -116,6 +116,7 @@ const AdminRewardsComp = ({ role }) => {
                 <p>Descripción: {reward.descripcion}</p>
                 <p>Ganador: {reward.ganador}</p>
                 <p>Válido hasta: {reward.valido}</p>
+                <p>Estado: {reward.estado}</p>
               </div>
               {role === 'admin' && (
                 <div className="container-DE">
