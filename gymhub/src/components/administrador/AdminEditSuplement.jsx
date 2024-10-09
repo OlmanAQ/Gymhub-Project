@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
-import { doc, updateDoc, deleteField } from 'firebase/firestore';
+import { doc, updateDoc } from 'firebase/firestore';
 import { getStorage, ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage'; 
 import { db } from '../../firebaseConfig/firebase';
 import Swal from 'sweetalert2';
 import '../../css/AdminEditSuplement.css';
 
 const AdminEditSuplement = ({ suplemento, onClose }) => {
-  const [nombre] = useState(suplemento.id); 
-  const [nuevoNombre, setNuevoNombre] = useState(suplemento.id); 
+  const [nombre] = useState(suplemento.nombre); 
+  const [nuevoNombre, setNuevoNombre] = useState(suplemento.nombre); 
   const [cantidad, setCantidad] = useState(suplemento.cantidad);
   const [descripcion, setDescripcion] = useState(suplemento.descripcion);
   const [disponible, setDisponible] = useState(suplemento.disponible);
@@ -26,12 +26,12 @@ const AdminEditSuplement = ({ suplemento, onClose }) => {
 
     let downloadURL = imageUrl;
 
-    // Si se ha seleccionado una nueva imagen, súbela a Firebase Storage
+
     if (image) {
       const storageRef = ref(storage, `suplements/${image.name}`);
       const uploadTask = uploadBytesResumable(storageRef, image);
 
-      // Manejo del progreso de la subida
+
       uploadTask.on(
         'state_changed',
         (snapshot) => {
@@ -43,39 +43,31 @@ const AdminEditSuplement = ({ suplemento, onClose }) => {
           Swal.fire('Error', 'Error al subir la imagen.', 'error');
         },
         async () => {
-          // Obtener URL de la imagen subida
           downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
           setImageUrl(downloadURL);
-          updateSuplementData(downloadURL); // Llama a la función de actualización
+          updateSuplementData(downloadURL); 
         }
       );
     } else {
-      // Si no se ha seleccionado una nueva imagen, solo actualizar los demás campos
+      
       updateSuplementData(downloadURL);
     }
   };
 
   const updateSuplementData = async (url) => {
     const updatedSuplement = {
+      nombre: nuevoNombre,
       cantidad: parseInt(cantidad, 10),
       descripcion,
       disponible,
       precio: parseFloat(precio),
-      url, // Utiliza la URL de la imagen (nueva o anterior)
+      url, 
     };
 
     try {
-      const docRef = doc(db, 'suplementslist', 'FkhKVhtSuwkyiSl7VvN9');
+      const docRef = doc(db, 'suplements', suplemento.id);  
 
-      await updateDoc(docRef, {
-        [nuevoNombre]: updatedSuplement,
-      });
-
-      if (nombre !== nuevoNombre) {
-        await updateDoc(docRef, {
-          [nombre]: deleteField(),
-        });
-      }
+      await updateDoc(docRef, updatedSuplement); 
 
       Swal.fire('Éxito', 'Suplemento actualizado correctamente.', 'success');
       onClose(); 
@@ -199,7 +191,7 @@ const AdminEditSuplement = ({ suplemento, onClose }) => {
 
         <div className="division-form-button">
           <button type="submit" className="as-submit-button">Actualizar</button>
-          <button type="button" className="remove-image-button" onClick={onClose}>Cancelar</button>
+          <button type="button" className="cancel-button" onClick={onClose}>Cancelar</button>
         </div>
 
       </form>

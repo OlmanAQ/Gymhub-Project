@@ -14,6 +14,7 @@ import AdminAddSuplement from './AdminAddSuplement';
 import AdminEditSuplement from './AdminEditSuplement';
 import AdminRewardsComp from './AdminRewardsComp';
 import AdminAddReward from './AdminAddReward';
+import AdminEditReward from './AdminEditReward';
 import AdminSalesView from './AdminSalesView';
 import Profile from '../user-info/Profile';
 
@@ -56,6 +57,10 @@ const AdminComponent = () => {
 
   const handleShowAddRewardsView = () => {
     setView('addRewardsView');
+  };
+
+  const handleShowEditRewardsView = () => {
+    setView('editRewardsView');
   };
 
   const handleShowUpdateUser = (user) => {
@@ -170,10 +175,12 @@ const AdminComponent = () => {
       {view === 'rewardsView' && (
         <AdminRewardsComp
           onShowAddRewards={handleShowAddRewardsView} 
+          onShowEditRewards={handleShowEditRewardsView}
           role = "admin" 
         />
       )}
       {view === 'addRewardsView' && <AdminAddReward onClose={handleShowRewardsView} />}
+      {view === 'editRewardsView' && <AdminEditReward onClose={handleShowRewardsView} />}
 
       {view === 'salesView' && <AdminSalesView />}
 

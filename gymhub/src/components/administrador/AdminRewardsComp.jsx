@@ -1,35 +1,46 @@
 import React, { useState, useEffect } from 'react';
-import { doc, getDoc, updateDoc, deleteField } from 'firebase/firestore';
+import { collection, getDocs, doc, deleteDoc } from 'firebase/firestore';
 import { db } from '../../firebaseConfig/firebase';
 import Swal from 'sweetalert2';
 import { Edit, Trash, Search, Paintbrush } from 'lucide-react';
 import '../../css/AdminRewardsComp.css'; 
 
-const AdminRewardsComp = ({ role, onShowAddRewards }) => {
+const AdminRewardsComp = ({ role, onShowAddRewards, onShowEditRewards }) => {
   const [rewards, setRewards] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
   const [filteredRewards, setFilteredRewards] = useState([]);
+  const [isSearching, setIsSearching] = useState(false); 
 
- 
-  const fetchRewards = async () => {
+  const pageSize = 8; 
+
+  const fetchRewards = async (search = false) => {
     try {
-      const docRef = doc(db, 'rewards', 'ogEwaWZFoRvMzBBwA3QX'); 
-      const docSnap = await getDoc(docRef);
+      const querySnapshot = await getDocs(collection(db, 'rewards'));
+      const rewardsList = querySnapshot.docs.map((doc) => ({
+        id: doc.id, 
+        ...doc.data(), 
+      }));
 
-      if (docSnap.exists()) {
-        const rewardsData = docSnap.data();
-        console.log(rewardsData);
-        const rewardsList = Object.keys(rewardsData).map((key) => ({
-          id: key,
-          ...rewardsData[key],
-        }));
+      if (!search) {
         setRewards(rewardsList);
-        setFilteredRewards(rewardsList);
-      } else {
-        console.log('No se encontró el documento de premios.');
+        setFilteredRewards(rewardsList.slice(0, pageSize)); 
       }
     } catch (error) {
       console.error('Error al obtener los premios: ', error);
+    }
+  };
+
+  const loadMore = () => {
+    if (isSearching) {
+      const results = rewards.filter((reward) =>
+        reward.nombre.toLowerCase().includes(searchTerm.toLowerCase())
+      );
+
+      const nextRewards = results.slice(filteredRewards.length, filteredRewards.length + pageSize);
+      setFilteredRewards((prevRewards) => [...prevRewards, ...nextRewards]);
+    } else {
+      const nextRewards = rewards.slice(filteredRewards.length, filteredRewards.length + pageSize);
+      setFilteredRewards((prevRewards) => [...prevRewards, ...nextRewards]);
     }
   };
 
@@ -42,14 +53,10 @@ const AdminRewardsComp = ({ role, onShowAddRewards }) => {
     }).then(async (result) => {
       if (result.isConfirmed) {
         try {
-          const docRef = doc(db, 'rewards', 'ogEwaWZFoRvMzBBwA3QX'); 
-          await updateDoc(docRef, {
-            [id]: deleteField(),
-          });
-
+          await deleteDoc(doc(db, 'rewards', id)); 
           const updatedRewards = rewards.filter(reward => reward.id !== id);
           setRewards(updatedRewards);
-          setFilteredRewards(updatedRewards);
+          setFilteredRewards(updatedRewards.slice(0, pageSize)); 
 
           Swal.fire('¡Muy bien!', 'El premio ha sido eliminado', 'success');
         } catch (error) {
@@ -60,18 +67,19 @@ const AdminRewardsComp = ({ role, onShowAddRewards }) => {
     });
   };
 
- 
+
   const handleSearch = () => {
     const results = rewards.filter((reward) =>
-      reward.id.toLowerCase().includes(searchTerm.toLowerCase())
+      reward.nombre.toLowerCase().includes(searchTerm.toLowerCase())
     );
-    setFilteredRewards(results);
+    setFilteredRewards(results.slice(0, pageSize)); 
+    setIsSearching(true); 
   };
 
-
   const handleRefresh = () => {
-    setFilteredRewards(rewards);
     setSearchTerm('');
+    setFilteredRewards(rewards.slice(0, pageSize)); 
+    setIsSearching(false); 
   };
 
   useEffect(() => {
@@ -111,8 +119,8 @@ const AdminRewardsComp = ({ role, onShowAddRewards }) => {
           filteredRewards.map((reward) => (
             <div key={reward.id} className="suplemento-card">
               <div>
-                <img src={reward.url} alt={reward.id} className="suplemento-img" />
-                <h2>{reward.id}</h2>
+                <img src={reward.url} alt={reward.nombre} className="suplemento-img" />
+                <h2>{reward.nombre}</h2>
                 <p>Descripción: {reward.descripcion}</p>
                 <p>Ganador: {reward.ganador}</p>
                 <p>Válido hasta: {reward.valido}</p>
@@ -124,7 +132,7 @@ const AdminRewardsComp = ({ role, onShowAddRewards }) => {
                     <Trash size={28} color="#FF5C5C" />
                     Eliminar
                   </button>
-                  <button className="button-sec">
+                  <button className="button-sec" onClick={() => onShowEditRewards(reward)}>
                     <Edit size={28} color="#F7E07F" />
                     Editar
                   </button>
@@ -136,6 +144,16 @@ const AdminRewardsComp = ({ role, onShowAddRewards }) => {
           <p>No hay premios disponibles.</p>
         )}
       </div>
+
+      {(filteredRewards.length < (isSearching 
+        ? rewards.filter((reward) => reward.nombre.toLowerCase().includes(searchTerm.toLowerCase())).length 
+        : rewards.length)) && (
+        <div className="load-more-container">
+          <button className="load-more-button" onClick={loadMore}>
+            Cargar más
+          </button>
+        </div>
+      )}
     </div>
   );
 };

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { doc, updateDoc } from 'firebase/firestore';
+import { collection, addDoc } from 'firebase/firestore';
 import { getStorage, ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage'; 
 import { db } from '../../firebaseConfig/firebase';
 import Swal from 'sweetalert2';
@@ -23,7 +23,7 @@ const AdminAddSuplement = ({ onClose }) => {
       return;
     }
 
-    
+    // Referencia de la imagen en Firebase Storage
     const storageRef = ref(storage, `suplements/${image.name}`);
     const uploadTask = uploadBytesResumable(storageRef, image);
 
@@ -38,12 +38,13 @@ const AdminAddSuplement = ({ onClose }) => {
         Swal.fire('Error', 'Error al subir la imagen.', 'error');
       },
       async () => {
-        
+        // Obtener la URL de la imagen subida
         const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
         setImageUrl(downloadURL); 
 
-        
+        // Crear el nuevo suplemento
         const newSuplement = {
+          nombre,
           cantidad: parseInt(cantidad, 10),
           descripcion,
           disponible,
@@ -52,12 +53,10 @@ const AdminAddSuplement = ({ onClose }) => {
         };
 
         try {
-          const docRef = doc(db, 'suplementslist', 'FkhKVhtSuwkyiSl7VvN9');
-          await updateDoc(docRef, {
-            [nombre]: newSuplement,
-          });
+          // Añadir un nuevo documento a la colección 'suplements'
+          await addDoc(collection(db, 'suplements'), newSuplement);
 
-          
+          // Limpiar el formulario
           setNombre('');
           setCantidad('');
           setDescripcion('');

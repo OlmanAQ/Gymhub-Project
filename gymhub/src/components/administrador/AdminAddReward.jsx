@@ -10,6 +10,7 @@ const AdminAddReward = ({ onClose }) => {
   const [itemSeleccionado, setItemSeleccionado] = useState(null);
   const [items, setItems] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
+  const [nombre, setNombre] = useState('');
   const [descripcion, setDescripcion] = useState('');
   const [estado, setEstado] = useState('sin reclamar');
   const [ganador, setGanador] = useState('');
@@ -23,7 +24,7 @@ const AdminAddReward = ({ onClose }) => {
 
 
 
-//------------------------------------------------------------------------------------------
+    //------------------------------------------------------------------------------------------
   const handleSearchArticulo = async () => {
     const q = query(collection(db, 'Sales'), where('state', '==', 'Disponible'));
     const querySnapshot = await getDocs(q);
@@ -57,7 +58,7 @@ const AdminAddReward = ({ onClose }) => {
 
 
   const handleSearchGanador = async () => {
-    const querySnapshot = await getDocs(collection(db, 'User')); // Obtén todos los documentos de 'User'
+    const querySnapshot = await getDocs(collection(db, 'User')); 
   
     const foundGanadores = querySnapshot.docs
       .map((doc) => ({
@@ -65,44 +66,60 @@ const AdminAddReward = ({ onClose }) => {
         ...doc.data(),
       }))
       .filter((data) => 
-        data.nombre.toLowerCase().includes(searchGanador.toLowerCase()) // Filtra por el término de búsqueda
+        data.nombre.toLowerCase().includes(searchGanador.toLowerCase()) 
       );
   
     setGanadores(foundGanadores);
   };
-//------------------------------------------------------------------------------------------
+    //------------------------------------------------------------------------------------------
 
 
 
 
 
-//------------------------------------------------------------------------------------------
+    //------------------------------------------------------------------------------------------
 
   const handleGanadorSelect = (usuario) => {
     setGanadorSeleccionado(usuario);
-    setGanador(usuario.nombre); // Para que el nombre quede en el input
-    setSearchGanador(''); // Limpiar el término de búsqueda
-    setGanadores([]); // Limpiar la lista de artículos
+    setGanador(usuario.nombre); 
+    setSearchGanador(''); 
+    setGanadores([]); 
   };
   
 
   const handleArticuloSelect = (articulo) => {
     setItemSeleccionado(articulo);
-    setDescripcion(articulo.description); // Tomar descripción del artículo seleccionado
+    setDescripcion(articulo.description); 
     setImageUrl(articulo.imageID);
-    setSearchTerm(''); // Limpiar el término de búsqueda
-    setItems([]); // Limpiar la lista de artículos
+    setSearchTerm(''); 
+    setItems([]); 
   };
 
   const handleSuplementsSelect = (suplement) => {
     setItemSeleccionado(suplement);
-    setDescripcion(suplement.descripcion); // Tomar descripción del artículo seleccionado
+    setDescripcion(suplement.descripcion); 
     setImageUrl(suplement.url);
-    setSearchTerm(''); // Limpiar el término de búsqueda
-    setItems([]); // Limpiar la lista de artículos
+    setSearchTerm(''); 
+    setItems([]); 
   };
-//------------------------------------------------------------------------------------------
+    //------------------------------------------------------------------------------------------
   
+
+    const handleTipoPremioChange = (e) => {
+        const selectedTipoPremio = e.target.value;
+        setTipoPremio(selectedTipoPremio);
+        
+       
+        setItemSeleccionado(null);
+        setItems([]);
+        setSearchTerm('');
+        setDescripcion('');
+        setImage(null);
+        setImageUrl('');
+        setGanadorSeleccionado('');
+        setGanadores([]);
+        setNombre('');
+      };
 
 
 
@@ -116,9 +133,8 @@ const AdminAddReward = ({ onClose }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
   
-    let imageUrlToUse = imageUrl; // Mantiene la URL que usaremos
-  
-    // Subir imagen solo si no es un artículo
+    let imageUrlToUse = imageUrl; 
+
     if (tipoPremio === 'otros') {
       if (!image) {
         Swal.fire('Error', 'Por favor, sube una imagen.', 'error');
@@ -142,13 +158,13 @@ const AdminAddReward = ({ onClose }) => {
           },
           async () => {
             imageUrlToUse = await getDownloadURL(uploadTask.snapshot.ref);
-            resolve(); // Finaliza la promesa después de obtener el URL
+            resolve(); 
           }
         );
       });
     }
   
-    // Establecer la fecha válida a un mes a partir de ahora
+    
     const fechaValida = new Date();
     fechaValida.setMonth(fechaValida.getMonth() + 1);
     const fechaValidaString = fechaValida.toISOString().split('T')[0];
@@ -156,30 +172,41 @@ const AdminAddReward = ({ onClose }) => {
     const newReward = {
       nombre:
         tipoPremio === 'articulo'
-          ? itemSeleccionado.name // Nombre del artículo
+          ? itemSeleccionado.name 
           : tipoPremio === 'suplemento'
-          ? itemSeleccionado.name // Nombre del suplemento
-          : '', // Para 'otros', se dejaría vacío, ya que se ingresará manualmente en el formulario
+          ? itemSeleccionado.nombre 
+          : nombre, 
       descripcion:
         tipoPremio === 'articulo'
-          ? itemSeleccionado.description // Descripción del artículo
+          ? itemSeleccionado.description 
           : tipoPremio === 'suplemento'
-          ? itemSeleccionado.descripcion // Descripción del suplemento
-          : descripcion, // Para 'otros', se toma del campo de texto del formulario
+          ? itemSeleccionado.descripcion 
+          : descripcion, 
       estado,
       ganador,
-      url: imageUrlToUse, // Usar el URL ya existente si es un artículo o el nuevo si es un suplemento
+      url: imageUrlToUse, 
       valido: fechaValidaString,
+      tpremio: tipoPremio,
     };
   
     try {
       await addDoc(collection(db, 'rewards'), newReward);
       Swal.fire('Excelente', 'Premio agregado correctamente.', 'success');
-      onClose(); // Cerrar el modal después de agregar
     } catch (error) {
       console.error('Error al agregar premio:', error);
       Swal.fire('Error', 'Hubo un error al agregar el premio.', 'error');
     }
+
+        setItemSeleccionado(null);
+        setItems([]);
+        setSearchTerm('');
+        setDescripcion('');
+        setImage(null);
+        setImageUrl('');
+        setGanadorSeleccionado('');
+        setGanadores([]);
+        setNombre('');
+
   };
   
 
@@ -196,17 +223,17 @@ const AdminAddReward = ({ onClose }) => {
                 <div className="admin-add-reward-form-group">
                     <label className="admin-add-reward-label">Imagen</label>
                     {tipoPremio === 'articulo' && itemSeleccionado ? (
-                        // Mostrar la imagen del artículo seleccionado si el tipo de premio es un artículo
+                        
                         <div className="uploaded-image-container">
                             <img src={itemSeleccionado.imageID} alt="Artículo seleccionado" className="uploaded-image" />
                         </div>
                     ) : tipoPremio === 'suplemento' && itemSeleccionado ? (
-                        // Mostrar la imagen del suplemento seleccionado si el tipo de premio es un suplemento
+                        
                         <div className="uploaded-image-container">
                             <img src={itemSeleccionado.url} alt="Suplemento seleccionado" className="uploaded-image" />
                         </div>
                     ) : (
-                        // Permitir la subida de una imagen si no es un artículo ni suplemento
+                        
                         <>
                         <input
                             type="file"
@@ -234,7 +261,7 @@ const AdminAddReward = ({ onClose }) => {
                         <label className="admin-add-reward-label">Tipo de premio</label>
                         <select
                             value={tipoPremio}
-                            onChange={(e) => setTipoPremio(e.target.value)}
+                            onChange={handleTipoPremioChange}
                             className="admin-add-reward-select"
                         >
                             <option value="articulo">Artículo</option>
@@ -285,7 +312,7 @@ const AdminAddReward = ({ onClose }) => {
                             <div className="articulo-list">
                                 {items.map((suplemento) => (
                                 <div key={suplemento.id} onClick={() => handleSuplementsSelect(suplemento)} className="articulo-item">
-                                    {suplemento.name}
+                                    {suplemento.nombre}
                                 </div>
                                 ))}
                             </div>
@@ -302,25 +329,27 @@ const AdminAddReward = ({ onClose }) => {
                     {(tipoPremio === 'otros') && (
                     <>
                         <div className="admin-add-reward-form-group">
-                        <label className="admin-add-reward-label">Nombre</label>
-                        <input
-                            type="text"
-                            value={tipoPremio === 'otros' ? 'Otro premio' : ''}
-                            className="admin-add-reward-input"
-                            disabled={tipoPremio === 'articulo'}
-                            required
-                        />
+                            <label className="admin-add-reward-label">Nombre</label>
+                            <input
+                                type="text"
+                                value={tipoPremio === 'otros' ? nombre : ''} 
+                                onChange={(e) => setNombre(e.target.value)} 
+                                className="admin-add-reward-input"
+                                required
+                                disabled={tipoPremio === 'articulo'} 
+                            />
                         </div>
 
                         <div className="admin-add-reward-form-group">
-                        <label className="admin-add-reward-label">Descripción</label>
-                        <textarea
-                            value={descripcion}
-                            onChange={(e) => setDescripcion(e.target.value)}
-                            className="admin-add-reward-textarea"
-                            required
-                        />
+                            <label className="admin-add-reward-label">Descripción</label>
+                            <textarea
+                                value={descripcion} 
+                                onChange={(e) => setDescripcion(e.target.value)} 
+                                className="admin-add-reward-textarea"
+                                required
+                            />
                         </div>
+
                     </>
                     )}
 

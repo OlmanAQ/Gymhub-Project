@@ -81,24 +81,7 @@
     min-height: 100px;
   }
   
-  .as-submit-button {
-    padding: 10px 15px;
-    background-color: #28a745;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    font-size: 16px;
-    cursor: pointer;
-    margin-right: 5%;
-  }
   
-  .as-submit-button:hover {
-    background-color: #218838;
-  }
-  
-  .as-submit-button:focus {
-    outline: none;
-  }
   
   
   .division-form-entry{
@@ -148,7 +131,7 @@
   
   .remove-image-button {
     padding: 10px 15px;
-    background-color: #d10b0b;
+    background-color: #e61a1a;
     color: white;
     border: none;
     border-radius: 4px;
@@ -159,4 +142,38 @@
   .remove-image-button:hover {
     background-color: #c00b0b;  /* Cambia a un rojo más intenso al hacer hover */
   }
+
+
+  .cancel-button {
+    padding: 10px 15px;
+    background-color: #e61a1a;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    font-size: 16px;
+    cursor: pointer;
+  }
   
+  .cancel-button:hover {
+    background-color: #c00b0b;  /* Cambia a un rojo más intenso al hacer hover */
+  }
+  
+
+  .as-submit-button {
+    padding: 10px 15px;
+    background-color: #28a745;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    font-size: 16px;
+    cursor: pointer;
+    margin-right: 5%;
+  }
+  
+  .as-submit-button:hover {
+    background-color: #218838;
+  }
+  
+  .as-submit-button:focus {
+    outline: none;
+  }

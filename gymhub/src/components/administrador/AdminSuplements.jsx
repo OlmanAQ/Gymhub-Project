@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { doc, getDoc, deleteField, updateDoc } from 'firebase/firestore';
+import { collection, getDocs, deleteDoc, doc } from 'firebase/firestore';
 import { db } from '../../firebaseConfig/firebase';
 import Swal from 'sweetalert2';
 import { Edit, Trash, Search, Paintbrush } from 'lucide-react';
@@ -15,32 +15,25 @@ const AdminSuplemenstComp = ({ onShowAddSuplements, onShowEditSuplements, role }
 
   const fetchSuplementos = async (search = false) => {
     try {
-      const docRef = doc(db, 'suplementslist', 'FkhKVhtSuwkyiSl7VvN9'); 
-      const docSnap = await getDoc(docRef);
+      const querySnapshot = await getDocs(collection(db, 'suplements'));
+      const suplementosList = querySnapshot.docs.map(doc => ({
+        id: doc.id,
+        ...doc.data()
+      }));
 
-      if (docSnap.exists()) {
-        const suplementosData = docSnap.data();
-        const suplementosList = Object.keys(suplementosData).map((key) => ({
-          id: key,
-          ...suplementosData[key],
-        }));
-
-        if (!search) {
-          setSuplementos(suplementosList);
-          setFilteredSuplementos(suplementosList.slice(0, pageSize)); 
-        }
-      } else {
-        console.log('No se encontró el documento.');
+      if (!search) {
+        setSuplementos(suplementosList);
+        setFilteredSuplementos(suplementosList.slice(0, pageSize)); 
       }
     } catch (error) {
       console.error('Error al obtener los suplementos: ', error);
     }
   };
 
-  const loadMore = async () => {
+  const loadMore = () => {
     if (isSearching) {
       const results = suplementos.filter((suplemento) =>
-        suplemento.id.toLowerCase().includes(searchTerm.toLowerCase())
+        suplemento.nombre.toLowerCase().includes(searchTerm.toLowerCase())
       );
 
       const nextSuplementos = results.slice(filteredSuplementos.length, filteredSuplementos.length + pageSize);
@@ -60,10 +53,7 @@ const AdminSuplemenstComp = ({ onShowAddSuplements, onShowEditSuplements, role }
     }).then(async (result) => {
       if (result.isConfirmed) {
         try {
-          const docRef = doc(db, 'suplementslist', 'FkhKVhtSuwkyiSl7VvN9');
-          await updateDoc(docRef, {
-            [id]: deleteField(),
-          });
+          await deleteDoc(doc(db, 'suplements', id));
 
           const updatedSuplementos = suplementos.filter(suplemento => suplemento.id !== id);
           setSuplementos(updatedSuplementos);
@@ -80,7 +70,7 @@ const AdminSuplemenstComp = ({ onShowAddSuplements, onShowEditSuplements, role }
 
   const handleSearch = () => {
     const results = suplementos.filter((suplemento) =>
-      suplemento.id.toLowerCase().includes(searchTerm.toLowerCase())
+      suplemento.nombre.toLowerCase().includes(searchTerm.toLowerCase())
     );
     setFilteredSuplementos(results.slice(0, pageSize));
     setIsSearching(true); 
@@ -131,8 +121,8 @@ const AdminSuplemenstComp = ({ onShowAddSuplements, onShowEditSuplements, role }
           filteredSuplementos.map((suplemento) => (
             <div key={suplemento.id} className="suplemento-card">
               <div>
-                <img src={suplemento.url} alt={suplemento.id} className="suplemento-img" />
-                <h2>{suplemento.id}</h2>
+                <img src={suplemento.url} alt={suplemento.nombre} className="suplemento-img" />
+                <h2>{suplemento.nombre}</h2>
                 <p>Precio: ₡{suplemento.precio}</p>
                 <p>Cantidad: {suplemento.cantidad}</p>
                 <p>Estado: {suplemento.disponible ? 'Disponible' : 'No disponible'}</p>
@@ -158,7 +148,7 @@ const AdminSuplemenstComp = ({ onShowAddSuplements, onShowEditSuplements, role }
       </div>
 
       {(filteredSuplementos.length < (isSearching 
-        ? suplementos.filter((suplemento) => suplemento.id.toLowerCase().includes(searchTerm.toLowerCase())).length 
+        ? suplementos.filter((suplemento) => suplemento.nombre.toLowerCase().includes(searchTerm.toLowerCase())).length 
         : suplementos.length)) && (
         <div className="load-more-container">
           <button className="load-more-button" onClick={loadMore}>
