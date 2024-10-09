@@ -4,13 +4,13 @@
   align-items: center;
   justify-content: center;
   height: 100vh;
-  background-color: #F0F0F0; /* Gris claro para el fondo */
-  color: #333333; /* Texto en gris oscuro */
-  background-color: #f0f0f0;
+  background-color: #F0F0F0;
+  color: #333333;
   background-size: cover;
-  background-position: center;  /* Centra la imagen */
-  background-repeat: no-repeat;  /* Evita que la imagen se repita */
+  background-position: center;
+  background-repeat: no-repeat;
 }
+
 .register-header {
   position: fixed;
   display: flex;
@@ -23,147 +23,379 @@
 }
 
 .register-logo {
-  position: relative;
   width: 90px;
-  height: 90px; /* Ajusta el tamaño según sea necesario */
+  height: 90px;
   left: 30px;
 }
 
 .register-title {
-  position: relative;
   flex-grow: 1;
   text-align: center;
-  font-size: 1.5em; /* Ajusta el tamaño del texto */
-  margin: 0; /* Quita el margen por defecto */
+  font-size: 1.5em;
+  margin: 0;
   color: white;
 }
 
+/* Estilo para el botón de cerrar (close-button) dentro del formulario */
 .close-button {
-  position: relative;
+  position: absolute; /* Cambiamos a posición absoluta para ubicarlo dentro del formulario */
+  top: 10px; /* Ajusta la distancia desde la parte superior */
+  right: 10px; /* Ajusta la distancia desde la parte derecha */
   background: none;
   border: none;
   cursor: pointer;
-  font-size: 1.5em; /* Ajusta el tamaño del botón */
-  color:#fff;
-  right: 30px;
+  font-size: 1.5em;
+  color: #333; /* Puedes cambiar el color según sea necesario */
+  z-index: 10; /* Asegura que el botón esté encima de otros elementos */
 }
+.close-button:hover{
+  color: red;
+}
+
 
 .register {
-  position: relative;
-  width: 95%;
-  max-width: 1200px; /* Ajusta según sea necesario */
-  height: 600px;
-  margin: 100px auto 0; /* Deja espacio para el header y centra el formulario */
+  position: relative; /* Agrega esta línea para que los elementos hijos se posicionen relativos a este contenedor */
+  width: 80%; 
+  max-width: 900px; 
+  margin: 100px auto 0;
   padding: 1em;
-  background-color: #fff; /* Fondo blanco para el formulario */
-  border-radius: 8px; /* Bordes redondeados para un diseño más suave */
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Sombra ligera para destacar el formulario */
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   display: grid;
   gap: 1em;
-  grid-template-columns: repeat(3, 1fr); /* Tres columnas para un diseño más equilibrado */
+  grid-template-columns: repeat(3, 1fr);
+  align-items: start;
 }
 
-.register-form-group {
+
+.register-group-usuario,
+.register-group-nombre,
+.register-group-edad,
+.register-group-genero,
+.register-group-estatura,
+.register-group-peso,
+.register-group-padecimientos,
+.register-group-correo,
+.register-group-telefono,
+.register-group-contrasena {
   display: flex;
   flex-direction: column;
   margin-bottom: 1em;
 }
 
-.register-label {
+.register-label-usuario,
+.register-label-nombre,
+.register-label-edad,
+.register-label-genero,
+.register-label-estatura,
+.register-label-peso,
+.register-label-padecimientos,
+.register-label-correo,
+.register-label-telefono,
+.register-label-contrasena {
   margin-bottom: 0.5em;
   font-weight: bold;
   color: #333;
 }
 
-.register-input, .register-input-usuario, .register-input-nombre, .register-input-edad, 
-.register-input-genero, .register-input-estatura, .register-input-peso, 
-.register-input-padecimientos, .register-input-correo, .register-input-telefono, 
-.register-input-fecha-inscripcion, .register-input-tipo-membresia, 
-.register-input-renovacion, .register-input-contrasena {
+.register-input-usuario,
+.register-input-nombre,
+.register-input-edad,
+.register-input-genero,
+.register-input-estatura,
+.register-input-peso,
+.register-input-padecimientos,
+.register-input-correo,
+.register-input-telefono,
+.register-input-contrasena {
   padding: 0.75em;
   border: 1px solid #ccc;
   border-radius: 4px;
   font-size: 1em;
-  width: 100%;
   box-sizing: border-box;
 }
 
-.password-container {
+/* Alineación de colum-one: inputs a la izquierda, select centrado */
+.colum-one {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start; /* Alinea los elementos de colum-one a la izquierda */
+}
+
+/* Estilo para cada grupo dentro de colum-one para mantener la alineación */
+.colum-one .register-group-usuario,
+.colum-one .register-group-nombre,
+.colum-one .register-group-correo,
+.colum-one .register-group-contrasena {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start; /* Alinea cada grupo de inputs a la izquierda */
+}
+
+/* Ajuste del ancho y alineación de todos los inputs en colum-one */
+.colum-one .register-input-usuario,
+.colum-one .register-input-nombre,
+.colum-one .register-input-correo,
+.colum-one .register-input-contrasena {
+  width: 90%; /* Mantiene el mismo ancho para todos los inputs */
+  max-width: 390px; /* Aumenta el tamaño máximo para mantener la consistencia */
+  min-width: 240px; /* Establece un tamaño mínimo para la legibilidad */
+  margin: 0; /* Elimina el margen adicional */
+  text-align: left; /* Asegura que el texto dentro del input esté alineado a la izquierda */
+}
+
+/* Estilo para el contenedor de contraseña y confirmar contraseña */
+.password-container{
   display: flex;
   align-items: center;
   position: relative;
+  width: 90%; /* Asegura que el contenedor tenga el mismo ancho que los demás inputs */
+  max-width: 350px; /* Limitar el ancho máximo para mantener la consistencia */
+  margin: 0 auto; /* Centramos el contenedor para alineación */
 }
 
+/* Estilo para los inputs de contraseña y confirmar contraseña */
+.register-input-contrasena {
+  flex: 1; /* Permite que el input ocupe todo el espacio disponible */
+  padding-right: 2.5em; /* Espacio para el botón de mostrar/ocultar */
+  padding: 0.75em;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 1em;
+  box-sizing: border-box;
+}
+
+/* Estilo para los labels de contraseña y confirmar contraseña */
+.register-label-contrasena{
+  margin-bottom: 0.5em;
+  font-weight: bold;
+  color: #333;
+}
+
+/* Estilo del botón de mostrar/ocultar contraseña y confirmar contraseña */
 .password-toggle-button {
+  position: absolute;
+  right: 0.5em; /* Aseguramos que ambos botones estén alineados a la derecha */
+  top: 50%;
+  transform: translateY(-50%);
   background: none;
   border: none;
   cursor: pointer;
-  position: absolute;
-  right: 0.5em;
-  top: 50%;
-  transform: translateY(-50%);
   padding: 0;
 }
 
-.register-submit-button {
+/* Alinear los labels al centro y los inputs a la derecha en la columna tres */
+.colum-two {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start; /* Cambia de center a flex-start para alinear la columna con las demás */
+  margin-left: 20%;
+}
+
+
+.colum-two .register-group-edad,
+.colum-two .register-group-peso,
+.colum-two .register-group-estatura,
+.colum-two .register-group-genero {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+/* Centrar los labels dentro de la columna tres */
+.colum-two .register-label-edad,
+.colum-two .register-label-peso,
+.colum-two .register-label-estatura,
+.colum-two .register-label-genero {
+  text-align: left; /* Centra el texto de los labels */
+  width: 100%; /* Asegura que los labels ocupen el ancho completo del contenedor */
+  margin-bottom: 0.5em;
+  font-weight: bold;
+  color: #333;
+}
+
+/* Alinear los inputs a la derecha */
+.colum-two .register-input-edad,
+.colum-two .register-input-peso,
+.colum-two .register-input-estatura {
+  width: 70%; /* Ajustar el tamaño según sea necesario */
+  max-width: 140px; /* Reducir el tamaño máximo de los campos numéricos */
+  min-width: 120px; /* Establecer un tamaño mínimo para mantener la uniformidad */
+  margin: 0; /* Elimina el margen adicional para una alineación más precisa */
+  text-align: left; /* Alinea el texto dentro del input a la derecha */
+}
+
+.colum-two .register-input-genero {
+  width: 80%; /* Mantener un tamaño más amplio para el select */
+  max-width: 190px; /* Tamaño máximo para acomodar la opción más larga */
+  min-width: 150px; /* Establecer un tamaño mínimo */
+  margin: 0; /* Elimina el margen adicional */
+  text-align: left; /* Alinea el texto dentro del select a la derecha */
+}
+
+/* Alineación de colum-three: inputs alineados a la izquierda */
+.colum-three {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start; /* Alinea los elementos a la izquierda */
+  justify-content: flex-start; /* Asegura que todo esté alineado al principio */
+}
+
+
+/* Estilo para cada grupo dentro de colum-three para mantener la alineación */
+.colum-three .register-group-telefono,
+.colum-three .register-group-padecimientos {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start; /* Alinea cada grupo de inputs a la izquierda */
+}
+/* Ajuste del contenedor de teléfono para permitir espacio al dropdown */
+.colum-three .register-group-telefono {
+  width: 80%; /* Asegura que el contenedor ocupe todo el espacio disponible */
+  display: flex;
+  align-items: center; /* Alinea los elementos verticalmente en el centro */
+  justify-content: flex-start; /* Alinea el contenido a la izquierda */
+}
+
+/* Ajuste del ancho y alineación del input de teléfono en colum-three */
+.colum-three .register-input-telefono {
   position: relative;
-  grid-column: span 3; /* Ocupa el ancho completo de las tres columnas */
+  width: 80%; /* Mantiene el mismo ancho que los inputs en colum-one */
+  max-width: 350px; /* Limitar el tamaño máximo para mantener la consistencia */
+  min-width: 200px; /* Establecer un tamaño mínimo para la legibilidad */
+  margin: 0; /* Elimina el margen adicional */
+  text-align: justify; /* Asegura que el texto dentro del input esté alineado a la izquierda */
+  left: 17%;
+}
+
+/* Ajustes específicos para el componente de teléfono para que el código del país sea visible */
+.react-tel-input {
+  display: flex;
+  align-items: center;
+  width: 100%; /* Asegura que el contenedor ocupe todo el ancho disponible */
+}
+
+.react-tel-input .flag-dropdown {
+  background: none;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 5px;
+  width: 50px; /* Ajusta el ancho del dropdown para que el código del país sea claramente visible */
+}
+
+.react-tel-input .selected-flag {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-right: 8px; /* Añade un pequeño espacio a la derecha para mejor separación del campo de entrada */
+}
+
+.react-tel-input .form-control {
+  flex: 1; /* Permite que el input ocupe el espacio restante disponible */
+  padding: 0.75em;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 1em;
+  box-sizing: border-box;
+  width: 100%; /* Asegura que el input ocupe todo el espacio disponible */
+}
+
+.react-tel-input .country-list {
+  max-height: 150px; /* Limita la altura del desplegable para evitar desbordamientos */
+  overflow-y: auto; /* Añade una barra de desplazamiento si es necesario */
+}
+
+.react-tel-input .country-list .country {
+  padding: 5px 10px; /* Mejora la legibilidad del listado de países */
+  cursor: pointer;
+}
+
+.react-tel-input .country-list .country:hover {
+  background-color: #f0f0f0; /* Cambia el color de fondo al pasar el cursor sobre una opción */
+}
+
+/* Estilo para el textarea de padecimientos en colum-three */
+.colum-three .register-textarea-padecimientos {
+  width: 100%; /* Mantiene el ancho completo del contenedor */
+  max-width: 700px; /* Limita el ancho máximo para evitar desbordamientos */
+  min-width: 300px; /* Establece un ancho mínimo adecuado */
+  height: 100px; /* Altura inicial del textarea */
+  max-height: 300px; /* Limita la altura máxima para evitar desbordamientos */
+  padding: 0.75em;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  resize: vertical; /* Permite que el usuario ajuste la altura del textarea */
+  text-align: justify; /* Justifica el texto dentro del textarea */
+  font-size: 1em;
+  box-sizing: border-box;
+}
+
+.register-button-container {
+  position: relative;
+  display: flex;
+  justify-content: flex-end; /* Alinea el botón a la derecha */
+  width: 100%;
+  margin-top: 1em; /* Espacio opcional para separar el botón del resto del formulario */
+  margin-top: 50%;
+}
+
+.register-submit-button {
   padding: 0.75em 1.5em;
   border: none;
   border-radius: 4px;
-  background-color: #28a745; /* Verde más apropiado */
+  background-color: #28a745;
   color: #fff;
   font-size: 1em;
   cursor: pointer;
-  width: 20%;
-  left: 80%;
-  bottom: 80px;
-  transition: background-color 0.3s ease, box-shadow 0.3s ease; /* Transición suave para el hover */
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
 }
+
 
 .register-submit-button:hover {
-  background-color: #218838; /* Verde más oscuro para el hover */
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Sombra para resaltar el botón en hover */
+  background-color: #218838;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
-
 
 .register-input[disabled] {
   background-color: #e9e9e9;
 }
 
-/*Alertas*/
+/* Estilos específicos para alertas de SweetAlert2 */
 .swal2-popup {
-  font-size: 1.2em; /* Ajusta el tamaño de fuente */
+  font-size: 1.2em;
 }
 
 .swal2-title {
-  color: #333; /* Cambia el color del título */
+  color: #333;
 }
 
 .swal2-content {
-  color: #666; /* Cambia el color del contenido */
+  color: #666;
 }
 
 .swal2-confirm {
-  background-color: #4CAF50; /* Cambia el color de fondo del botón de confirmar */
-  color: white; /* Cambia el color del texto del botón de confirmar */
-  border: none; /* Elimina el borde del botón */
+  background-color: #4CAF50;
+  color: white;
+  border: none;
 }
 
 .swal2-confirm:hover {
-  background-color: #45a049; /* Cambia el color del botón de confirmar en hover */
+  background-color: #45a049;
 }
 
 .swal2-cancel {
-  background-color: #f44336; /* Cambia el color de fondo del botón de cancelar */
-  color: white; /* Cambia el color del texto del botón de cancelar */
-  border: none; /* Elimina el borde del botón */
+  background-color: #f44336;
+  color: white;
+  border: none;
 }
 
 .swal2-cancel:hover {
-  background-color: #e53935; /* Cambia el color del botón de cancelar en hover */
+  background-color: #e53935;
 }
 
 .swal2-popup .swal2-styled {
-  border-radius: 8px; /* Agrega bordes redondeados a los botones */
+  border-radius: 8px;
 }
