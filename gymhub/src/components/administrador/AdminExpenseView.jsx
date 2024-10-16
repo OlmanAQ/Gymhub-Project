@@ -34,6 +34,13 @@ const AdminExpenseView = ({ onShowRegisterExpense, onShowEditExpense }) => {
     } else if (direction === 'prev' && currentPage > 0) {
       setCurrentPage(currentPage - 1);
     }
+    else if (direction === 'first') {
+      setCurrentPage(0);
+    }
+    else if (direction === 'last') {
+      setCurrentPage(Math.floor(filteredExpenses.length / itemsPerPage));
+    }
+
   };
 
   const deleteExpense = async (id) => {
@@ -93,7 +100,7 @@ const AdminExpenseView = ({ onShowRegisterExpense, onShowEditExpense }) => {
                   <td>{expense.fecha}</td>
                   <td>
                     <button className='button-actions' onClick={() => onShowEditExpense(expense.id)}>
-                    <Info size={16} color="#007BFF" />
+                    <Edit size={16} color="#007BFF" />
                     </button>
                   </td>
                   <td>
@@ -108,12 +115,18 @@ const AdminExpenseView = ({ onShowRegisterExpense, onShowEditExpense }) => {
         </table>
       </div>
       <div className="pagination-buttons">
+        <button className='button-actions' onClick={() => handlePagination('first')} disabled={currentPage === 0}>
+        <ChevronsLeft />
+        </button>
         <button className='button-actions' onClick={() => handlePagination('prev')} disabled={currentPage === 0}>
-        <ChevronLeft size={24} />
+        <ChevronLeft />
         </button>
         <span className="page-indicator">{currentPage + 1} de {Math.floor(filteredExpenses.length / itemsPerPage) + 1}</span>
         <button className='button-actions' onClick={() => handlePagination('next')} disabled={currentPage === Math.floor(filteredExpenses.length / itemsPerPage)}>
-        <ChevronRight size={24} />
+        <ChevronRight  />
+        </button>
+        <button className='button-actions' onClick={() => handlePagination('last')} disabled={currentPage === Math.floor(filteredExpenses.length / itemsPerPage)}>
+        <ChevronsRight  />
         </button>
       </div>
     </div>

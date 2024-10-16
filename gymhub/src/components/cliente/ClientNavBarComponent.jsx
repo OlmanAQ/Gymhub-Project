@@ -7,7 +7,7 @@ import logo from '../../assets/LogoGymHub.png';
 
 const auth = getAuth(appFirebase);
 
-const ClientNavBarComponent = ({ onShowSuplements, onShowRewards, onShowSales, onShowPlan }) => {
+const ClientNavBarComponent = ({ onShowSuplements, onShowRewards, onShowSales, onShowPlan, onShowAlerts }) => {
   const [isDropdownVisible, setDropdownVisible] = useState(false);
 
   
@@ -28,7 +28,7 @@ const ClientNavBarComponent = ({ onShowSuplements, onShowRewards, onShowSales, o
       </div>
         <ul className="navbar-menu">
           <li><a href="#rutinas" onClick={onShowPlan}>Rutinas</a></li>
-          <li><a href="#alertas">Alertas</a></li>
+          <li><a href="#alertas" onClick={onShowAlerts}>Alertas</a></li>
           <li><a href="#suplementos" onClick={onShowSuplements}>Suplementos</a></li>
           <li><a href="#ventas" onClick={onShowSales}>Ventas</a></li>
           <li><a href="#premiacion"onClick={onShowRewards}>Premiación</a></li>

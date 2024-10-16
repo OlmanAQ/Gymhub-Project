@@ -6,14 +6,15 @@ import AdminUpdateUser from './AdminUpdateUser';
 import AdminInventoryView from './AdminInventoryView';
 import AdminRegisterInventory from './AdminRegisterInventory';
 import AdminEditInventory from './AdminEditInventory';
-import AdminExpenseView   from './AdminExpenseView';
+import AdminExpenseView from './AdminExpenseView';
 import AdminRegisterExpense from './AdminRegisterExpense';
 import AdminEditExpense from './AdminEditExpense';
-import AdminSuplements from './AdminSuplements'
+import AdminSuplements from './AdminSuplements';
 import AdminAddSuplement from './AdminAddSuplement';
 import AdminEditSuplement from './AdminEditSuplement';
 import AdminRewardsComp from './AdminRewardsComp';
 import AdminSalesView from './AdminSalesView';
+import AdminAlertView from './AdminAlertView';
 import Profile from '../user-info/Profile';
 
 const AdminComponent = () => {
@@ -23,7 +24,6 @@ const AdminComponent = () => {
   const [equipoId, setEquipoId] = useState(null);
   const [gastoId, setGastoId] = useState(null);
   const [selectedSuplement, setSelectedSuplement] = useState(null);
-
 
   const handleShowRegisterUser = () => {
     setView('registerUser');
@@ -48,7 +48,7 @@ const AdminComponent = () => {
     setSelectedSuplement(suplement);
     setView('editSuplementsView');
   };
-  
+
   const handleShowRewardsView = () => {
     setView('rewardsView');
   };
@@ -69,19 +69,18 @@ const AdminComponent = () => {
     setView('editInventory');
   };
 
-
   const handleShowExpenseView = () => {
     setView('expenseView');
-  }
+  };
 
   const handleShowRegisterExpense = () => {
     setView('registerExpense');
-  }
+  };
 
   const handleShowEditExpense = (gastoId) => {
     setGastoId(gastoId);
     setView('editExpense');
-  }
+  };
 
   const handleShowSalesView = () => {
     setView('salesView');
@@ -91,16 +90,21 @@ const AdminComponent = () => {
     setView('profileView');
   };
 
+  const handleShowAlertView = () => {
+    setView('alertView');
+  };
+
   return (
     <>
-      <AdminNavBarComponent 
-        onShowInventory={handleShowInventoryView} 
+      <AdminNavBarComponent
+        onShowInventory={handleShowInventoryView}
         onShowUserView={handleShowUserView}
         onShowExpenseView={handleShowExpenseView}
         onShowSuplementos={handleShowSuplementosView}
         onShowRewards={handleShowRewardsView}
         onShowSales={handleShowSalesView}
         onShowProfile={handleShowProfile}
+        onShowAlertView={handleShowAlertView}
       />
 
       {view === 'userView' && (
@@ -148,27 +152,27 @@ const AdminComponent = () => {
           onClose={handleShowExpenseView}
         />
       )}
-      {view === 'suplementosView' && ( 
-        <AdminSuplements 
+      {view === 'suplementosView' && (
+        <AdminSuplements
           onShowAddSuplements={handleShowAddSuplementsView}
           onShowEditSuplements={handleShowEditSuplement}
-          role = "admin"
+          role="admin"
         />
       )}
       {view === 'addSuplementsView' && <AdminAddSuplement onClose={handleShowSuplementosView} />}
       {view === 'editSuplementsView' && (
         <AdminEditSuplement
-          suplemento={selectedSuplement} 
-          onClose={handleShowSuplementosView} 
+          suplemento={selectedSuplement}
+          onClose={handleShowSuplementosView}
         />
       )}
       {view === 'rewardsView' && (
-        <AdminRewardsComp 
-          role = "admin" 
+        <AdminRewardsComp
+          role="admin"
         />
       )}
       {view === 'salesView' && <AdminSalesView />}
-
+      {view === 'alertView' && <AdminAlertView />}
       {view === 'profileView' && <Profile />}
     </>
   );

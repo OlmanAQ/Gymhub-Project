@@ -39,7 +39,6 @@ const AdminRegisterExpense = ({ onClose }) => {
     return (
         <div className="admin-register-expense-view">
             <h2>Agregar Gasto</h2>
-            <button className="btn-close" onClick={onClose}>X</button>
             <form className="expense-form" onSubmit={handleSubmit}>
                 <input
                     type="text"

@@ -7,14 +7,12 @@ import { getAuth } from 'firebase/auth';
 
 const auth = getAuth(appFirebase);
 
-
-const AdminNavBarComponent = ({  onShowInventory, onShowUserView, onShowSales, onShowProfile, onShowSuplementos, onShowRewards, onShowExpenseView }) => {
+const AdminNavBarComponent = ({ onShowInventory, onShowUserView, onShowSales, onShowProfile, onShowSuplementos, onShowRewards, onShowExpenseView, onShowAlertView }) => {
   const [isDropdownVisible, setDropdownVisible] = useState(false);
 
   const handleLogout = () => {
     auth.signOut().then(() => {
-        console.log('Sesión cerrada');
-        
+      console.log('Sesión cerrada');
     }).catch((error) => {
       console.log('Error al cerrar sesión', error);
     });
@@ -30,31 +28,31 @@ const AdminNavBarComponent = ({  onShowInventory, onShowUserView, onShowSales, o
       <div className="navbar-logo">
         <img src={logo} alt="Logo" />
       </div>
-        <ul className="navbar-menu">
-          <li><a href="#Inicio">Inicio</a></li>
-          <li><a href="#usuarios" onClick={onShowUserView}>Usuarios</a></li>
-          <li><a href="#alertas">Alertas</a></li>
-          <li><a href="#inventario" onClick={onShowInventory}>Inventario</a></li>
-          <li><a href="#gastos" onClick={onShowExpenseView}>Gastos</a></li>
-          <li><a href="#estadisticas">Estadísticas</a></li>
-          <li><a href="#suplementos" onClick={onShowSuplementos}>Suplementos</a></li>
-          <li><a href="#premiacion" onClick={onShowRewards}>Premiación</a></li>
-          <li><a href="#ventas" onClick={onShowSales}>Ventas</a></li>
-        </ul>
-        <div
-          className="navbar-profile"
-          onMouseEnter={() => setDropdownVisible(true)}
-          onMouseLeave={() => setDropdownVisible(false)}
-        >
-          <User className="navbar-icon" />
-          <span className="navbar-username">Mi Perfil</span>
-          {isDropdownVisible && (
-            <ul className="navbar-dropdown">
-              <li><a href="#ver-perfil" onClick={handleShowProfile}>Ver Perfil</a></li>
-              <li><a href="#cerrar-sesion" onClick={handleLogout}>Cerrar sesión</a></li>
-            </ul>
-          )}
-        </div>
+      <ul className="navbar-menu">
+        <li><a href="#Inicio">Inicio</a></li>
+        <li><a href="#usuarios" onClick={onShowUserView}>Usuarios</a></li>
+        <li><a href="#alertas" onClick={onShowAlertView}>Alertas</a></li>
+        <li><a href="#inventario" onClick={onShowInventory}>Inventario</a></li>
+        <li><a href="#gastos" onClick={onShowExpenseView}>Gastos</a></li>
+        <li><a href="#estadisticas">Estadísticas</a></li>
+        <li><a href="#suplementos" onClick={onShowSuplementos}>Suplementos</a></li>
+        <li><a href="#premiación" onClick={onShowRewards}>Premiación</a></li>
+        <li><a href="#ventas" onClick={onShowSales}>Ventas</a></li>
+      </ul>
+      <div
+        className="navbar-profile"
+        onMouseEnter={() => setDropdownVisible(true)}
+        onMouseLeave={() => setDropdownVisible(false)}
+      >
+        <User className="navbar-icon" />
+        <span className="navbar-username">Mi Perfil</span>
+        {isDropdownVisible && (
+          <ul className="navbar-dropdown">
+            <li><a href="#ver-perfil" onClick={handleShowProfile}>Ver Perfil</a></li>
+            <li><a href="#cerrar-sesión" onClick={handleLogout}>Cerrar sesión</a></li>
+          </ul>
+        )}
+      </div>
     </nav>
   );
 };
