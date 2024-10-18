@@ -1,4 +1,4 @@
-.admin-add-reward-container {
+.edit-reward-container {
     width: 100%;
     display: flex;
     flex-direction: column;
@@ -7,7 +7,7 @@
     background-color: #f5f5f5;
   }
   
-  .admin-add-reward-title {
+  .edit-reward-title {
     font-size: 2.5rem;
     color: #ffffff;
     text-align: center;
@@ -21,14 +21,14 @@
     width: 100%;
   }
   
-  .admin-add-reward-back-container {
+  .edit-reward-back-container {
     display: flex;
     justify-content: flex-start;
     padding: 10px;
     width: 100%;
   }
   
-  .admin-add-reward-back-button {
+  .edit-reward-back-button {
     padding: 10px 20px;
     background-color: #007bff;
     color: white;
@@ -37,50 +37,22 @@
     cursor: pointer;
   }
   
-  .admin-add-reward-back-button:hover {
+  .edit-reward-back-button:hover {
     background-color: #0056b3;
   }
   
-  .admin-add-reward-form {
+  .edit-reward-form {
     display: flex;
     flex-direction: column;
     margin-top: 20px;
     width: 95%;
   }
   
-  .admin-add-reward-form-group {
+  .edit-reward-form-group {
     margin-bottom: 15px;
   }
   
-  .admin-add-reward-label {
-    font-weight: bold;
-    margin-bottom: 5px;
-    color: #555;
-  }
-  
-  .admin-add-reward-input,
-  .admin-add-reward-textarea,
-  .admin-add-reward-select {
-    width: 100%;
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    font-size: 16px;
-  }
-  
-  .admin-add-reward-input:focus,
-  .admin-add-reward-textarea:focus,
-  .admin-add-reward-select:focus {
-    border-color: #007bff;
-    outline: none;
-  }
-  
-  .admin-add-reward-textarea {
-    resize: vertical;
-    min-height: 100px;
-  }
-  
-  .admin-add-reward-submit-button {
+  .edit-reward-submit-button {
     padding: 10px 15px;
     background-color: #28a745;
     color: white;
@@ -90,47 +62,39 @@
     cursor: pointer;
   }
   
-  .admin-add-reward-submit-button:hover {
+  .edit-reward-submit-button:hover {
     background-color: #218838;
   }
-  
-  .admin-add-reward-submit-button:focus {
-    outline: none;
-  }
-  
-  .uploaded-image-container {
+
+  .edit-submit-container {
     display: flex;
-    flex-direction: column;
-    align-items: center;
     justify-content: center;
-    margin-top: 10px;
+    padding: 10px;
+    width: 100%;
+  }
+
+  .edit-search-button {
+    padding: 10px 20px;
+    margin-top: 2%;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
   }
   
-  .uploaded-image {
-    width: 60%;
-    height: 60%;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    margin-bottom: 10px;
+  .edit-search-button:hover {
+    background-color: #0056b3;
   }
-  
-  .division-form-button {
-    margin-top: 3%;
-  }
-  
-  
 
-
-
-  
-.division-form-entry{
+  .division-form-ent{
     display: flex;
     flex-direction: row;
     margin-top: 20px;
     justify-content: space-between;
   }
-  
-  .left{
+
+  .left-part{
     display: flex;
     flex-direction: column;
     width: 100%;
@@ -138,20 +102,21 @@
     height: fit-content;
   }
   
-  .right{
+  .right-part{
     display: flex;
     flex-direction: column;
     padding: 1%;
     width: 100%;
     height: fit-content;
   }
-  
-  .division-form-button{
-    margin-top: 3%;
+
+  .edit-reward-label {
+    font-weight: bold;
+    margin-bottom: 5px;
+    color: #555;
   }
-  
-  
-  .uploaded-image-container {
+
+  .uploaded-img-cont {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -159,16 +124,16 @@
     margin-top: 10px;
     max-height: 100%;
   }
-  
-  .uploaded-image {
-    width: 60%;  
+
+  .uploaded-img {
+    width: 60%;
     height: 60%;
-    border-radius: 8px; 
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     margin-bottom: 10px;
   }
-  
-  .remove-image-button {
+
+  .remove-image-btn {
     background-color: #ff4d4d;
     color: white;
     border: none;
@@ -179,12 +144,26 @@
     transition: background-color 0.3s ease;
   }
   
-  .remove-image-button:hover {
+  .remove-image-btn:hover {
     background-color: #e60000;  
   }
 
-
-
+  .edit-reward-input,
+  .edit-reward-textarea,
+  .edit-reward-select {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 16px;
+  }
+  
+  .edit-reward-input:focus,
+  .edit-reward-textarea:focus,
+  .edit-reward-select:focus {
+    border-color: #007bff;
+    outline: none;
+  }
 
 
   .cont-art {
@@ -219,7 +198,7 @@
   .cont-art button:hover {
     background-color: #0056b3; 
   }
-  
+
   .articulo-list {
     max-height: 200px; 
     overflow-y: auto; 
@@ -239,7 +218,7 @@
     cursor: pointer;
     transition: background-color 0.2s ease;
   }
-  
+
   .articulo-item:hover {
     background-color: #d4d9dd; 
   }
@@ -257,4 +236,57 @@
     font-size: 16px;
     color: #333; 
   }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  
+  
+ 
+  
+  
+  
+  
+  
+  
+  
+  .uploaded-image-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-top: 10px;
+    max-height: 100%;
+  }
+  
+  .uploaded-image {
+    width: 60%;  
+    height: 60%;
+    border-radius: 8px; 
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
+    margin-bottom: 10px;
+  }
+  
+  
+  
+  
+  
+  
   

@@ -23,7 +23,6 @@ const AdminAddSuplement = ({ onClose }) => {
       return;
     }
 
-    // Referencia de la imagen en Firebase Storage
     const storageRef = ref(storage, `suplements/${image.name}`);
     const uploadTask = uploadBytesResumable(storageRef, image);
 
@@ -38,11 +37,9 @@ const AdminAddSuplement = ({ onClose }) => {
         Swal.fire('Error', 'Error al subir la imagen.', 'error');
       },
       async () => {
-        // Obtener la URL de la imagen subida
         const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
         setImageUrl(downloadURL); 
 
-        // Crear el nuevo suplemento
         const newSuplement = {
           nombre,
           cantidad: parseInt(cantidad, 10),
@@ -53,10 +50,8 @@ const AdminAddSuplement = ({ onClose }) => {
         };
 
         try {
-          // Añadir un nuevo documento a la colección 'suplements'
           await addDoc(collection(db, 'suplements'), newSuplement);
 
-          // Limpiar el formulario
           setNombre('');
           setCantidad('');
           setDescripcion('');

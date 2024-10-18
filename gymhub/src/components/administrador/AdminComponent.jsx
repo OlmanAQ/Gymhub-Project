@@ -25,6 +25,7 @@ const AdminComponent = () => {
   const [equipoId, setEquipoId] = useState(null);
   const [gastoId, setGastoId] = useState(null);
   const [selectedSuplement, setSelectedSuplement] = useState(null);
+  const [selectedReward, setSelectedReward] = useState(null);
 
 
   const handleShowRegisterUser = () => {
@@ -59,7 +60,8 @@ const AdminComponent = () => {
     setView('addRewardsView');
   };
 
-  const handleShowEditRewardsView = () => {
+  const handleShowEditRewardsView = (reward) => {
+    setSelectedReward(reward);
     setView('editRewardsView');
   };
 
@@ -180,7 +182,12 @@ const AdminComponent = () => {
         />
       )}
       {view === 'addRewardsView' && <AdminAddReward onClose={handleShowRewardsView} />}
-      {view === 'editRewardsView' && <AdminEditReward onClose={handleShowRewardsView} />}
+      {view === 'editRewardsView' && (
+        <AdminEditReward 
+          reward={selectedReward}
+          onClose={handleShowRewardsView} 
+        />
+      )}
 
       {view === 'salesView' && <AdminSalesView />}
 

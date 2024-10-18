@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { collection, getDocs, doc, deleteDoc } from 'firebase/firestore';
+import { useSelector } from 'react-redux';
 import { db } from '../../firebaseConfig/firebase';
 import Swal from 'sweetalert2';
 import { Edit, Trash, Search, Paintbrush } from 'lucide-react';
@@ -10,6 +11,10 @@ const AdminRewardsComp = ({ role, onShowAddRewards, onShowEditRewards }) => {
   const [searchTerm, setSearchTerm] = useState('');
   const [filteredRewards, setFilteredRewards] = useState([]);
   const [isSearching, setIsSearching] = useState(false); 
+  const [selectedState, setSelectedState] = useState('');
+
+  const userRole = useSelector((state) => state.user.rol);
+  console.log(userRole);
 
   const pageSize = 8; 
 
@@ -67,6 +72,9 @@ const AdminRewardsComp = ({ role, onShowAddRewards, onShowEditRewards }) => {
     });
   };
 
+  const handleStateChange = (value) =>{
+    setSelectedState(value);
+  }
 
   const handleSearch = () => {
     const results = rewards.filter((reward) =>
@@ -108,6 +116,21 @@ const AdminRewardsComp = ({ role, onShowAddRewards, onShowEditRewards }) => {
             <Paintbrush size={28} color="#007BFF" />
           </button>
         </div>
+
+        <div>
+          <select
+            value={selectedState}
+            onChange={(e) => handleStateChange(e.target.value)}
+            className="select-tp"
+          >
+            <option value="">Seleccionar estado</option> 
+            <option value="sinreclamar">Sin reclamar</option>
+            <option value="reclamado">Reclamado</option>
+            <option value="vencido">Vencido</option>
+          </select>
+
+        </div>
+        
 
         {role === 'admin' && (
           <button className="button-create" onClick={onShowAddRewards}> Agregar premio </button>

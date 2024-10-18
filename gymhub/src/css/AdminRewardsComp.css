@@ -172,3 +172,33 @@
     background-color: #e0e0e0;
   }
   
+
+  .select-tp {
+    width: 100%;
+    max-width: 100%; /* Ajusta según lo necesites */
+    padding: 10px;
+    font-size: 16px;
+    font-weight: bold;
+    color: #333;
+    background-color: #f0f0f0;
+    border: 2px solid #ccc;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .select-tp:hover {
+    border-color: #888;
+  }
+  
+  .select-tp:focus {
+    outline: none;
+    border-color: #007bff; /* Color de enfoque */
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5); /* Sombra elegante al enfocar */
+  }
+  
+  .select-tp option {
+    font-weight: normal;
+    background-color: white;
+    color: #333;
+  }
+  
