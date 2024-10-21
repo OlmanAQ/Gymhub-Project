@@ -77,28 +77,6 @@ const AdminAlertView = () => {
   return (
     <div className="admin-alert-view">
       <h2>Gestión de Alertas</h2>
-      <div className="alert-form">
-        <textarea
-          placeholder="Escribe el mensaje de alerta..."
-          value={newAlert}
-          onChange={(e) => setNewAlert(e.target.value)}
-        />
-        <input
-          type="datetime-local"
-          value={scheduleDate}
-          onChange={(e) => setScheduleDate(e.target.value)}
-        />
-        <button onClick={handleSendAlert}>Enviar Alerta</button>
-        <button onClick={handleScheduleAlert}>Programar Alerta</button>
-      </div>
-      <div className="alert-list">
-        <h3>Alertas Programadas</h3>
-        <ul>
-          {alerts.map((alert) => (
-            <li key={alert.id}>{alert.message} - {alert.scheduleDate}</li>
-          ))}
-        </ul>
-      </div>
       <div className="client-list">
         <h3>Clientes con Próximos Pagos</h3>
         <ul>
