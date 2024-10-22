@@ -1,27 +1,18 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import '../../css/RegisterComponent.css';
-import { Eye, EyeOff, X } from 'lucide-react';
+import { X } from 'lucide-react';
 import LogoGymHub from '../../assets/LogoGymHub.png';
 import Swal from 'sweetalert2';
-import { auth} from '../../firebaseConfig/firebase'
-import { createUserWithEmailAndPassword, sendEmailVerification, } from 'firebase/auth';
+import { auth } from '../../firebaseConfig/firebase';
+import { createUserWithEmailAndPassword, sendEmailVerification } from 'firebase/auth';
 import { agregarClienteConRol } from '../../cruds/Create';
-import { verificarCorreoExistente,verificarUsuario } from '../../cruds/Read';
-
-
+import { verificarCorreoExistente, verificarUsuario } from '../../cruds/Read';
+import PhoneInput from 'react-phone-input-2';
+import 'react-phone-input-2/lib/style.css';
+import PasswordStrengthMeter from './PasswordStrengtMeter';
 
 
 const RegisterComponent = ({ onShowLogin }) => {
-  
-
-  const formatDate = (date) => {
-    const day = String(date.getDate()).padStart(2, '0');
-    const month = String(date.getMonth() + 1).padStart(2, '0'); // Los meses en JavaScript son de 0 a 11
-    const year = date.getFullYear();
-    
-    return `${day}/${month}/${year}`;
-  };
-
   const [form, setForm] = useState({
     nombre: '',
     edad: '',
@@ -31,87 +22,36 @@ const RegisterComponent = ({ onShowLogin }) => {
     padecimientos: '',
     correo: '',
     telefono: '',
-    fechaInscripcion: formatDate(new Date()), // Fecha actual 
-    tipoMembresia: '',
-    renovacion: '',
     contrasena: '',
     usuario: ''
   });
-
-
-  const [showPassword, setShowPassword] = useState(false);
-
-  useEffect(() => {
-    if (form.tipoMembresia) {
-      calculateRenovationDate(form.tipoMembresia);
-    }
-  }, [form.tipoMembresia]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setForm((prevForm) => ({ ...prevForm, [name]: value }));
   };
 
-  const calculateRenovationDate = (tipo) => {
-    // Convierte la fecha de inscripción en formato DD/MM/YYYY a un objeto Date
-    const [day, month, year] = form.fechaInscripcion.split('/').map(Number);
-    const fechaInscripcion = new Date(year, month - 1, day); // Los meses en JavaScript son de 0 a 11
-  
-    let renovacionDate;
-  
-    switch (tipo) {
-      case 'Dia':
-        renovacionDate = new Date(fechaInscripcion);
-        renovacionDate.setDate(fechaInscripcion.getDate() + 1);
-        break;
-      case 'Semana':
-        renovacionDate = new Date(fechaInscripcion);
-        renovacionDate.setDate(fechaInscripcion.getDate() + 7);
-        break;
-      case 'Mes':
-        renovacionDate = new Date(fechaInscripcion);
-        renovacionDate.setMonth(fechaInscripcion.getMonth() + 1);
-        break;
-      case 'Año':
-        renovacionDate = new Date(fechaInscripcion);
-        renovacionDate.setFullYear(fechaInscripcion.getFullYear() + 1);
-        break;
-      default:
-        renovacionDate = null;
-    }
-  
-    if (renovacionDate) {
-      const formattedDate = formatDate(renovacionDate); // Usa la función formatDate para formatear la fecha
-      setForm((prevForm) => ({ ...prevForm, renovacion: formattedDate }));
-    } else {
-      setForm((prevForm) => ({ ...prevForm, renovacion: '' }));
-    }
-  };
-  
-  const toggleShowPassword = () => {
-    setShowPassword(!showPassword);
-  };
-  
   const validateForm = () => {
-    // Verifica que todos los campos estén llenos y que no tengan datos por defecto
-    const requiredFields = ['nombre', 'edad', 'genero', 'estatura', 'peso', 'padecimientos', 'correo', 'telefono', 'tipoMembresia', 'contrasena', 'usuario'];
+    const requiredFields = ['nombre', 'edad', 'genero', 'estatura', 'peso', 'padecimientos', 'correo', 'telefono', 'contrasena', 'usuario'];
     for (let field of requiredFields) {
       if (form[field] === undefined || form[field].trim() === '') {
         return false;
       }
     }
-  
-    // Verifica que los valores seleccionados en los campos de selección no sean los predeterminados
-    if (form.genero === '' || form.tipoMembresia === '' || form.genero === 'Seleccione' || form.tipoMembresia === 'Seleccione') {
+    if (form.genero === '' || form.genero === 'Seleccione') {
       return false;
     }
-  
     return true;
   };
-
-  const agregarCliente = async (e) => {
-    e.preventDefault(); // Evita el comportamiento por defecto del formulario
   
+  const handlePhoneChange = (value) => {
+    setForm((prevForm) => ({ ...prevForm, telefono: value }));
+  };
+  
+  const agregarCliente = async (e) => {
+    e.preventDefault();
+    
+    // Validación del formulario
     if (!validateForm()) {
       Swal.fire({
         icon: 'warning',
@@ -122,9 +62,8 @@ const RegisterComponent = ({ onShowLogin }) => {
       return;
     }
   
-    // Verificar si el correo ya existe en la base de datos
+    // Verificar si el correo ya está registrado
     const correoExiste = await verificarCorreoExistente(form.correo);
-  
     if (correoExiste) {
       Swal.fire({
         icon: 'error',
@@ -132,22 +71,25 @@ const RegisterComponent = ({ onShowLogin }) => {
         text: 'El correo ingresado ya está registrado. Por favor, utilice otro correo.',
         confirmButtonText: 'Entendido'
       });
-      return; // Detener el proceso de registro si el correo ya existe
+      return;
     }
-    const usuarioExistente = await verificarUsuario(form.usuario);
   
+    // Verificar si el usuario ya está registrado
+    const usuarioExistente = await verificarUsuario(form.usuario);
     if (usuarioExistente) {
       Swal.fire({
         icon: 'error',
         title: 'Usuario ya registrado',
-        text: 'El usuario ya esta en uso. Por favor, utilice otro usuario.',
+        text: 'El usuario ya está en uso. Por favor, utilice otro usuario.',
         confirmButtonText: 'Entendido'
       });
-      return; // Detener el proceso de registro si el usuario ya existe
+      return;
     }
+  
+    // Confirmación de registro
     const result = await Swal.fire({
       title: 'Confirmar registro',
-      text: "¿Estás seguro de que desea registrarse?",
+      text: "¿Estás seguro de que deseas registrarte?",
       icon: 'question',
       showCancelButton: true,
       confirmButtonColor: '#3085d6',
@@ -158,17 +100,29 @@ const RegisterComponent = ({ onShowLogin }) => {
   
     if (result.isConfirmed) {
       try {
-        
-        await createUserWithEmailAndPassword(auth, form.correo, form.contrasena);
-        await agregarClienteConRol(form); // Llama al método para agregar el cliente con rol
-        await sendEmailVerification(auth.currentUser);
+        // Crear el usuario en Firebase Authentication
+        const userCredential = await createUserWithEmailAndPassword(
+          auth,
+          form.correo,
+          form.contrasena
+        );
+        const user = userCredential.user;
+  
+        // Enviar correo de verificación
+        await sendEmailVerification(user);
+  
+        // Guardar el cliente con rol en Firestore
+        await agregarClienteConRol(form);
+        // Cerrar la sesión del usuario inmediatamente después del registro
+        await auth.signOut();
+  
         Swal.fire({
           icon: 'success',
           title: 'Registrado',
-          text: 'Cliente registrado exitosamente.',
+          text: 'Cliente registrado exitosamente. Revisa tu correo para la verificación.',
           confirmButtonText: 'Ok'
         }).then(() => {
-          // Limpiar el formulario después de un registro exitoso
+          // Limpiar el formulario después del registro exitoso
           setForm({
             nombre: '',
             edad: '',
@@ -178,83 +132,81 @@ const RegisterComponent = ({ onShowLogin }) => {
             padecimientos: '',
             correo: '',
             telefono: '',
-            fechaInscripcion: formatDate(new Date()), // Fecha actual
-            tipoMembresia: '',
-            renovacion: '',
             contrasena: '',
             usuario: ''
           });
-  
-          // Redirigir al componente de login
-          onShowLogin();
-
-
-          
+          onShowLogin(); // Volver a la vista de inicio de sesión
         });
       } catch (error) {
         console.error('Error al registrar el cliente:', error);
         Swal.fire({
           icon: 'error',
           title: 'Error',
-          text: 'Hubo un error al registrar el cliente.',
+          text: 'Hubo un error al registrar el cliente. Por favor, inténtalo de nuevo.',
           confirmButtonText: 'Entendido'
         });
       }
     }
-  };
-  
+  };  
+
   return (
     <div className="register-container">
       <header className="register-header">
         <img src={LogoGymHub} alt="Logo GymHub" className="register-logo" />
         <h2 className="register-title">Registro de Membresía</h2>
-        <button className="close-button" onClick={onShowLogin}>
-          <X />
-        </button>
       </header>
       <form className='register' onSubmit={agregarCliente}>
-          <div className="register-form-group">
-              <label htmlFor="usuario" className="register-label">Usuario</label>
-              <input 
-                type="text" 
-                id="usuario" 
-                name="usuario" 
-                value={form.usuario} 
-                onChange={handleChange} 
-                className="register-input register-input-usuario" 
-              />
+        <button className="close-button" onClick={onShowLogin}>
+            <X />
+        </button>
+        <div className='colum-one'>
+          <div className="register-group-usuario">
+            <label htmlFor="usuario" className="register-label-usuario">Usuario</label>
+            <input 
+              type="text" 
+              id="usuario" 
+              name="usuario" 
+              value={form.usuario} 
+              onChange={handleChange} 
+              className="register-input-usuario" 
+            />
           </div>
-          <div className="register-form-group">
-            <label htmlFor="nombre" className="register-label">Nombre completo</label>
+          <div className="register-group-nombre">
+            <label htmlFor="nombre" className="register-label-nombre">Nombre completo</label>
             <input 
               type="text" 
               id="nombre" 
               name="nombre" 
               value={form.nombre} 
               onChange={handleChange} 
-              className="register-input register-input-nombre" 
+              className="register-input-nombre" 
             />
           </div>
-          <div className="register-form-group">
-            <label htmlFor="edad" className="register-label">Edad</label>
+          <div className="register-group-correo">
+            <label htmlFor="correo" className="register-label-correo">Correo</label>
             <input 
-              type="number" 
-              id="edad" 
-              name="edad" 
-              value={form.edad} 
+              type="email" 
+              id="correo" 
+              name="correo" 
+              value={form.correo} 
               onChange={handleChange} 
-              className="register-input register-input-edad" 
-              min="0" 
+              className="register-input-correo" 
             />
           </div>
-          <div className="register-form-group">
-            <label htmlFor="genero" className="register-label">Género</label>
+          <PasswordStrengthMeter 
+            password={form.contrasena} 
+            setPassword={(value) => setForm({ ...form, contrasena: value })} 
+          />
+        </div>
+        <div className='colum-two'>
+          <div className="register-group-genero">
+            <label htmlFor="genero" className="register-label-genero">Género</label>
             <select 
               id="genero" 
               name="genero" 
               value={form.genero} 
               onChange={handleChange} 
-              className="register-input register-input-genero"
+              className="register-input-genero"
             >
               <option value="">Seleccione</option>
               <option value="Hombre">Hombre</option>
@@ -262,130 +214,75 @@ const RegisterComponent = ({ onShowLogin }) => {
               <option value="Otro">Otro</option>
             </select>
           </div>
-          <div className="register-form-group">
-            <label htmlFor="estatura" className="register-label">Estatura (metros)</label>
+          <div className="register-group-edad">
+            <label htmlFor="edad" className="register-label-edad">Edad</label>
             <input 
               type="number" 
-              id="estatura" 
-              name="estatura" 
-              value={form.estatura} 
+              id="edad" 
+              name="edad" 
+              value={form.edad} 
               onChange={handleChange} 
-              className="register-input register-input-estatura" 
-              step="0.01" 
+              className="register-input-edad" 
               min="0" 
             />
           </div>
-          <div className="register-form-group">
-            <label htmlFor="peso" className="register-label">Peso (kilos)</label>
+          <div className="register-group-peso">
+            <label htmlFor="peso" className="register-label-peso">Peso (kilos)</label>
             <input 
               type="number" 
               id="peso" 
               name="peso" 
               value={form.peso} 
               onChange={handleChange} 
-              className="register-input register-input-peso" 
+              className="register-input-peso" 
               step="0.1" 
               min="0" 
             />
           </div>
-          <div className="register-form-group">
-            <label htmlFor="padecimientos" className="register-label">Padecimientos y alergias</label>
+          <div className="register-group-estatura">
+            <label htmlFor="estatura" className="register-label-estatura">Estatura (metros)</label>
             <input 
-              type="text" 
-              id="padecimientos" 
-              name="padecimientos" 
-              value={form.padecimientos} 
+              type="number" 
+              id="estatura" 
+              name="estatura" 
+              value={form.estatura} 
               onChange={handleChange} 
-              className="register-input register-input-padecimientos" 
+              className="register-input-estatura" 
+              step="0.01" 
+              min="0" 
+            />
+          </div>          
+        </div>
+        <div className='colum-three'>
+          <div className="register-group-telefono">
+            <label htmlFor="telefono" className="register-label-telefono">Teléfono</label>
+            <PhoneInput
+              country={'cr'}
+              value={form.telefono}
+              onChange={handlePhoneChange}
+              inputProps={{
+                name: 'telefono',
+                required: true,
+                className: 'register-input-telefono'
+              }}
             />
           </div>
-          <div className="register-form-group">
-            <label htmlFor="correo" className="register-label">Correo</label>
-            <input 
-              type="email" 
-              id="correo" 
-              name="correo" 
-              value={form.correo} 
-              onChange={handleChange} 
-              className="register-input register-input-correo" 
+          <div className="register-group-padecimientos">
+            <label htmlFor="padecimientos" className="register-label-padecimientos">Padecimientos y alergias</label>
+            <textarea
+              id="padecimientos"
+              name="padecimientos"
+              value={form.padecimientos}
+              onChange={handleChange}
+              className="register-textarea-padecimientos"
             />
           </div>
-          <div className="register-form-group">
-            <label htmlFor="telefono" className="register-label">Teléfono</label>
-            <input 
-              type="tel" 
-              id="telefono" 
-              name="telefono" 
-              value={form.telefono} 
-              onChange={handleChange} 
-              className="register-input register-input-telefono" 
-            />
-          </div>
-          <div className="register-form-group">
-            <label htmlFor="fechaInscripcion" className="register-label">Fecha de inscripción</label>
-            <input 
-              type="text" 
-              id="fechaInscripcion" 
-              name="fechaInscripcion" 
-              value={form.fechaInscripcion} 
-              onChange={handleChange} 
-              className="register-input register-input-fecha-inscripcion" 
-              disabled
-            />
-          </div>
-          <div className="register-form-group">
-            <label htmlFor="tipoMembresia" className="register-label">Tipo de membresía</label>
-            <select 
-              id="tipoMembresia" 
-              name="tipoMembresia" 
-              value={form.tipoMembresia} 
-              onChange={handleChange} 
-              className="register-input register-input-tipo-membresia"
-            >
-              <option value="">Seleccione</option>
-              <option value="Dia">Dia</option>
-              <option value="Semana">Semana</option>
-              <option value="Mes">Mes</option>
-              <option value="Año">Año</option>
-            </select>
-          </div>
-          <div className="register-form-group">
-            <label htmlFor="renovacion" className="register-label">Renovación</label>
-            <input 
-              type="text" 
-              id="renovacion" 
-              name="renovacion" 
-              value={form.renovacion} 
-              onChange={handleChange} 
-              className="register-input register-input-renovacion" 
-              placeholder="dd/mm/yyy"
-              disabled
-            />
-          </div>
-          <div className="register-form-group">
-            <label htmlFor="contrasena" className="register-label">Contraseña</label>
-            <div className="password-container">
-              <input 
-                type={showPassword ? "text" : "password"} 
-                id="contrasena" 
-                name="contrasena" 
-                value={form.contrasena} 
-                onChange={handleChange} 
-                className="register-input register-input-contrasena" 
-              />
-              <button 
-                type="button" 
-                className="password-toggle-button" 
-                onClick={toggleShowPassword}
-              >
-                {showPassword ? <Eye /> : <EyeOff/>}
-              </button>
-            </div>
-          </div>
-        <button type="submit" className="register-submit-button">Registrarse</button>
+        <div className="register-button-container">
+          <button type="submit" className="register-submit-button">Registrarse</button>
+        </div>          
+        </div>
       </form>
     </div>
   );
 };
-
 export default RegisterComponent;

@@ -1,14 +1,16 @@
 import { collection, query, where, getDocs, getDoc, doc, orderBy } from 'firebase/firestore';
-
 import { db } from '../firebaseConfig/firebase';
 
 export const verificarCorreoExistente = async (correo) => {
   try {
+    console.log("Verificando correo:", correo);
     const q = query(collection(db, 'User'), where('correo', '==', correo));
     const querySnapshot = await getDocs(q);
     if (!querySnapshot.empty) {
+      console.log("Correo ya existe:", correo);
       return true;
     } else {
+      console.log("Correo disponible:", correo);
       return false;
     }
   } catch (error) {
@@ -37,40 +39,26 @@ export const obtenerTodosLosUsuarios = async (sortOption) => {
     const q = query(collection(db, 'User'));
     const querySnapshot = await getDocs(q);
     const usuarios = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-    const parseFecha = (fechaStr) => {
-      const [day, month, year] = fechaStr.split('/').map(Number);
-      return new Date(year, month - 1, day);
-    };
-    const fechaActual = new Date();
-    fechaActual.setHours(0, 0, 0, 0);
+
     if (sortOption === 'Nombre completo (A-Z)') {
       usuarios.sort((a, b) => a.nombre.localeCompare(b.nombre));
     } else if (sortOption === 'Usuario (A-Z)') {
       usuarios.sort((a, b) => a.usuario.localeCompare(b.usuario));
-    } else if (sortOption === 'Recientes') {
-      usuarios.sort((a, b) => {
-        const fechaInscripcionA = parseFecha(a.fechaInscripcion);
-        const fechaInscripcionB = parseFecha(b.fechaInscripcion);
-        fechaInscripcionA.setHours(0, 0, 0, 0);
-        fechaInscripcionB.setHours(0, 0, 0, 0);
-        const diffA = Math.abs(fechaActual - fechaInscripcionA);
-        const diffB = Math.abs(fechaActual - fechaInscripcionB);
-        return diffA - diffB;
-      });
     } else if (sortOption === 'Rol') {
-      const rolesOrder = { 'administrador': 1, 'entrenador': 2, 'cliente': 3 };
+      const rolesOrder = { 'Administrador': 1, 'Entrenador': 2, 'Cliente': 3 };
       usuarios.sort((a, b) => rolesOrder[a.rol] - rolesOrder[b.rol]);
-    } else if (sortOption === 'Tipo de membresía') {
-      const membresiasOrder = { 'Dia': 1, 'Semana': 2, 'Mes': 3, 'Año': 4 };
-      usuarios.sort((a, b) => membresiasOrder[a.tipoMembresia] - membresiasOrder[b.tipoMembresia]);
+    } else if (sortOption === 'Recientes') {
+      // Ordena por el campo createdAt, de más reciente a más antiguo
+      usuarios.sort((a, b) => b.createdAt.toMillis() - a.createdAt.toMillis());
     }
-
+    
     return usuarios;
   } catch (error) {
     console.error('Error al obtener los usuarios: ', error);
     throw new Error('No se pudo obtener la lista de usuarios.');
   }
 };
+
 
 export const obtenerInfoUsuario = async (correo, usuario) => {
   try {
