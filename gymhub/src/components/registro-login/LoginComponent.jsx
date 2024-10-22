@@ -3,9 +3,6 @@ import '../../css/LoginComponent.css';
 import LogoGymHub from '../../assets/LogoGymHub.png';
 import Swal from 'sweetalert2';
 import { collection, query, where, getDocs} from 'firebase/firestore';
-
-
-
 import {db, auth} from '../../firebaseConfig/firebase';
 import {signInWithEmailAndPassword, sendPasswordResetEmail} from 'firebase/auth';
 

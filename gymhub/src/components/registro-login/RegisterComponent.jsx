@@ -50,6 +50,8 @@ const RegisterComponent = ({ onShowLogin }) => {
   
   const agregarCliente = async (e) => {
     e.preventDefault();
+    
+    // Validación del formulario
     if (!validateForm()) {
       Swal.fire({
         icon: 'warning',
@@ -59,6 +61,8 @@ const RegisterComponent = ({ onShowLogin }) => {
       });
       return;
     }
+  
+    // Verificar si el correo ya está registrado
     const correoExiste = await verificarCorreoExistente(form.correo);
     if (correoExiste) {
       Swal.fire({
@@ -69,19 +73,23 @@ const RegisterComponent = ({ onShowLogin }) => {
       });
       return;
     }
+  
+    // Verificar si el usuario ya está registrado
     const usuarioExistente = await verificarUsuario(form.usuario);
     if (usuarioExistente) {
       Swal.fire({
         icon: 'error',
         title: 'Usuario ya registrado',
-        text: 'El usuario ya esta en uso. Por favor, utilice otro usuario.',
+        text: 'El usuario ya está en uso. Por favor, utilice otro usuario.',
         confirmButtonText: 'Entendido'
       });
       return;
     }
+  
+    // Confirmación de registro
     const result = await Swal.fire({
       title: 'Confirmar registro',
-      text: "¿Estás seguro de que desea registrarse?",
+      text: "¿Estás seguro de que deseas registrarte?",
       icon: 'question',
       showCancelButton: true,
       confirmButtonColor: '#3085d6',
@@ -89,17 +97,32 @@ const RegisterComponent = ({ onShowLogin }) => {
       confirmButtonText: 'Sí, registrar',
       cancelButtonText: 'Cancelar'
     });
+  
     if (result.isConfirmed) {
       try {
-        await createUserWithEmailAndPassword(auth, form.correo, form.contrasena);
+        // Crear el usuario en Firebase Authentication
+        const userCredential = await createUserWithEmailAndPassword(
+          auth,
+          form.correo,
+          form.contrasena
+        );
+        const user = userCredential.user;
+  
+        // Enviar correo de verificación
+        await sendEmailVerification(user);
+  
+        // Guardar el cliente con rol en Firestore
         await agregarClienteConRol(form);
-        await sendEmailVerification(auth.currentUser);
+        // Cerrar la sesión del usuario inmediatamente después del registro
+        await auth.signOut();
+  
         Swal.fire({
           icon: 'success',
           title: 'Registrado',
-          text: 'Cliente registrado exitosamente.',
+          text: 'Cliente registrado exitosamente. Revisa tu correo para la verificación.',
           confirmButtonText: 'Ok'
         }).then(() => {
+          // Limpiar el formulario después del registro exitoso
           setForm({
             nombre: '',
             edad: '',
@@ -112,19 +135,19 @@ const RegisterComponent = ({ onShowLogin }) => {
             contrasena: '',
             usuario: ''
           });
-          onShowLogin();
+          onShowLogin(); // Volver a la vista de inicio de sesión
         });
       } catch (error) {
         console.error('Error al registrar el cliente:', error);
         Swal.fire({
           icon: 'error',
           title: 'Error',
-          text: 'Hubo un error al registrar el cliente.',
+          text: 'Hubo un error al registrar el cliente. Por favor, inténtalo de nuevo.',
           confirmButtonText: 'Entendido'
         });
       }
     }
-  };
+  };  
 
   return (
     <div className="register-container">
