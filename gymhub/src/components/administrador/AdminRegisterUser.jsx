@@ -155,7 +155,7 @@ const AdminRegisterUser = ({onClose}) => {
           });
         });
   
-        onClose(); // Cerrar el modal o formulario
+        onClose(); 
   
       } catch (error) {
         console.error('Error al registrar el usuario:', error);
