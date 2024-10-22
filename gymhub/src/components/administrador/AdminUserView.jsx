@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import Swal from 'sweetalert2';
-import { obtenerTodosLosUsuarios, obtenerInfoUsuario } from '../../cruds/Read';
+import { obtenerTodosLosUsuarios, obtenerInfoUsuario, esAdministrador} from '../../cruds/Read';
 import { showAlert, showConfirmAlert, AlertType, showUserInfoAlert } from '../../utils/Alert';
 import { eliminarUsuario } from '../../cruds/Delete';
 import { Edit, Trash, Info, ChevronLeft, ChevronRight, ChevronsLeft, ChevronsRight, UserPlus, Search, Paintbrush } from 'lucide-react';
@@ -44,14 +44,16 @@ const AdminUserView = ({ onShowRegisterUser, onShowUpdateUser }) => {
     onShowUpdateUser(user);
   };
 
-  const deleteUser = (userId) => {
+  const deleteUser = (user) => {
     showConfirmAlert('¿Estás seguro?', 'Esta acción no se puede deshacer.', 'Sí, eliminar', 'Cancelar')
       .then(async (result) => {
         if (result.isConfirmed) {
           try {
-            await eliminarUsuario(userId);
+            // Pasamos el usuarioId y el uid al eliminar
+            await eliminarUsuario(user.id, user.uid); // Asegúrate de pasar ambos valores
             showAlert('Eliminado', 'El usuario ha sido eliminado.', AlertType.SUCCESS);
-            const updatedUsers = allUsers.filter(user => user.id !== userId);
+            
+            const updatedUsers = allUsers.filter(u => u.id !== user.id);
             setAllUsers(updatedUsers);
             setDisplayedUsers(updatedUsers.slice(currentPage * usersPerPage, (currentPage + 1) * usersPerPage));
           } catch (error) {
@@ -61,7 +63,7 @@ const AdminUserView = ({ onShowRegisterUser, onShowUpdateUser }) => {
         }
       });
   };
-
+  
   const moreInfo = async (user) => {
     try {
       const userInfo = await obtenerInfoUsuario(user.correo, user.usuario);
@@ -222,7 +224,7 @@ const AdminUserView = ({ onShowRegisterUser, onShowUpdateUser }) => {
                       </button>
                     </td>
                     <td className='user-table-cell'>
-                      <button className='button-actions' onClick={() => deleteUser(user.id)}>
+                      <button className='button-actions' onClick={() => deleteUser(user)}>
                         <Trash className="icon-svg" size={16} color="#FF5C5C" />
                       </button>
                     </td>
