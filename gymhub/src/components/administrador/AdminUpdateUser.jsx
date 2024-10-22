@@ -1,44 +1,102 @@
 import React, { useState, useEffect } from 'react';
-import Swal from 'sweetalert2';
-import { Eye, EyeOff, X } from 'lucide-react';
-import { actualizarUsuario } from '../../cruds/Update';
 import '../../css/AdminUpdateUser.css';
+import { X } from 'lucide-react';
+import Swal from 'sweetalert2';
+import { actualizarUsuario } from '../../cruds/Update';
+import PhoneInput from 'react-phone-input-2';
+import 'react-phone-input-2/lib/style.css';
+import UserTypes from '../../utils/UsersTipos';
 
 const AdminUpdateUser = ({ user, onClose }) => {
-  const [formData, setFormData] = useState({
+  const [form, setForm] = useState({
     nombre: '',
-    usuario: '',
-    correo: '',
-    contrasena: '',
     edad: '',
+    genero: '',
     estatura: '',
     peso: '',
-    genero: '',
     padecimientos: '',
     telefono: '',
-    tipoMembresia: '',
-    renovacion: '', // Usar formato dd/mm/yyyy para el input de tipo text
-    rol: '',
-    fechaInscripcion: '' // Añadido para mostrar la fecha de inscripción
+    rol: ''
   });
 
-  const [showPassword, setShowPassword] = useState(false); // Estado para controlar la visibilidad de la contraseña
-  const togglePasswordVisibility = () => {
-    setShowPassword(!showPassword);
-  };
-
   useEffect(() => {
+    // Prellenar el formulario con los datos del usuario a editar
     if (user) {
-      setFormData({
-        ...user,
-        renovacion: user.renovacion ? convertToDisplayDateFormat(user.renovacion) : '', // Convertir fecha si existe, si no, establecer como cadena vacía
-        tipoMembresia: user.tipoMembresia || '', // Asegurarse de que el tipo de membresía esté correctamente establecido
-        fechaInscripcion: user.fechaInscripcion || '' // Convertir fecha de inscripción si existe
+      setForm({
+        nombre: user.nombre || '',
+        edad: user.edad || '',
+        genero: user.genero || '',
+        estatura: user.estatura || '',
+        peso: user.peso || '',
+        padecimientos: user.padecimientos || '',
+        telefono: user.telefono || '',
+        rol: user.rol || '',
       });
     }
   }, [user]);
 
-  const handleClose = () => {
+  const estadoElemento = (e) => {
+    const { name, value } = e.target;
+    setForm((prevForm) => ({ ...prevForm, [name]: value }));
+  };
+
+  const handlePhoneChange = (value) => {
+    setForm((prevForm) => ({ ...prevForm, telefono: value }));
+  };
+
+  const validateForm = () => {
+    const requiredFields = [
+      'nombre', 'edad', 'genero', 'estatura', 'peso', 'padecimientos',
+      'telefono', 'rol'
+    ];
+    for (let field of requiredFields) {
+      if (form[field] === undefined || form[field].trim() === '') {
+        return false;
+      }
+    }
+
+    if (form.genero === '' || form.rol === '' || form.genero === 'Seleccione' || form.rol === 'Seleccione') {
+      return false;
+    }
+
+    return true;
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    if (!validateForm()) {
+      Swal.fire({
+        icon: 'warning',
+        title: 'Campos incompletos',
+        text: 'Por favor, complete todos los campos correctamente.',
+        confirmButtonText: 'Entendido'
+      });
+      return;
+    }
+
+    try {
+      // Actualizar usuario en Firestore
+      await actualizarUsuario(user.id, form);
+      Swal.fire({
+        icon: 'success',
+        title: 'Usuario actualizado',
+        text: 'Los datos del usuario han sido actualizados exitosamente.',
+        confirmButtonText: 'Ok'
+      });
+      onClose(); // Cerrar el formulario de actualización
+    } catch (error) {
+      console.error('Error al actualizar el usuario:', error);
+      Swal.fire({
+        icon: 'error',
+        title: 'Error',
+        text: 'Hubo un error al actualizar el usuario.',
+        confirmButtonText: 'Entendido'
+      });
+    }
+  };
+
+  const cerrarFormulario = () => {
     Swal.fire({
       title: '¿Estás seguro?',
       text: 'Los cambios no guardados se perderán.',
@@ -50,307 +108,144 @@ const AdminUpdateUser = ({ user, onClose }) => {
       cancelButtonText: 'Cancelar'
     }).then((result) => {
       if (result.isConfirmed) {
-        onClose(); // Llama a la función de cierre solo si el usuario confirma
+        onClose();
       }
     });
   };
 
-  // Convertir fecha de DD/MM/YYYY a YYYY-MM-DD
-  const convertToManipulationDateFormat = (dateStr) => {
-    const [day, month, year] = dateStr.split('/').map(Number);
-    return `${year}-${String(month).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
-  };
-
-  // Convertir fecha de YYYY-MM-DD a DD/MM/YYYY
-  const convertToDisplayDateFormat = (dateStr) => {
-    if (!dateStr) return ''; // Si no hay fecha, retornar cadena vacía
-    const [year, month, day] = dateStr.split('-').map(Number);
-    
-    // Verificar si la fecha es válida
-    if (!year || !month || !day) return ''; // Si alguna parte de la fecha es inválida, retornar cadena vacía
-
-    return `${String(day).padStart(2, '0')}/${String(month).padStart(2, '0')}/${year}`;
-  };
-
-  const updateRenovacionDate = (membresiaType) => {
-    if (membresiaType === 'Seleccione') {
-      // Si "Seleccione" es la opción elegida, no modificar la fecha de renovación
-      return;
-    }
-
-    if (!user?.renovacion) return;
-
-    const baseDate = new Date(convertToManipulationDateFormat(user.renovacion));
-    let newDate = new Date(baseDate);
-
-    switch (membresiaType) {
-      case 'Día':
-        newDate.setDate(baseDate.getDate() + 1);
-        break;
-      case 'Semana':
-        newDate.setDate(baseDate.getDate() + 7);
-        break;
-      case 'Mes':
-        newDate.setMonth(baseDate.getMonth() + 1);
-        break;
-      case 'Año':
-        newDate.setFullYear(baseDate.getFullYear() + 1);
-        break;
-      default:
-        return;
-    }
-
-    setFormData({
-      ...formData,
-      tipoMembresia: membresiaType,
-      renovacion: convertToDisplayDateFormat(newDate.toISOString().split('T')[0])
-    });
-  };
-
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData({
-      ...formData,
-      [name]: value
-    });
-  };
-
-  const validateForm = () => {
-    const {
-      nombre, usuario, correo, contrasena, edad, estatura, peso, genero, padecimientos, telefono, tipoMembresia, rol, renovacion, fechaInscripcion
-    } = formData;
-    
-    console.log('Datos del formulario:', formData);
-  
-    // Verificar que los campos no estén vacíos y que los selects no tengan la opción por defecto "Seleccione"
-    if (!nombre || !usuario || !correo || !contrasena || !edad || !estatura || !peso || !genero || !padecimientos || !telefono || !renovacion || !fechaInscripcion || tipoMembresia === '' || rol === '') {
-      Swal.fire({
-        icon: 'warning',
-        title: 'Campos incompletos',
-        text: 'Por favor, completa todos los campos requeridos y selecciona opciones válidas.',
-        confirmButtonText: 'OK'
-      });
-      return false;
-    }
-    
-    return true;
-  };
-  
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-  
-    // Asegurarse de que fechaInscripcion esté incluida en formData
-    if (!formData.fechaInscripcion && user?.fechaInscripcion) {
-      setFormData({
-        ...formData,
-        fechaInscripcion: user.fechaInscripcion
-      });
-    }
-  
-    if (!validateForm()) {
-      return; // Si la validación falla, no continuar con la actualización
-    }
-  
-    try {
-      console.log('Datos para actualizar:', formData);
-  
-      // Actualizar el usuario en Firestore
-      await actualizarUsuario(user.id, formData);
-  
-      Swal.fire({
-        icon: 'success',
-        title: 'Usuario actualizado',
-        text: 'Los datos del usuario han sido actualizados exitosamente.',
-        confirmButtonText: 'OK'
-      });
-      onClose(); // Cierra el formulario de edición
-    } catch (error) {
-      Swal.fire({
-        icon: 'error',
-        title: 'Error',
-        text: 'No se pudo actualizar la información del usuario.',
-        confirmButtonText: 'Entendido'
-      });
-      console.error('Error al actualizar el usuario:', error);
-    }
-  };
-  
-  
-  
   return (
-    <>
-    <div className="register-user-header">
-      <h2>Editar Usuario</h2>
-    </div>
-    <div className="admin-update-user">
-      <button className="close-button-admin-update-user" onClick={handleClose}>
-        <X size={24} />
-      </button>
-      <form onSubmit={handleSubmit}>
-        <label>
-          Nombre actual: {user?.nombre}
-          <input
-            type="text"
-            name="nombre"
-            placeholder="Nuevo nombre"
-            value={formData.nombre}
-            onChange={handleChange}
-          />
-        </label>
-        <label>
-          Usuario actual: {user?.usuario}
-          <input
-            type="text"
-            name="usuario"
-            placeholder="Nuevo usuario"
-            value={formData.usuario}
-            onChange={handleChange}
-          />
-        </label>
-        <label>
-          Correo actual: {user?.correo}
-          <input
-            type="email"
-            name="correo"
-            placeholder="Nuevo correo"
-            value={formData.correo}
-            onChange={handleChange}
-          />
-        </label>
-        <label>
-          Contraseña:
-          <div className="password-input-container">
+    <div className="admin-update-user-container">
+      <div className="admin-update-user-header">
+        <h2>Actualizar Usuario</h2>
+      </div>
+
+      <form className="admin-update-user-form" onSubmit={handleSubmit}>
+        <button type="button" className="admin-update-user-close-button" onClick={cerrarFormulario}>
+          <X />
+        </button>
+        <div className='colum-one-update'>
+          <div className="register-name-group-update">
+            <label htmlFor="nombre" className="register-label-nombre-update">Nombre completo</label>
             <input
-              type={showPassword ? "text" : "password"}
-              name="contrasena"
-              placeholder="Nueva contraseña"
-              value={formData.contrasena}
-              onChange={handleChange}
+              type="text"
+              id="nombre"
+              name="nombre"
+              value={form.nombre}
+              onChange={estadoElemento}
+              className="register-input-nombre-update"
             />
-            <button
-              type="button"
-              className="password-toggle-btn"
-              onClick={togglePasswordVisibility}
-            >
-              {showPassword ? <Eye size={20} /> : <EyeOff size={20} />}
-            </button>
           </div>
-        </label>
-        <label>
-          Edad actual: {user?.edad}
-          <input
-            type="number"
-            name="edad"
-            placeholder="Nueva edad"
-            value={formData.edad}
-            onChange={handleChange}
-          />
-        </label>
-        <label>
-          Estatura actual: {user?.estatura}
-          <input
-            type="number"
-            name="estatura"
-            placeholder="Nueva estatura"
-            step="0.01"
-            value={formData.estatura}
-            onChange={handleChange}
-          />
-        </label>
-        <label>
-          Peso actual: {user?.peso}
-          <input
-            type="number"
-            name="peso"
-            placeholder="Nuevo peso"
-            step="0.01"
-            value={formData.peso}
-            onChange={handleChange}
-          />
-        </label>
-        <label>
-          Género actual: {user?.genero}
-          <select
-            name="genero"
-            value={formData.genero}
-            onChange={handleChange}
-          >
-            <option value="">Seleccione</option>
-            <option value="Masculino">Hombre</option>
-            <option value="Femenino">Mujer</option>
-            <option value="Otro">Otro</option>
-          </select>
-        </label>
-        <label>
-          Padecimientos actuales: {user?.padecimientos}
-          <textarea
-            name="padecimientos"
-            placeholder="Nuevos padecimientos"
-            value={formData.padecimientos}
-            onChange={handleChange}
-          />
-        </label>
-        <label>
-          Teléfono actual: {user?.telefono}
-          <input
-            type="text"
-            name="telefono"
-            placeholder="Nuevo teléfono"
-            value={formData.telefono}
-            onChange={handleChange}
-          />
-        </label>
-        <label>
-          Tipo de membresía: { user?.tipoMembresia}
-          <select
-            name="tipoMembresia"
-            value={formData.tipoMembresia}
-            onChange={(e) => {
-              handleChange(e);
-              updateRenovacionDate(e.target.value);
-            }}
-          >
-            <option value="">Seleccione</option>
-            <option value="Día">Dia</option>
-            <option value="Semana">Semana</option>
-            <option value="Mes">Mes</option>
-            <option value="Año">Año</option>
-          </select>
-        </label>
-        <label>
-          Fecha de renovación:{user?.renovacion}
-          <input
-            type="text"
-            name="renovacion"
-            value={formData.renovacion}
-            readOnly
-          />
-        </label>
-        <label>
-          Rol actual: {user?.rol}
-          <select
-            name="rol"
-            value={formData.rol}
-            onChange={handleChange}
-          >
-            <option value="">Seleccione</option>
-            <option value="Cliente">Cliente</option>
-            <option value="Entrenador">Entrenador</option>
-            <option value="Administrador">Administrador</option>
-          </select>
-        </label>
-        <label>
-          Fecha de inscripción:{ user?.fechaInscripcion}
-          <input
-            type="text"
-            value={formData.fechaInscripcion || user?.fechaInscripcion}
-            readOnly
-          />
-        </label>
-        <button type="submit">Actualizar</button>
+
+          <div className="register-genero-group-update">
+            <label htmlFor="genero" className="register-label-genero-update">Género</label>
+            <select
+              id="genero"
+              name="genero"
+              value={form.genero}
+              onChange={estadoElemento}
+              className="register-input-genero-update"
+            >
+              <option value="">Seleccione</option>
+              <option value="Hombre">Hombre</option>
+              <option value="Mujer">Mujer</option>
+              <option value="Otro">Otro</option>
+            </select>
+          </div>
+
+          <div className="register-rol-group-update">
+            <label htmlFor="rol" className="register-label-rol-update">Rol</label>
+            <select
+              id="rol"
+              name="rol"
+              value={form.rol}
+              onChange={estadoElemento}
+              className="register-input-rol-update"
+            >
+              <option value="">Seleccione</option>
+              <option value={UserTypes.ADMINISTRADOR}>Administrador</option>
+              <option value={UserTypes.ENTRENADOR}>Entrenador</option>
+              <option value={UserTypes.CLIENTE}>Cliente</option>
+            </select>
+          </div>
+        </div>
+
+        <div className='colum-two-update'>
+          <div className="register-edad-group-update">
+            <label htmlFor="edad" className="register-label-edad-update">Edad</label>
+            <input
+              type="number"
+              id="edad"
+              name="edad"
+              value={form.edad}
+              onChange={estadoElemento}
+              className="register-input-edad-update"
+              min="0"
+            />
+          </div>
+
+          <div className="register-peso-group-update">
+            <label htmlFor="peso" className="register-label-peso-update">Peso (kg)</label>
+            <input
+              type="number"
+              id="peso"
+              name="peso"
+              value={form.peso}
+              onChange={estadoElemento}
+              className="register-input-peso-update"
+              step="0.1"
+              min="0"
+            />
+          </div>
+
+          <div className="register-estatura-group-update">
+            <label htmlFor="estatura" className="register-label-estatura-update">Estatura (metros)</label>
+            <input
+              type="number"
+              id="estatura"
+              name="estatura"
+              value={form.estatura}
+              onChange={estadoElemento}
+              className="register-input-estatura-update"
+              step="0.01"
+              min="0"
+            />
+          </div>
+        </div>
+
+        <div className='colum-three-update'>
+          <div className="register-telefono-group-update">
+            <label htmlFor="telefono" className="register-label-telefono-update">Teléfono</label>
+            <PhoneInput
+              country={'cr'}
+              value={form.telefono}
+              onChange={handlePhoneChange}
+              inputProps={{
+                name: 'telefono',
+                required: true,
+                className: "register-input-telefono-update"
+              }}
+            />
+          </div>
+
+          <div className="register-padecimientos-group-update">
+            <label htmlFor="padecimientos" className="register-label-padecimientos-update">Padecimientos</label>
+            <textarea
+              id="padecimientos"
+              name="padecimientos"
+              value={form.padecimientos}
+              onChange={estadoElemento}
+              className="register-input-padecimientos-update"
+            />
+          </div>
+        </div>
+
+        <div className="register-button-register-container-update">
+          <button type="submit" className="register-button-register-update">
+            Actualizar
+          </button>
+        </div>
       </form>
     </div>
-    </>
   );
 };
 
