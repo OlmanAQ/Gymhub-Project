@@ -15,22 +15,21 @@ import {
   Legend,
 } from 'chart.js';
 
-// Registrar los componentes necesarios para Chart.js
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend);
 
 const AdminGastosEstadistica = () => {
   const [gastos, setGastos] = useState([]);
   const [chartData, setChartData] = useState({});
-  const [startDate, setStartDate] = useState(''); // Fecha de inicio
-  const [endDate, setEndDate] = useState(''); // Fecha de fin
-  const [categoria, setCategoria] = useState('general'); // Categoría de gasto seleccionada (por defecto 'general')
+  const [startDate, setStartDate] = useState(''); 
+  const [endDate, setEndDate] = useState(''); 
+  const [categoria, setCategoria] = useState('general'); 
   
-  // Función para manejar el cambio de categoría
+  
   const handleCategoriaChange = (e) => {
     setCategoria(e.target.value);
   };
 
-  // Función para obtener los gastos de Firebase dentro del rango de fechas y categoría
+  
   const fetchGastos = async () => {
     if (!startDate || !endDate) {
         Swal.fire('Error', 'Por favor, completa todos los campos.', 'error');
@@ -48,10 +47,10 @@ const AdminGastosEstadistica = () => {
       const gastosList = querySnapshot.docs.map(doc => ({
         id: doc.id,
         ...doc.data(),
-        monto: parseFloat(doc.data().monto) // Convertir el monto a número
+        monto: parseFloat(doc.data().monto) 
       }));
 
-      // Si se selecciona una categoría específica, filtrar por categoría
+      
       const filteredGastos = categoria === 'general'
         ? gastosList
         : gastosList.filter(gasto => gasto.categoria === categoria);
@@ -63,22 +62,22 @@ const AdminGastosEstadistica = () => {
     }
   };
 
-  // Función para procesar los datos y generar el gráfico
+  
   const processChartData = (gastosFiltrados) => {
-    const fechas = []; // Fechas en el eje X
-    const montos = []; // Montos en el eje Y
+    const fechas = []; 
+    const montos = []; 
 
     gastosFiltrados.forEach((gasto) => {
-      fechas.push(gasto.fecha); // Añadir la fecha
-      montos.push(gasto.monto); // Añadir el monto convertido a número
+      fechas.push(gasto.fecha); 
+      montos.push(gasto.monto); 
     });
 
     setChartData({
-      labels: fechas, // Fechas como etiquetas del eje X
+      labels: fechas, 
       datasets: [
         {
           label: 'Monto de gastos por fecha (CRC)',
-          data: montos, // Montos en el eje Y
+          data: montos, 
           fill: false,
           borderColor: 'rgba(75, 192, 192, 1)',
           tension: 0.1,

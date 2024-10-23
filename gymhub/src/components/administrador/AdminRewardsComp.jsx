@@ -59,18 +59,35 @@ const AdminRewardsComp = ({ role, onShowAddRewards, onShowEditRewards }) => {
   };
 
   const loadMore = () => {
+    let results = rewards;
+  
+
+    if (selectedState !== 'todos') {
+      switch (selectedState) {
+        case 'sinreclamar':
+          results = rewards.filter(reward => reward.estado === 'sin reclamar');
+          break;
+        case 'reclamado':
+          results = rewards.filter(reward => reward.estado === 'reclamado');
+          break;
+        case 'vencido':
+          results = rewards.filter(reward => reward.estado === 'vencido');
+          break;
+        default:
+          break;
+      }
+    }
+  
     if (isSearching) {
-      const results = rewards.filter((reward) =>
+      results = results.filter((reward) =>
         reward.nombre.toLowerCase().includes(searchTerm.toLowerCase())
       );
-
-      const nextRewards = results.slice(filteredRewards.length, filteredRewards.length + pageSize);
-      setFilteredRewards((prevRewards) => [...prevRewards, ...nextRewards]);
-    } else {
-      const nextRewards = rewards.slice(filteredRewards.length, filteredRewards.length + pageSize);
-      setFilteredRewards((prevRewards) => [...prevRewards, ...nextRewards]);
     }
+  
+    const nextRewards = results.slice(filteredRewards.length, filteredRewards.length + pageSize);
+    setFilteredRewards((prevRewards) => [...prevRewards, ...nextRewards]);
   };
+  
 
   const handleDelete = async (id) => {
     Swal.fire({
@@ -97,7 +114,6 @@ const AdminRewardsComp = ({ role, onShowAddRewards, onShowEditRewards }) => {
 
   const handleStateChange = (value) =>{
     setSelectedState(value);
-    //handleSearch();
   }
 
   const handleSearchs = () => {
@@ -110,12 +126,12 @@ const AdminRewardsComp = ({ role, onShowAddRewards, onShowEditRewards }) => {
 
 
   const handleSearch = () => {
-    let filteredRewardsByState = [...rewards]; // Copiamos la lista completa de premios
+    let filteredRewardsByState = [...rewards]; 
   
-    // Filtramos primero por estado
+    
     switch (selectedState) {
       case 'todos':
-        // No se filtra, se mantienen todos
+        
         break;
   
       case 'sinreclamar':
@@ -135,14 +151,14 @@ const AdminRewardsComp = ({ role, onShowAddRewards, onShowEditRewards }) => {
         break;
     }
   
-    // Después de aplicar el filtro por estado, aplicamos el filtro por nombre si hay un término de búsqueda
+
     const results = filteredRewardsByState.filter((reward) =>
       reward.nombre.toLowerCase().includes(searchTerm.toLowerCase())
     );
   
-    // Paginamos los resultados y los guardamos en el estado
+   
     setFilteredRewards(results.slice(0, pageSize));
-    setIsSearching(true); // Indicamos que se está realizando una búsqueda
+    setIsSearching(true); 
   };
   
 
@@ -243,15 +259,44 @@ const AdminRewardsComp = ({ role, onShowAddRewards, onShowEditRewards }) => {
         )}
       </div>
 
-      {(filteredRewards.length < (isSearching 
-        ? rewards.filter((reward) => reward.nombre.toLowerCase().includes(searchTerm.toLowerCase())).length 
-        : rewards.length)) && (
-        <div className="load-more-container">
-          <button className="load-more-button" onClick={loadMore}>
-            Cargar más
-          </button>
-        </div>
+      {(filteredRewards.length < 
+        (isSearching 
+          ? rewards.filter((reward) => 
+              reward.nombre.toLowerCase().includes(searchTerm.toLowerCase())
+            ).filter((reward) => {
+              switch (selectedState) {
+                case 'sinreclamar':
+                  return reward.estado === 'sin reclamar';
+                case 'reclamado':
+                  return reward.estado === 'reclamado';
+                case 'vencido':
+                  return reward.estado === 'vencido';
+                case 'todos':
+                default:
+                  return true;
+              }
+            }).length 
+          : rewards.filter((reward) => {
+              switch (selectedState) {
+                case 'sinreclamar':
+                  return reward.estado === 'sin reclamar';
+                case 'reclamado':
+                  return reward.estado === 'reclamado';
+                case 'vencido':
+                  return reward.estado === 'vencido';
+                case 'todos':
+                default:
+                  return true;
+              }
+            }).length
+        )) && (
+          <div className="load-more-container">
+            <button className="load-more-button" onClick={loadMore}>
+              Cargar más
+            </button>
+          </div>
       )}
+
     </div>
   );
 };
