@@ -59,7 +59,6 @@ export const obtenerTodosLosUsuarios = async (sortOption) => {
   }
 };
 
-
 export const obtenerInfoUsuario = async (correo, usuario) => {
   try {
     const q = query(

@@ -7,10 +7,9 @@ import logo from '../../assets/LogoGymHub.png';
 
 const auth = getAuth(appFirebase);
 
-const ClientNavBarComponent = ({ onShowSuplements, onShowRewards, onShowSales, onShowPlan, onShowAlerts }) => {
+const ClientNavBarComponent = ({ onShowSuplements, onShowRewards, onShowSales, onShowPlan, onShowProfile, onShowAlerts }) => {
   const [isDropdownVisible, setDropdownVisible] = useState(false);
 
-  
   const handleLogout = () => {
     auth.signOut().then(() => {
       console.log('Sesión cerrada');
@@ -18,8 +17,6 @@ const ClientNavBarComponent = ({ onShowSuplements, onShowRewards, onShowSales, o
       console.log('Error al cerrar sesión', error);
     });
   };
-
-  
 
   return (
     <nav className="client-navbar">
@@ -47,6 +44,27 @@ const ClientNavBarComponent = ({ onShowSuplements, onShowRewards, onShowSales, o
             </ul>
           )}
         </div>
+      <ul className="navbar-menu">
+        <li><a href="#rutinas" onClick={onShowPlan}>Rutinas</a></li>
+        <li><a href="#alertas">Alertas</a></li>
+        <li><a href="#suplementos" onClick={onShowSuplements}>Suplementos</a></li>
+        <li><a href="#ventas" onClick={onShowSales}>Ventas</a></li>
+        <li><a href="#premiacion" onClick={onShowRewards}>Premiación</a></li>
+      </ul>
+      <div
+        className="navbar-profile"
+        onMouseEnter={() => setDropdownVisible(true)}
+        onMouseLeave={() => setDropdownVisible(false)}
+      >
+        <User className="navbar-icon" />
+        <span className="navbar-username">Mi Perfil</span>
+        {isDropdownVisible && (
+          <ul className="navbar-dropdown">
+            <li><a href="#ver-perfil" onClick={onShowProfile}>Ver Perfil</a></li>
+            <li><a href="home" onClick={handleLogout}>Cerrar Sesión</a></li>
+          </ul>
+        )}
+      </div>
     </nav>
   );
 };

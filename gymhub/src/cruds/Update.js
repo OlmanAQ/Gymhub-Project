@@ -1,4 +1,5 @@
 import { doc, updateDoc, getDoc, collection, query, where, getDocs, setDoc} from 'firebase/firestore';
+import { getAuth, updatePassword, reauthenticateWithCredential, EmailAuthProvider } from 'firebase/auth';
 import { db } from '../firebaseConfig/firebase';
 
 // Método para actualizar un usuario en la colección "User"
@@ -59,7 +60,7 @@ export const actualizarProducto = async (productoId, productoNuevo) => {
   }
 };
 
-export const comprarProducto = async (productoId, usuarioId) => {
+export const comprarProducto = async (productoId, usuarioId, cantidadMenos) => {
   try {
     const sanitizedProductoId = productoId.replace(/^\/+/, '');
     const productoDocRef = doc(db, 'Sales', sanitizedProductoId);
@@ -70,8 +71,8 @@ export const comprarProducto = async (productoId, usuarioId) => {
       let { quantity, state } = productoData;
       const cantidadNumerica = parseInt(quantity, 10);
 
-      if (cantidadNumerica > 0) {
-        const nuevaCantidad = cantidadNumerica - 1;
+      if (cantidadNumerica >= cantidadMenos) {
+        const nuevaCantidad = cantidadNumerica - cantidadMenos;
         const nuevoEstado = nuevaCantidad === 0 ? 'Agotado' : 'Disponible';
 
         await updateDoc(productoDocRef, {
@@ -88,7 +89,7 @@ export const comprarProducto = async (productoId, usuarioId) => {
           // Si el producto ya existe en el carrito, actualizar la cantidad
           const carItemRef = querySnapshot.docs[0].ref;
           const carItemData = querySnapshot.docs[0].data();
-          const nuevaCantidadCar = parseInt(carItemData.quantity, 10) + 1;
+          const nuevaCantidadCar = parseInt(carItemData.quantity, 10) + cantidadMenos;
           const nuevoTotal = parseInt(productoData.price, 10) * nuevaCantidadCar;
 
           await updateDoc(carItemRef, {
@@ -97,7 +98,7 @@ export const comprarProducto = async (productoId, usuarioId) => {
           });
         } else {
           // Si no existe, agregarlo al carrito
-          const totalAmount = parseInt(productoData.price, 10);
+          const totalAmount = parseInt(productoData.price, 10) * cantidadMenos;
           await setDoc(doc(shopingCarRef), {
             idProduct: productoId,
             idUser: usuarioId,
@@ -105,17 +106,18 @@ export const comprarProducto = async (productoId, usuarioId) => {
             description: productoData.description,
             imageID: productoData.imageID,
             price: productoData.price,
-            quantity: "1",
+            quantity: cantidadMenos.toString(),
             totalAmount: totalAmount.toString()
           });
         }
+      } else {
+        throw new Error('Cantidad insuficiente en el stock.');
       }
     }
   } catch (error) {
     console.error('Error al actualizar el producto:', error);
   }
 };
-
 
 export const contarProductosEnCarrito = async (usuarioId) => {
   try {
@@ -132,5 +134,28 @@ export const contarProductosEnCarrito = async (usuarioId) => {
   } catch (error) {
     console.error('Error al contar productos en el carrito:', error);
     return 0;
+  }
+};
+
+export const actualizarContrasena = async (correoUsuarioActual, contrasenaActual, nuevaContrasena) => {
+  try {
+    const auth = getAuth();
+    const user = auth.currentUser;
+
+    if (user) {
+      const credential = EmailAuthProvider.credential(
+        correoUsuarioActual,
+        contrasenaActual
+      );
+      await reauthenticateWithCredential(user, credential);
+      await updatePassword(user, nuevaContrasena);
+
+      console.log('Contraseña actualizada correctamente.');
+    } else {
+      throw new Error('No hay ningún usuario autenticado.');
+    }
+  } catch (error) {
+    console.error('Error al actualizar la contraseña:', error);
+    throw error;
   }
 };

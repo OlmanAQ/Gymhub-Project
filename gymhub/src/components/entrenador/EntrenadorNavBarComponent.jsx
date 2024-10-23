@@ -89,7 +89,7 @@ const EntrenadorNavBarComponent = ({onShowProfile,ProfileView, onShowSuplements 
           <span className="navbar-username">Mi Perfil</span>
           {isDropdownVisible && (
             <ul className="navbar-dropdown">
-              <li><a href="#ver-perfil" onClick={handleShowProfileView}>Ver perfil</a></li>
+              <li><a href="#ver-perfil" onClick={onShowProfile}>Ver perfil</a></li>
               <li><a href="#cerrar-sesion" onClick={handleLogout}>Cerrar sesión</a></li>
             </ul>
           )}
