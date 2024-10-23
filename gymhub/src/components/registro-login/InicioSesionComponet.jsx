@@ -46,11 +46,11 @@ const InicioSesionComponent = () => {
   return (
     <>
       {usuario.isAuthenticated ? (
-        usuario.role === 'administrador' ? (
+        usuario.role === 'Administrador' ? (
           <AdminComponent />
-        ) : usuario.role === 'cliente' ? (
+        ) : usuario.role === 'Cliente' ? (
           <ClienteComponent />
-        ) : usuario.role === 'entrenador' ? (
+        ) : usuario.role === 'Entrenador' ? (
           <TrainerComponent />
         ) : (
           <div>Cargando...</div>

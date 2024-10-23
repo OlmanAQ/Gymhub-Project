@@ -16,6 +16,7 @@ import AdminRewardsComp from './AdminRewardsComp';
 import AdminAddReward from './AdminAddReward';
 import AdminEditReward from './AdminEditReward';
 import AdminSalesView from './AdminSalesView';
+import AdminGastosEstadistica from './AdminGastosEstadistica';
 import Profile from '../user-info/Profile';
 
 const AdminComponent = () => {
@@ -82,9 +83,14 @@ const AdminComponent = () => {
   };
 
 
+  const handleShowGastoStad = () => {
+    setView('gastoStad');
+  }
+
   const handleShowExpenseView = () => {
     setView('expenseView');
   }
+  
 
   const handleShowRegisterExpense = () => {
     setView('registerExpense');
@@ -113,6 +119,7 @@ const AdminComponent = () => {
         onShowRewards={handleShowRewardsView}
         onShowSales={handleShowSalesView}
         onShowProfile={handleShowProfile}
+        onShowGastosStd={handleShowGastoStad}
       />
 
       {view === 'userView' && (
@@ -192,6 +199,8 @@ const AdminComponent = () => {
       {view === 'salesView' && <AdminSalesView />}
 
       {view === 'profileView' && <Profile />}
+
+      {view === 'gastoStad' && <AdminGastosEstadistica />}
     </>
   );
 };

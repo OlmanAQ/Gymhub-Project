@@ -21,10 +21,33 @@ const AdminRewardsComp = ({ role, onShowAddRewards, onShowEditRewards }) => {
   const fetchRewards = async (search = false) => {
     try {
       const querySnapshot = await getDocs(collection(db, 'rewards'));
-      const rewardsList = querySnapshot.docs.map((doc) => ({
+      let rewardsList = querySnapshot.docs.map((doc) => ({
         id: doc.id, 
         ...doc.data(), 
       }));
+
+      switch (selectedState) {
+        case 'todos':
+          rewardsList = rewardsList;
+          break;
+        
+        case 'sinreclamar':
+          rewardsList = rewardsList.filter(reward => reward.estado === 'sin reclamar');
+          break;
+        
+        case 'reclamado':
+          rewardsList = rewardsList.filter(reward => reward.estado === 'reclamado');
+          break;
+
+        case 'vencido':
+          rewardsList = rewardsList.filter(reward => reward.estado === 'vencido');
+          break;
+        
+        default:
+          console.log('algo salió mal')
+          break;
+      }
+
 
       if (!search) {
         setRewards(rewardsList);
@@ -74,9 +97,10 @@ const AdminRewardsComp = ({ role, onShowAddRewards, onShowEditRewards }) => {
 
   const handleStateChange = (value) =>{
     setSelectedState(value);
+    //handleSearch();
   }
 
-  const handleSearch = () => {
+  const handleSearchs = () => {
     const results = rewards.filter((reward) =>
       reward.nombre.toLowerCase().includes(searchTerm.toLowerCase())
     );
@@ -84,8 +108,47 @@ const AdminRewardsComp = ({ role, onShowAddRewards, onShowEditRewards }) => {
     setIsSearching(true); 
   };
 
+
+  const handleSearch = () => {
+    let filteredRewardsByState = [...rewards]; // Copiamos la lista completa de premios
+  
+    // Filtramos primero por estado
+    switch (selectedState) {
+      case 'todos':
+        // No se filtra, se mantienen todos
+        break;
+  
+      case 'sinreclamar':
+        filteredRewardsByState = filteredRewardsByState.filter(reward => reward.estado === 'sin reclamar');
+        break;
+  
+      case 'reclamado':
+        filteredRewardsByState = filteredRewardsByState.filter(reward => reward.estado === 'reclamado');
+        break;
+  
+      case 'vencido':
+        filteredRewardsByState = filteredRewardsByState.filter(reward => reward.estado === 'vencido');
+        break;
+  
+      default:
+        console.log('Estado no reconocido');
+        break;
+    }
+  
+    // Después de aplicar el filtro por estado, aplicamos el filtro por nombre si hay un término de búsqueda
+    const results = filteredRewardsByState.filter((reward) =>
+      reward.nombre.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+  
+    // Paginamos los resultados y los guardamos en el estado
+    setFilteredRewards(results.slice(0, pageSize));
+    setIsSearching(true); // Indicamos que se está realizando una búsqueda
+  };
+  
+
   const handleRefresh = () => {
     setSearchTerm('');
+    setSelectedState('');
     setFilteredRewards(rewards.slice(0, pageSize)); 
     setIsSearching(false); 
   };
@@ -93,6 +156,18 @@ const AdminRewardsComp = ({ role, onShowAddRewards, onShowEditRewards }) => {
   useEffect(() => {
     fetchRewards();
   }, []);
+
+
+  useEffect(() => {
+    if (isSearching !== true) { 
+      fetchRewards(); 
+    } else {
+      handleSearch();
+    }
+  }, [selectedState]);
+
+
+  
 
   return (
     <div className="cont-principal">
@@ -123,7 +198,7 @@ const AdminRewardsComp = ({ role, onShowAddRewards, onShowEditRewards }) => {
             onChange={(e) => handleStateChange(e.target.value)}
             className="select-tp"
           >
-            <option value="">Seleccionar estado</option> 
+            <option value="todos">Seleccionar estado</option> 
             <option value="sinreclamar">Sin reclamar</option>
             <option value="reclamado">Reclamado</option>
             <option value="vencido">Vencido</option>
