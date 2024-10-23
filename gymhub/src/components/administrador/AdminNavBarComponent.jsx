@@ -24,34 +24,60 @@ const AdminNavBarComponent = ({ onShowInventory, onShowUserView, onShowSales, on
   };
 
   return (
-    <nav className="navbar">
-      <div className="navbar-logo">
-        <img src={logo} alt="Logo" />
-      </div>
-      <ul className="navbar-menu">
-        <li><a href="#Inicio">Inicio</a></li>
-        <li><a href="#usuarios" onClick={onShowUserView}>Usuarios</a></li>
-        <li><a href="#alertas" onClick={onShowAlertView}>Alertas</a></li>
-        <li><a href="#inventario" onClick={onShowInventory}>Inventario</a></li>
-        <li><a href="#gastos" onClick={onShowExpenseView}>Gastos</a></li>
-        <li><a href="#estadisticas">Estadísticas</a></li>
-        <li><a href="#suplementos" onClick={onShowSuplementos}>Suplementos</a></li>
-        <li><a href="#premiación" onClick={onShowRewards}>Premiación</a></li>
-        <li><a href="#ventas" onClick={onShowSales}>Ventas</a></li>
-      </ul>
-      <div
-        className="navbar-profile"
-        onMouseEnter={() => setDropdownVisible(true)}
-        onMouseLeave={() => setDropdownVisible(false)}
-      >
-        <User className="navbar-icon" />
-        <span className="navbar-username">Mi Perfil</span>
-        {isDropdownVisible && (
-          <ul className="navbar-dropdown">
-            <li><a href="#ver-perfil" onClick={handleShowProfile}>Ver Perfil</a></li>
-            <li><a href="#cerrar-sesión" onClick={handleLogout}>Cerrar sesión</a></li>
+    <nav class="navbar bg-body-tertiary navbar-expand-lg bg-dark border-bottom border-body" data-bs-theme="dark">
+      <div class="container-fluid">
+        <a class="navbar-brand" href="#home">
+          <img src={logo} alt="Logo" class="d-inline-block align-text-top" />
+          Gymhub
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div className='center' >
+          <div class="collapse navbar-collapse" id="navbarSupportedContent" >
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+              <li class="nav-item">
+                <a class="nav-link" aria-current="page" href="#home">Inicio</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#usuarios" onClick={onShowUserView}>Usuarios</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#alertas" onClick={onShowAlertView}>Alertas</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#inventario" onClick={onShowInventory}>Inventario</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#gastos" onClick={onShowExpenseView}>Gastos</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#estadisticas">Estadísticas</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#suplementos" onClick={onShowSuplementos}>Suplementos</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#premiación" onClick={onShowRewards}>Premiación</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#ventas" onClick={onShowSales}>Ventas</a>
+              </li>
+
+            </ul>
+          </div>
+        </div>
+        <div class="dropdown">
+          <a class="nav-link dropdown-toggle" href="#menup" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            <User className="navbar-icon" />
+            <span className="navbar-text">Mi Perfil</span>
+          </a>
+          <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <li><a class="dropdown-item" href="#ver-perfil" onClick={handleShowProfile}>Ver Perfil</a></li>
+            <li><a class="dropdown-item" href="#cerrar-sesión" onClick={handleLogout}>Cerrar sesión</a></li>
           </ul>
-        )}
+        </div>
       </div>
     </nav>
   );
