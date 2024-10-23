@@ -1,62 +1,68 @@
+/* Estilos para centrar la tabla en la página */
+.table-wrapper {
+  display: flex;
+  justify-content: center;
+  width: 90%; 
+  position: relative;
+  left: 5%;
+}
+
 /* Estilos para el contenedor de la tabla */
 .table-container {
   position: relative;
   justify-content: center;
-  width: 100%; 
-  max-width: 100%; 
-  overflow-x: auto;
+  width: auto;
+  max-width: 100%; /* Limita el ancho máximo de la tabla */
+  margin: 0 auto; /* Centra la tabla */
   background-color: #ffffff; 
   border-radius: 8px; 
-  margin: 20px 0; 
-  padding: 0 50px; 
+  padding: 0 20px;
   top: 20px;
 }
 
-/* Estilos para la tabla */
-table {
-  width: 100%; 
-  border-collapse: collapse; 
+/* Estilos para la tabla de usuarios */
+.user-table {
+  width: 100%;
+  border-collapse: collapse;
   background-color: #ffffff; 
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 /* Encabezado de la tabla */
-thead {
+.user-table-header {
   background-color: #333;
-  color: #ffffff; 
-  justify-content: center;
+  color: #ffffff;
 }
 
-th {
-  padding: 12px;
+.user-table-header-cell {
+  padding: 8px;
   text-align: left;
-  font-weight: bold; 
+  font-weight: bold;
   border-bottom: 2px solid #ddd;
 }
 
 /* Celdas de la tabla */
-td {
-  padding: 12px;
+.user-table-cell {
+  padding: 8px;
   text-align: left;
   border-bottom: 1px solid #ddd;
-  justify-content: center;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
 
 /* Filas alternas */
-tbody tr:nth-child(even) {
+.user-table-body .user-table-row:nth-child(even) {
   background-color: #f9f9f9;
 }
 
 /* Efecto al pasar el ratón sobre una fila */
-tbody tr:hover {
+.user-table-body .user-table-row:hover {
   background-color: #e0e0e0;
 }
 
 /* Última fila sin borde inferior */
-tbody tr:last-child td {
+.user-table-body .user-table-row:last-child .user-table-cell {
   border-bottom: none;
 }
 
@@ -73,24 +79,21 @@ tbody tr:last-child td {
   opacity: 0.8;
 }
 
-/* Ajusta el tamaño de los iconos */
-svg {
+.icon-svg {
   vertical-align: middle;
 }
 
-/* Opcional: Estilo para las nuevas columnas de acción */
-th:nth-last-child(-n+2), td:nth-last-child(-n+2) {
-  width: 50px;
-}
-
 /* Estilos para los controles de paginación */
-.pagination-controls {
+.pagination-buttons {
   display: flex;
   justify-content: center;
   gap: 10px;
   margin-top: 20px;
 }
 
+.page-indicator {
+  font-weight: bold;
+}
 
 .controls-container {
   display: flex;

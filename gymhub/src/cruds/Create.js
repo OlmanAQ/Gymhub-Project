@@ -1,30 +1,42 @@
-import { addDoc, collection} from 'firebase/firestore';
+import { addDoc, collection, serverTimestamp } from 'firebase/firestore';
 import { db, auth, storage } from '../firebaseConfig/firebase';
 import { getDownloadURL, ref, uploadBytes } from 'firebase/storage';
+import UserTypes from '../utils/UsersTipos';
 
 export const agregarClienteConRol = async (cliente) => {
-    try {
-      // uid del usuario actual
-      const { uid } = auth.currentUser;
-      //elimnar contraseña de cliente
-      delete cliente.contrasena;
-      
-      const clienteConRol = {
-        ...cliente,
-        rol: 'cliente',
-        uid: uid
-      };
-      await addDoc(collection(db, 'User'), clienteConRol);
-      console.log('Cliente agregado exitosamente');
-    } catch (error) {
-      console.error('Error al agregar el cliente: ', error);
-    }
+  try {
+    const { uid } = auth.currentUser;
+
+    delete cliente.contrasena;
+
+    const clienteConRol = {
+      ...cliente,
+      rol: UserTypes.CLIENTE, 
+      uid: uid, 
+      createdAt: serverTimestamp()
+    };
+
+    await addDoc(collection(db, 'User'), clienteConRol);
+    console.log('Cliente agregado exitosamente con fecha de creación');
+  } catch (error) {
+    console.error('Error al agregar el cliente: ', error);
+  }
 };
 
 export const agregarUsuario = async (usuario) => {
   try {
-    await addDoc(collection(db, 'User'), usuario);
-    console.log('Usuario agregado exitosamente');
+    const { uid } = auth.currentUser;
+
+    delete usuario.contrasena;
+
+    const usuarioConUID = {
+      ...usuario,
+      uid: uid,
+      createdAt: serverTimestamp()
+    };
+
+    await addDoc(collection(db, 'User'), usuarioConUID);
+    console.log('Usuario agregado exitosamente con fecha de creación');
   } catch (error) {
     console.error('Error al agregar el usuario: ', error);
   }

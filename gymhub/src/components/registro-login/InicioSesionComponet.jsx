@@ -9,14 +9,12 @@ import ClienteComponent from '../cliente/ClienteComponent';
 import TrainerComponent from '../entrenador/TrainerComponent';
 import { login, logout } from '../../actions/userActions';
 import { obtenerInfoUsuarioCorreo } from '../../cruds/Read';
-
+import UserTypes from '../../utils/UsersTipos';
 
 const InicioSesionComponent = () => {
   const [isLoginVisible, setIsLoginVisible] = useState(true);
   const dispatch = useDispatch();
   const usuario = useSelector((state) => state.user);
-
-
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (userF) => {
@@ -42,15 +40,14 @@ const InicioSesionComponent = () => {
     setIsLoginVisible(true);
   };
 
-
   return (
     <>
       {usuario.isAuthenticated ? (
-        usuario.role === 'Administrador' ? (
+        usuario.role === UserTypes.ADMINISTRADOR ? (
           <AdminComponent />
-        ) : usuario.role === 'Cliente' ? (
+        ) : usuario.role === UserTypes.CLIENTE ? ( 
           <ClienteComponent />
-        ) : usuario.role === 'Entrenador' ? (
+        ) : usuario.role === UserTypes.ENTRENADOR ? ( 
           <TrainerComponent />
         ) : (
           <div>Cargando...</div>

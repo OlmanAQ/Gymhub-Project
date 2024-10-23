@@ -44,10 +44,7 @@ const Profile = () => {
         <p><strong>Peso:</strong> {usuarioData.peso} kg</p>
         <p><strong>Género:</strong> {usuarioData.genero}</p>
         <p><strong>Padecimientos:</strong> {usuarioData.padecimientos}</p>
-        <p><strong>Fecha de Inscripción:</strong> {usuarioData.fechaInscripcion}</p>
-        <p><strong>Fecha de Renovación:</strong> {usuarioData.renovacion}</p>
         <p><strong>Teléfono:</strong> {usuarioData.telefono}</p>
-        <p><strong>Tipo de Membresía:</strong> {usuarioData.tipoMembresia}</p>
         <p><strong>Rol:</strong> {usuarioData.rol}</p>
       </div>
     </div>
