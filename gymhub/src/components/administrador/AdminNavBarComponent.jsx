@@ -68,7 +68,9 @@ const AdminNavBarComponent = ({
               <li class="nav-item">
                 <a class="nav-link" href="#ventas" onClick={onShowSales}>Ventas</a>
               </li>
-
+              <li class="nav-item">
+                <a class="nav-link" href="#pagos" onClick={onShowPayments}>Pagos</a>
+              </li>
             </ul>
           </div>
         </div>
