@@ -3,11 +3,15 @@ import logo from '../../assets/LogoGymHub.png';
 import { User } from 'lucide-react';
 import '../../css/AdminNavBarComponent.css';
 import appFirebase from '../../firebaseConfig/firebase';
-import { getAuth } from 'firebase/auth';
+import { getAuth } from 'firebase/auth'; 
 
 const auth = getAuth(appFirebase);
 
-const AdminNavBarComponent = ({ onShowInventory, onShowUserView, onShowSales, onShowProfile, onShowSuplementos, onShowRewards, onShowExpenseView, onShowAlertView }) => {
+
+const AdminNavBarComponent = ({  
+  onShowInventory, onShowUserView, onShowSales, 
+  onShowProfile, onShowSuplementos, onShowRewards, 
+  onShowExpenseView, onShowPayments, onShowAlertView }) => {
   const [isDropdownVisible, setDropdownVisible] = useState(false);
 
   const handleLogout = () => {

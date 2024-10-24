@@ -2,13 +2,15 @@ import React, { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { obtenerInfoUsuarioPorUid } from '../../cruds/Read';
 import { EditIcon, Lock } from 'lucide-react';
-import ChangePasswordForm from '../registro-login/ChangePasswordForm'; // Asegúrate de importar el componente de cambio de contraseña
+import ChangePasswordForm from '../registro-login/ChangePasswordForm'; 
+import EditProfile from './EditProfile'; // Importar el componente EditProfile
 import '../../css/Profile.css';
 
 const Profile = () => {
   const [usuarioData, setUsuarioData] = useState(null);
   const [cargando, setCargando] = useState(true);
-  const [showChangePassword, setShowChangePassword] = useState(false); // Estado para controlar la visibilidad del formulario de cambio de contraseña
+  const [showChangePassword, setShowChangePassword] = useState(false);
+  const [editMode, setEditMode] = useState(false); // Estado para controlar la edición
   const usuario = useSelector((state) => state.user);
 
   useEffect(() => {
@@ -29,7 +31,16 @@ const Profile = () => {
   }, [usuario]);
 
   const toggleChangePassword = () => {
-    setShowChangePassword(!showChangePassword); // Alternar la visibilidad del formulario
+    setShowChangePassword(!showChangePassword);
+  };
+
+  const toggleEditProfile = () => {
+    setEditMode(true); // Habilitar el modo de edición
+  };
+
+  // Función para cancelar la edición y regresar al perfil
+  const cancelEditProfile = () => {
+    setEditMode(false); // Simplemente salir del modo de edición
   };
 
   if (cargando) {
@@ -40,6 +51,11 @@ const Profile = () => {
     return <div className="profile-container">No se encontró la información del usuario.</div>;
   }
 
+  // Mostrar EditProfile cuando está en modo de edición
+  if (editMode) {
+    return <EditProfile user={usuarioData} onCancel={cancelEditProfile} />; // Pasar usuarioData a EditProfile
+  }
+
   return (
     <div className="profile-container">
       <h1 className="profile-title">Perfil del Usuario</h1>
@@ -47,7 +63,7 @@ const Profile = () => {
       {/* Sección de configuraciones */}
       <div className="settings-section">
         <h2 className="settings-title">Ajustes</h2>
-        <div className="edit-profile">
+        <div className="edit-profile" onClick={toggleEditProfile} style={{ cursor: 'pointer' }}>
           <EditIcon className="edit-icon" />
           <span className="edit-text">Editar perfil</span>
         </div>
@@ -79,7 +95,6 @@ const Profile = () => {
           </div>
         </div>
       </div>
-
     </div>
   );
 };

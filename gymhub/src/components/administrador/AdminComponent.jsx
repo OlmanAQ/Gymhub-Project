@@ -15,6 +15,7 @@ import AdminEditSuplement from './AdminEditSuplement';
 import AdminRewardsComp from './AdminRewardsComp';
 import AdminSalesView from './AdminSalesView';
 import AdminAlertView from './AdminAlertView';
+import AdminPaymentsView from './AdminPaymentsView';
 import Profile from '../user-info/Profile';
 
 const AdminComponent = () => {
@@ -51,6 +52,10 @@ const AdminComponent = () => {
 
   const handleShowRewardsView = () => {
     setView('rewardsView');
+  };
+
+  const handleShowPaymentsView = () => {
+    setView('paymentsView'); 
   };
 
   const handleShowUpdateUser = (user) => {
@@ -93,6 +98,7 @@ const AdminComponent = () => {
   const handleShowAlertView = () => {
     setView('alertView');
   };
+  
 
   return (
     <>
@@ -102,11 +108,12 @@ const AdminComponent = () => {
         onShowExpenseView={handleShowExpenseView}
         onShowSuplementos={handleShowSuplementosView}
         onShowRewards={handleShowRewardsView}
+        onShowPayments={handleShowPaymentsView}
         onShowSales={handleShowSalesView}
         onShowProfile={handleShowProfile}
         onShowAlertView={handleShowAlertView}
       />
-
+      {view === 'paymentsView' && <AdminPaymentsView />}
       {view === 'userView' && (
         <AdminUserView
           onShowRegisterUser={handleShowRegisterUser}
