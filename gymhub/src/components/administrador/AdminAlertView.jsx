@@ -74,19 +74,39 @@ const AdminAlertView = () => {
     Swal.fire('Éxito', 'Alerta general configurada correctamente.', 'success');
   };
 
+  const [showAlertConfig, setShowAlertConfig] = useState(false);
+
+  const toggleAlertConfig = () => {
+    setShowAlertConfig(!showAlertConfig);
+  };
+
   return (
     <div className="admin-alert-view">
       <h2>Gestión de Alertas</h2>
-      <div className="client-list">
-        <h3>Clientes con Próximos Pagos</h3>
-        <ul>
-          {clients.map((client) => (
-            <li key={client.id}>
-              {client.name} - Próximo pago: {client.nextPaymentDate}
-              <button onClick={() => handleSendPaymentReminder(client)}>Enviar Recordatorio</button>
-            </li>
-          ))}
-        </ul>
+
+
+
+      <div className="table-container">
+        <table class="table">
+          <thead class="table-dark">
+            <tr>
+              <th scope="col">Usuario</th>
+              <th scope="col">Próximo Pago</th>
+              <th scope="col">Acciones</th>
+            </tr>
+          </thead>
+          <tbody>
+            {clients.map((client) => (
+              <tr key={client.id}>
+                <td>{client.usuario}</td>
+                <td>{client.nextPaymentDate}</td>
+                <td>
+                  <button onClick={() => handleSendPaymentReminder(client)}>Enviar Alerta</button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
       </div>
       <div className="general-alert-form">
         <h3>Configurar Alerta General</h3>

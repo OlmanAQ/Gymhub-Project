@@ -24,7 +24,8 @@ export const deleteAlert = async (alertId) => {
 };
 
 export const getClientsWithUpcomingPayments = async () => {
-  const q = query(collection(db, 'clients'), where('nextPaymentDate', '>', new Date().toISOString()));
+  //const q = query(collection(db, 'clients'), where('nextPaymentDate', '>', new Date().toISOString()));
+  const q = query(collection(db, 'User'), where('rol', '==', 'Cliente'));
   const querySnapshot = await getDocs(q);
   return querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
 };
