@@ -18,7 +18,7 @@ import AdminAlertView from './AdminAlertView';
 import AdminPaymentsView from './AdminPaymentsView';
 import Profile from '../user-info/Profile';
 
-const AdminComponent = () => {
+const AdminComponent = ({ setIsAuthenticating }) => {
   const [view, setView] = useState('userView');
   const [selectedUser, setSelectedUser] = useState(null);
   const [gimnasioId, setGimnasioId] = useState(null);
@@ -120,7 +120,7 @@ const AdminComponent = () => {
           onShowUpdateUser={handleShowUpdateUser}
         />
       )}
-      {view === 'registerUser' && <AdminRegisterUser onClose={handleShowUserView} />}
+      {view === 'registerUser' && <AdminRegisterUser onClose={handleShowUserView} setIsAuthenticating={setIsAuthenticating} />}
       {view === 'updateUser' && (
         <AdminUpdateUser
           user={selectedUser}

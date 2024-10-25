@@ -13,6 +13,7 @@ import UserTypes from '../../utils/UsersTipos';
 
 const InicioSesionComponent = () => {
   const [isLoginVisible, setIsLoginVisible] = useState(true);
+  const [isAuthenticating, setIsAuthenticating] = useState(true);
   const dispatch = useDispatch();
   const usuario = useSelector((state) => state.user);
 
@@ -23,9 +24,10 @@ const InicioSesionComponent = () => {
           if (usuario) {
             dispatch(login(usuario));
           }
-        });
+        }).finally(() => setIsAuthenticating(false));
       } else {
         dispatch(logout());
+        setIsAuthenticating(false); 
       }
     });
 
@@ -42,18 +44,18 @@ const InicioSesionComponent = () => {
 
   return (
     <>
-      {usuario.isAuthenticated ? (
+      {usuario.isAuthenticated || isAuthenticating ? (
         usuario.role === UserTypes.ADMINISTRADOR ? (
-          <AdminComponent />
-        ) : usuario.role === UserTypes.CLIENTE ? ( 
+          <AdminComponent setIsAuthenticating={setIsAuthenticating} /> // Pasar setIsAuthenticating a AdminComponent
+        ) : usuario.role === UserTypes.CLIENTE ? (
           <ClienteComponent />
-        ) : usuario.role === UserTypes.ENTRENADOR ? ( 
+        ) : usuario.role === UserTypes.ENTRENADOR ? (
           <TrainerComponent />
         ) : (
           <div>Cargando...</div>
         )
       ) : (
-        isLoginVisible ? (
+        isLoginVisible && !isAuthenticating ? (
           <LoginComponent onShowRegister={showRegister} />
         ) : (
           <RegisterComponent onShowLogin={showLogin} />

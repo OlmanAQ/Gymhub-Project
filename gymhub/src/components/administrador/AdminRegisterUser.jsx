@@ -11,7 +11,7 @@ import PasswordStrengthMeter from '../registro-login/PasswordStrengtMeter';
 import PhoneInput from 'react-phone-input-2';
 import 'react-phone-input-2/lib/style.css';
 import UserTypes from '../../utils/UsersTipos';
-const AdminRegisterUser = ({onClose}) => {
+const AdminRegisterUser = ({onClose, setIsAuthenticating }) => {
 
   const [form, setForm] = useState({
     nombre: '',
@@ -49,7 +49,7 @@ const AdminRegisterUser = ({onClose}) => {
 
   const agregarUser = async (e) => {
     e.preventDefault();
-  
+
     if (!validateForm()) {
       Swal.fire({
         icon: 'warning',
@@ -59,7 +59,7 @@ const AdminRegisterUser = ({onClose}) => {
       });
       return;
     }
-  
+
     const correoExiste = await verificarCorreoExistente(form.correo);
     if (correoExiste) {
       Swal.fire({
@@ -70,7 +70,7 @@ const AdminRegisterUser = ({onClose}) => {
       });
       return;
     }
-  
+
     const usuarioExistente = await verificarUsuario(form.usuario);
     if (usuarioExistente) {
       Swal.fire({
@@ -81,7 +81,7 @@ const AdminRegisterUser = ({onClose}) => {
       });
       return;
     }
-  
+
     const result = await Swal.fire({
       title: 'Confirmar registro',
       text: "¿Estás seguro de que deseas registrar este usuario?",
@@ -92,10 +92,11 @@ const AdminRegisterUser = ({onClose}) => {
       confirmButtonText: 'Sí, registrar',
       cancelButtonText: 'Cancelar'
     });
-  
+
     if (result.isConfirmed) {
       try {
-        // Mostrar un modal para pedir la contraseña del administrador
+        setIsAuthenticating(true);
+
         const { value: adminPassword } = await Swal.fire({
           title: 'Autenticación requerida',
           text: 'Por favor, ingresa tu contraseña para continuar con el registro:',
@@ -114,26 +115,18 @@ const AdminRegisterUser = ({onClose}) => {
             }
           }
         });
-  
-        if (!adminPassword) {
-          return; // Si se cancela la alerta o no se ingresa contraseña, no sigue
-        }
-  
-        // Guardar las credenciales del administrador
+
+        if (!adminPassword) return;
+
         const currentUser = auth.currentUser;
         const adminEmail = currentUser.email;
-  
-        // Crear nuevo usuario (esto autenticará al nuevo usuario)
+
         await createUserWithEmailAndPassword(auth, form.correo, form.contrasena);
         await agregarUsuario(form);
         await sendEmailVerification(auth.currentUser);
-  
-        // Cerrar sesión del nuevo usuario
-        //await auth.signOut();
-  
-        // Reautenticar al administrador
+
         await signInWithEmailAndPassword(auth, adminEmail, adminPassword);
-  
+
         Swal.fire({
           icon: 'success',
           title: 'Usuario registrado',
@@ -153,12 +146,14 @@ const AdminRegisterUser = ({onClose}) => {
             usuario: '',
             rol: ''
           });
+          setIsAuthenticating(false);
         });
-  
-        onClose(); 
-  
+        setIsAuthenticating(false);
+        onClose();
+
       } catch (error) {
         console.error('Error al registrar el usuario:', error);
+        setIsAuthenticating(false); 
         Swal.fire({
           icon: 'error',
           title: 'Error',
