@@ -129,7 +129,7 @@ const AdminRegisterUser = ({onClose}) => {
         await sendEmailVerification(auth.currentUser);
   
         // Cerrar sesión del nuevo usuario
-        await auth.signOut();
+        //await auth.signOut();
   
         // Reautenticar al administrador
         await signInWithEmailAndPassword(auth, adminEmail, adminPassword);
