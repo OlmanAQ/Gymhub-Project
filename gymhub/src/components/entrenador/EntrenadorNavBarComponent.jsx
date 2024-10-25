@@ -69,30 +69,43 @@ const EntrenadorNavBarComponent = ({onShowProfile,ProfileView, onShowSuplements 
 
   return (
     <div>
-      <nav className="navbar">
-        <div className="navbar-logo">
-          <img src={logo} alt="Logo" />
-        </div>
-        <ul className="navbar-menu">
-          <li><a href="#planes" onClick={handleSearchPlansClick}>Planes de entrenamiento</a></li>
-          <li><a href="#suplementos" onClick={onShowSuplements}>Suplementos</a></li>
-          <li><a href="#inventario de maquinas">Máquinas</a></li>
-          <li><a href="#inventario" onClick={handleInventarioClick}>Inventario</a></li>
-          <li><a href="#ventas" onClick={handleSalesClick}>Ventas</a></li>
-        </ul>
-        <div
-          className="navbar-profile"
-          onMouseEnter={() => setDropdownVisible(true)}
-          onMouseLeave={() => setDropdownVisible(false)}
-        >
-          <User className="navbar-icon" />
-          <span className="navbar-username">Mi Perfil</span>
-          {isDropdownVisible && (
-            <ul className="navbar-dropdown">
-              <li><a href="#ver-perfil" onClick={onShowProfile}>Ver perfil</a></li>
-              <li><a href="#cerrar-sesion" onClick={handleLogout}>Cerrar sesión</a></li>
+      <nav class="navbar navbar-expand-lg bg-dark border-bottom border-body" data-bs-theme="dark">
+        <div class="container-fluid">
+          <a class="navbar-brand" href="#home">
+            <img src={logo} alt="Logo" class="d-inline-block align-text-top" />
+            Gymhub
+          </a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+
+          <div className='center' >
+            <div class="collapse navbar-collapse" id="navbarSupportedContent" >
+              <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                  <a class="nav-link" aria-current="page" href="#home">Inicio</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="#planes" onClick={handleSearchPlansClick}>Planes</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="#inventario" onClick={handleInventarioClick}>Inventario</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="#ventas" onClick={handleSalesClick}>Ventas</a>
+                </li>
+              </ul>
+            </div>
+          </div>
+          <div class="dropdown">
+            <button class="btn btn-dark dropdown-toggle" type="button" id="navbarDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+              <User size={24} />
+            </button>
+            <ul class="dropdown-menu dropdown-menu-end">
+              <li><a class="dropdown-item" href="#perfil" onClick={handleShowProfileView}>Perfil</a></li>
+              <li><a class="dropdown-item" href="#cerrar-sesión" onClick={handleLogout}>Cerrar sesión</a></li>
             </ul>
-          )}
+          </div>
         </div>
       </nav>
 

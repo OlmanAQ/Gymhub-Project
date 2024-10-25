@@ -28,7 +28,7 @@ const AdminNavBarComponent = ({
   };
 
   return (
-    <nav class="navbar bg-body-tertiary navbar-expand-lg bg-dark border-bottom border-body" data-bs-theme="dark">
+    <nav class="navbar navbar-expand-lg bg-dark border-bottom border-body" data-bs-theme="dark">
       <div class="container-fluid">
         <a class="navbar-brand" href="#home">
           <img src={logo} alt="Logo" class="d-inline-block align-text-top" />
@@ -73,12 +73,11 @@ const AdminNavBarComponent = ({
           </div>
         </div>
         <div class="dropdown">
-          <a class="nav-link dropdown-toggle" href="#menup" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-            <User className="navbar-icon" />
-            <span className="navbar-text">Mi Perfil</span>
-          </a>
-          <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-            <li><a class="dropdown-item" href="#ver-perfil" onClick={handleShowProfile}>Ver Perfil</a></li>
+          <button class="btn btn-dark dropdown-toggle" type="button" id="navbarDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+            <User size={24} />
+          </button>
+          <ul class="dropdown-menu dropdown-menu-end">
+            <li><a class="dropdown-item" href="#perfil" onClick={handleShowProfile}>Perfil</a></li>
             <li><a class="dropdown-item" href="#cerrar-sesión" onClick={handleLogout}>Cerrar sesión</a></li>
           </ul>
         </div>
