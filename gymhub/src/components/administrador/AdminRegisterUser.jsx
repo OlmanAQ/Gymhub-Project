@@ -125,6 +125,7 @@ const AdminRegisterUser = ({onClose, setIsAuthenticating }) => {
         await agregarUsuario(form);
         await sendEmailVerification(auth.currentUser);
         await signInWithEmailAndPassword(auth, adminEmail, adminPassword);
+        setIsAuthenticating(false);
 
         Swal.fire({
           icon: 'success',
@@ -145,7 +146,7 @@ const AdminRegisterUser = ({onClose, setIsAuthenticating }) => {
             usuario: '',
             rol: ''
           });
-          setIsAuthenticating(false);
+          
         });
         setIsAuthenticating(false);
         onClose();

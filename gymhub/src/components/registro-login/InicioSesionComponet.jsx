@@ -46,7 +46,7 @@ const InicioSesionComponent = () => {
     <>
       {usuario.isAuthenticated || isAuthenticating ? (
         usuario.role === UserTypes.ADMINISTRADOR ? (
-          <AdminComponent setIsAuthenticating={setIsAuthenticating} /> // Pasar setIsAuthenticating a AdminComponent
+          <AdminComponent setIsAuthenticating={setIsAuthenticating} /> 
         ) : usuario.role === UserTypes.CLIENTE ? (
           <ClienteComponent />
         ) : usuario.role === UserTypes.ENTRENADOR ? (
