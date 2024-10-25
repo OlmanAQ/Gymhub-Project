@@ -124,7 +124,6 @@ const AdminRegisterUser = ({onClose, setIsAuthenticating }) => {
         await createUserWithEmailAndPassword(auth, form.correo, form.contrasena);
         await agregarUsuario(form);
         await sendEmailVerification(auth.currentUser);
-
         await signInWithEmailAndPassword(auth, adminEmail, adminPassword);
 
         Swal.fire({
