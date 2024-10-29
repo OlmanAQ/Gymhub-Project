@@ -61,15 +61,40 @@
     outline: none;
     transition: border-color 0.3s;
 }
+
 .search-input {
+    position: relative;
     flex: 1;
     display: flex;
     flex-direction: column;
-    border: none; 
-}
-
-.role-select select,
-.search-input input {
+    border: none;
+  }
+  
+  .search-icon-container {
+    position: relative;
+    display: flex;
+    align-items: center;
+    width: 100%;
+  }
+  
+  .search-icon {
+    position: absolute;
+    right: 10px; /* Posiciona el icono a la derecha */
+    color: #007bff; /* Azul */
+  }
+  
+  .search-icon-container input {
+    width: 100%;
+    padding: 10px 35px 10px 10px; /* Ajusta el padding para el icono a la derecha */
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 1rem;
+    outline: none;
+    transition: border-color 0.3s;
+  }
+  
+  .role-select select,
+  .search-input input {
     width: 100%;
     padding: 10px;
     border: 1px solid #ccc;
@@ -77,11 +102,11 @@
     font-size: 1rem;
     outline: none;
     transition: border-color 0.3s;
-}
-
-.search-input input {
+  }
+  
+  .search-input input {
     max-width: 250px;
-}
+  }  
 
 /* Contenedor de lista de usuarios ajustado */
 .clientes-list {
@@ -135,24 +160,37 @@
     transition: background-color 0.3s, border-color 0.3s, box-shadow 0.3s;
   }
 
-.process-button-container {
-  display: flex;
-  position: relative;
-  left: 43%;
-  padding: 20px 0; 
-}
-
-.process-button {
-  padding: 10px 20px;
-  background-color: #28a745; /* Verde */
-  color: #fff;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  font-size: 16px;
-  transition: background-color 0.3s ease;
-}
-
-.process-button:hover {
-  background-color: #218838; /* Verde más oscuro en hover */
-}
+  .buttons-container {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    padding: 20px 0; /* Espaciado superior e inferior */
+  }
+  
+  .history-button, .process-button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .history-button {
+    background-color: #007bff; /* Azul */
+    color: #fff;
+  }
+  
+  .history-button:hover {
+    background-color: #0056b3; /* Azul más oscuro en hover */
+  }
+  
+  .process-button {
+    background-color: #28a745; /* Verde */
+    color: #fff;
+  }
+  
+  .process-button:hover {
+    background-color: #218838; /* Verde más oscuro en hover */
+  }
+  

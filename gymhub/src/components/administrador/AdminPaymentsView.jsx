@@ -3,8 +3,9 @@ import '../../css/AdminPaymentsView.css';
 import UserTypes from '../../utils/UsersTipos';
 import { obtenerUsuariosPorRol } from '../../cruds/Read';
 import { showAlert, showConfirmAlert, AlertType } from '../../utils/Alert';
+import { Search } from 'lucide-react';
 
-const AdminPaymentsView = ({ onShowAddPayment }) => {
+const AdminPaymentsView = ({ onShowAddPayment, onShowPaymentHistory}) => {
   const [usuarios, setUsuarios] = useState([]);
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState('');
@@ -65,6 +66,15 @@ const AdminPaymentsView = ({ onShowAddPayment }) => {
     });
   };
 
+  const handleViewHistoryClick = () => {
+    if (!selectedUser) {
+      showAlert('Error', 'Seleccione un usuario antes de ver el historial.', AlertType.WARNING);
+      return;
+    }
+    
+    onShowPaymentHistory(selectedUser);
+  };
+
   return (
       <div className="seleccionar-usuario-container">
         <h1>Lista de usuarios</h1>
@@ -89,12 +99,15 @@ const AdminPaymentsView = ({ onShowAddPayment }) => {
           </div>
 
           <div className="search-input">
-            <input
-              type="text"
-              placeholder="Buscar..."
-              value={searchTerm}
-              onChange={handleSearch}
-            />
+            <div className="search-icon-container">
+              <Search className="search-icon" />
+              <input
+                type="text"
+                placeholder="Buscar..."
+                value={searchTerm}
+                onChange={handleSearch}
+              />
+            </div>
           </div>
         </div>
         <div className="instructions-user-list-text">
@@ -119,9 +132,12 @@ const AdminPaymentsView = ({ onShowAddPayment }) => {
             </ul>
           </div>
         )}
-        <div className="process-button-container">
+        <div className="buttons-container">
+          <button className="history-button" onClick={handleViewHistoryClick}>
+            Ver historial
+          </button>
           <button className="process-button" onClick={handleProcessClick}>
-            Procesar
+            Crear factura
           </button>
         </div>
       </div>

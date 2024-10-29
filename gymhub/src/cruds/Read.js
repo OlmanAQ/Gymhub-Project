@@ -199,3 +199,23 @@ export const obtenerCarritoCompras = async (usuarioId) => {
     throw new Error('No se pudo obtener el carrito de compras.');
   }
 };
+
+export const obtenerFacturasPorUsuario = async (uid) => {
+  try {
+    const facturasQuery = query(
+      collection(db, 'Payments'),
+      where('uid', '==', uid),
+      orderBy('createdAt', 'desc')
+    );
+
+    const querySnapshot = await getDocs(facturasQuery);
+    const facturas = querySnapshot.docs.map(doc => ({
+      id: doc.id,
+      ...doc.data()
+    }));
+
+    return facturas;
+  } catch (error) {
+    console.error('Error al obtener las facturas del usuario: ', error);
+  }
+};
