@@ -175,7 +175,7 @@
 
   .select-tp {
     width: 100%;
-    max-width: 100%; /* Ajusta según lo necesites */
+    max-width: 100%; 
     padding: 10px;
     font-size: 16px;
     font-weight: bold;
@@ -192,8 +192,8 @@
   
   .select-tp:focus {
     outline: none;
-    border-color: #007bff; /* Color de enfoque */
-    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5); /* Sombra elegante al enfocar */
+    border-color: #007bff; 
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5); 
   }
   
   .select-tp option {

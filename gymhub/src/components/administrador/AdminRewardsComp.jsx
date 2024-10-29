@@ -48,7 +48,6 @@ const AdminRewardsComp = ({ role, onShowAddRewards, onShowEditRewards }) => {
           break;
       }
 
-
       if (!search) {
         setRewards(rewardsList);
         setFilteredRewards(rewardsList.slice(0, pageSize)); 
@@ -116,18 +115,8 @@ const AdminRewardsComp = ({ role, onShowAddRewards, onShowEditRewards }) => {
     setSelectedState(value);
   }
 
-  const handleSearchs = () => {
-    const results = rewards.filter((reward) =>
-      reward.nombre.toLowerCase().includes(searchTerm.toLowerCase())
-    );
-    setFilteredRewards(results.slice(0, pageSize)); 
-    setIsSearching(true); 
-  };
-
-
   const handleSearch = () => {
     let filteredRewardsByState = [...rewards]; 
-  
     
     switch (selectedState) {
       case 'todos':
@@ -150,17 +139,14 @@ const AdminRewardsComp = ({ role, onShowAddRewards, onShowEditRewards }) => {
         console.log('Estado no reconocido');
         break;
     }
-  
 
     const results = filteredRewardsByState.filter((reward) =>
       reward.nombre.toLowerCase().includes(searchTerm.toLowerCase())
     );
-  
    
     setFilteredRewards(results.slice(0, pageSize));
     setIsSearching(true); 
   };
-  
 
   const handleRefresh = () => {
     setSearchTerm('');
@@ -173,7 +159,6 @@ const AdminRewardsComp = ({ role, onShowAddRewards, onShowEditRewards }) => {
     fetchRewards();
   }, []);
 
-
   useEffect(() => {
     if (isSearching !== true) { 
       fetchRewards(); 
@@ -183,15 +168,13 @@ const AdminRewardsComp = ({ role, onShowAddRewards, onShowEditRewards }) => {
   }, [selectedState]);
 
 
-  
-
   return (
     <div className="cont-principal">
       <div> 
         <h1 className="titulo">Premios</h1>
       </div>
 
-      <div className='container-buttons'>
+      <div className='container-buttons'>        
         <div className='flex-container'>
           <input
             type="text"
@@ -222,7 +205,6 @@ const AdminRewardsComp = ({ role, onShowAddRewards, onShowEditRewards }) => {
 
         </div>
         
-
         {role === 'admin' && (
           <button className="button-create" onClick={onShowAddRewards}> Agregar premio </button>
         )}
