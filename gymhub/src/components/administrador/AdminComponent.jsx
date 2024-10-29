@@ -16,6 +16,7 @@ import AdminRewardsComp from './AdminRewardsComp';
 import AdminSalesView from './AdminSalesView';
 import AdminAlertView from './AdminAlertView';
 import AdminPaymentsView from './AdminPaymentsView';
+import AdminPaymentsAdd from './AdminPaymentsAdd';
 import Profile from '../user-info/Profile';
 
 const AdminComponent = ({ setIsAuthenticating }) => {
@@ -58,6 +59,15 @@ const AdminComponent = ({ setIsAuthenticating }) => {
     setView('paymentsView'); 
   };
 
+  const handleShowAddPayment = (user) => {
+    setSelectedUser(user); // Guardamos el usuario seleccionado
+    setView('addPayment'); // Cambiamos la vista a 'addPayment'
+  };
+
+  const handleShowPaymentsMain = () => {
+    setView('paymentsView');
+  };
+
   const handleShowUpdateUser = (user) => {
     setSelectedUser(user);
     setView('updateUser');
@@ -98,7 +108,6 @@ const AdminComponent = ({ setIsAuthenticating }) => {
   const handleShowAlertView = () => {
     setView('alertView');
   };
-  
 
   return (
     <>
@@ -113,7 +122,15 @@ const AdminComponent = ({ setIsAuthenticating }) => {
         onShowProfile={handleShowProfile}
         onShowAlertView={handleShowAlertView}
       />
-      {view === 'paymentsView' && <AdminPaymentsView />}
+      {view === 'paymentsView' && (
+        <AdminPaymentsView onShowAddPayment={handleShowAddPayment} />
+      )}
+      {view === 'addPayment' && (
+        <AdminPaymentsAdd
+          selectedUser={selectedUser}
+          onCancel={handleShowPaymentsMain}
+        />
+      )}
       {view === 'userView' && (
         <AdminUserView
           onShowRegisterUser={handleShowRegisterUser}
