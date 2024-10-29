@@ -2,23 +2,28 @@ import { doc, deleteDoc, getDoc, updateDoc} from 'firebase/firestore';
 import { db } from '../firebaseConfig/firebase';
 import { ref, deleteObject } from 'firebase/storage';
 import { storage, auth  } from '../firebaseConfig/firebase';
-import { deleteUser as deleteAuthUser, getAuth } from 'firebase/auth';
+import { getFunctions, httpsCallable } from "firebase/functions";
 
 export const eliminarUsuario = async (usuarioId, uid) => {
   try {
+    // Paso 1: Elimina el documento del usuario en Firestore
     const usuarioDocRef = doc(db, 'User', usuarioId);
     await deleteDoc(usuarioDocRef);
     console.log('Documento del usuario eliminado de Firestore');
-    const auth = getAuth();
-    const userToDelete = auth.currentUser;
-    if (userToDelete && userToDelete.uid === uid) {
-      await deleteAuthUser(userToDelete);
+
+    // Paso 2: Llama a la Cloud Function para eliminar al usuario en Firebase Authentication
+    const functions = getFunctions();
+    const eliminarUsuarioAuth = httpsCallable(functions, 'eliminarUsuario');
+
+    const result = await eliminarUsuarioAuth({ uid });
+    
+    if (result.data.success) {
       console.log('Usuario eliminado de Firebase Authentication');
     } else {
-      console.log('El UID del usuario no coincide o el usuario no está logueado.');
+      console.error('Error al eliminar el usuario en Authentication:', result.data.message);
     }
   } catch (error) {
-    console.error('Error al eliminar el usuario:', error);
+    console.error('Error en la función eliminarUsuario:', error.message || error);
   }
 };
 
