@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { obtenerFacturasPorUsuario } from '../../cruds/Read';
-import { X } from 'lucide-react';
+import { eliminarFactura } from '../../cruds/Delete';
+import { X, Trash } from 'lucide-react';
 import logo from '../../assets/LogoGymHub.png';
 import { format } from 'date-fns';
 import { es } from 'date-fns/locale';
 import '../../css/AdminPaymentsHistory.css';
+import { showAlert, AlertType } from '../../utils/Alert';
 
 const AdminPaymentsHistory = ({ selectedUser, onCancel }) => {
   const [facturas, setFacturas] = useState([]);
@@ -38,6 +40,15 @@ const AdminPaymentsHistory = ({ selectedUser, onCancel }) => {
     setSelectedFactura(factura);
   };
 
+  const handleDeleteFactura = async () => {
+    if (selectedFactura) {
+      await eliminarFactura(selectedFactura.id);
+      setFacturas(facturas.filter(factura => factura.id !== selectedFactura.id));
+      setSelectedFactura(null);
+      showAlert('Factura eliminada', 'La factura se ha eliminado correctamente.', AlertType.SUCCESS);
+    }
+  };
+
   return (
     <div className="admin-payments-history-container">
       <X className="close-icon" onClick={onCancel} />
@@ -50,7 +61,7 @@ const AdminPaymentsHistory = ({ selectedUser, onCancel }) => {
               onClick={() => handleFacturaClick(factura)}
               className={selectedFactura?.numeroFactura === factura.numeroFactura ? 'selected' : ''}
             >
-              <span>Fecha de creación: {formatFecha(factura.createdAt.toDate())}</span>
+              <span>{formatFecha(factura.createdAt.toDate())}</span>
               <span className="factura-id">Factura No: {factura.numeroFactura}</span>
             </li>
           ))}
@@ -86,6 +97,11 @@ const AdminPaymentsHistory = ({ selectedUser, onCancel }) => {
                 </div>
               )}
             </div>
+
+            {/* Botón Eliminar */}
+            <button className="delete-button" onClick={handleDeleteFactura}>
+              <Trash className="trash-icon" /> Eliminar
+            </button>
           </div>
         )}
       </div>

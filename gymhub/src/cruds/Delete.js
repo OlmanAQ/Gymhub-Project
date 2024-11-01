@@ -1,7 +1,7 @@
 import { doc, deleteDoc, getDoc, updateDoc} from 'firebase/firestore';
 import { db } from '../firebaseConfig/firebase';
 import { ref, deleteObject } from 'firebase/storage';
-import { storage, auth  } from '../firebaseConfig/firebase';
+import { storage } from '../firebaseConfig/firebase';
 import { getFunctions, httpsCallable } from "firebase/functions";
 
 export const eliminarUsuario = async (usuarioId, uid) => {
@@ -57,5 +57,15 @@ export const eliminarProductoCarrito = async (productoId, idProduct, quantity) =
     }
   } catch (error) {
     console.error('Error al eliminar el producto del carrito:', error);
+  }
+};
+
+export const eliminarFactura = async (facturaId) => {
+  try {
+    const facturaDocRef = doc(db, 'Payments', facturaId);
+    await deleteDoc(facturaDocRef);
+    console.log(`Factura con ID: ${facturaId} eliminada correctamente.`);
+  } catch (error) {
+    console.error('Error al eliminar la factura:', error);
   }
 };
