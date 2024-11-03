@@ -209,7 +209,7 @@ const AdminAddReward = ({ onClose }) => {
                 <div className="uploaded-image-container">
                   <img src={itemSeleccionado.url} alt="Suplemento seleccionado" className="uploaded-image" />
                 </div>
-              ) : (
+              ) : tipoPremio === 'otros' ? (
                 <>
                   <input
                     type="file"
@@ -227,7 +227,7 @@ const AdminAddReward = ({ onClose }) => {
                     </div>
                   )}
                 </>
-              )}
+              ): null }
             </div>
           </div>
 

@@ -45,8 +45,10 @@
   .dates-container {
     display: flex;
     justify-content: space-between;
-    gap: 25px; 
+    align-items: center;
+    gap: 25px;
     margin-bottom: 25px;
+    flex-wrap: nowrap; 
   }
   
  
@@ -68,7 +70,11 @@
   
 
   .categories-container {
+    display: flex;
+    align-items: center; 
+    gap: 15px; 
     margin-bottom: 25px;
+    flex-wrap: nowrap; 
   }
   
 

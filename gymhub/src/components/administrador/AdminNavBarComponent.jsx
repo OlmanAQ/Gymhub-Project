@@ -11,8 +11,8 @@ const auth = getAuth(appFirebase);
 const AdminNavBarComponent = ({  
   onShowInventory, onShowUserView, onShowSales, 
   onShowProfile, onShowSuplementos, onShowRewards,
-  onShowGastosStd, onShowExpenseView, onShowPayments, 
-  onShowAlertView }) => {
+  onShowGastosStd,onShowPagosStd, onShowExpenseView, 
+  onShowPayments, onShowAlertView }) => {
   const [isDropdownVisible, setDropdownVisible] = useState(false);
 
   const handleLogout = () => {
@@ -58,7 +58,10 @@ const AdminNavBarComponent = ({
                 <a class="nav-link" href="#gastos" onClick={onShowExpenseView}>Gastos</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="#estadisticas" onClick={onShowGastosStd}>Estadísticas</a>
+                <a class="nav-link" href="#estadisticas-gastos" onClick={onShowGastosStd}>Est. Gastos</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#estadisticas-pagos" onClick={onShowPagosStd}>Est. Pagos</a>
               </li>
               <li class="nav-item">
                 <a class="nav-link" href="#suplementos" onClick={onShowSuplementos}>Suplementos</a>

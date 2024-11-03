@@ -17,6 +17,7 @@ import AdminAddReward from './AdminAddReward';
 import AdminEditReward from './AdminEditReward';
 import AdminSalesView from './AdminSalesView';
 import AdminGastosEstadistica from './AdminGastosEstadistica';
+import AdminPagosEstadistica from './AdminPagosEstadistica';
 import AdminAlertView from './AdminAlertView';
 import AdminPaymentsView from './AdminPaymentsView';
 import AdminPaymentsAdd from './AdminPaymentsAdd';
@@ -102,6 +103,10 @@ const AdminComponent = ({ setIsAuthenticating }) => {
     setView('gastoStad');
   };
 
+  const handleShowPagoStad = () => {
+    setView('pagoStad');
+  };
+
   const handleShowExpenseView = () => {
     setView('expenseView');
   };
@@ -140,6 +145,7 @@ const AdminComponent = ({ setIsAuthenticating }) => {
         onShowSales={handleShowSalesView}
         onShowProfile={handleShowProfile}
         onShowGastosStd={handleShowGastoStad}
+        onShowPagosStd={handleShowPagoStad}
         onShowAlertView={handleShowAlertView}
       />
       {view === 'paymentsView' && (
@@ -228,8 +234,8 @@ const AdminComponent = ({ setIsAuthenticating }) => {
       {view === 'salesView' && <AdminSalesView />}
       {view === 'alertView' && <AdminAlertView />}
       {view === 'profileView' && <Profile />}
-
       {view === 'gastoStad' && <AdminGastosEstadistica />}
+      {view === 'pagoStad' && <AdminPagosEstadistica />}
     </>
   );
 };
