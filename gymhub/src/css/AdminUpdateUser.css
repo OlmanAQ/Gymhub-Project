@@ -1,125 +1,249 @@
-.register-user-header {
-  margin-bottom: 20px; /* Espacio entre el título y el formulario */
-}
-
-.register-user-header h2 {
-  font-size: 2em; /* Tamaño del título */
-  color: #333; /* Color del título */
-  text-align: center; /* Centrar el texto */
-}
-.admin-update-user {
+.admin-update-user-container {
   display: flex;
   flex-direction: column;
+  justify-content: center;
   align-items: center;
-  padding: 20px;
-  max-width: 800px;
-  margin: 0 auto;
-  background-color: white;
-  border-radius: 8px;
-  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
-  position: relative; /* Asegura que el título no afecte el sombreado del contenedor */
+  height: 85vh;
+  background-color: #f2f2f2;
+  position: relative;
 }
 
-/* Estilos para el título */
-.admin-update-user h2 {
-  margin: 0; /* Elimina el margen para evitar que el título empuje el contenedor */
-  padding-bottom: 20px; /* Agrega espaciado debajo del título para separarlo del formulario */
-  font-size: 1.5em;
-  color: #333;
-  text-align: center; /* Centra el título */
-  width: 100%; /* Asegura que el título ocupe todo el ancho del contenedor */
-}
-
-/* Estilos para el formulario */
-.admin-update-user form {
+.admin-update-user-form {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: repeat(3, 1fr);
   gap: 20px;
+  background-color: white;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  width: 80%;
+  max-width: 1200px;
+  position: relative;
+}
+
+.admin-update-user-header {
+  text-align: center;
+  margin-bottom: 20px;
   width: 100%;
 }
 
-/* Estilos para las etiquetas y entradas del formulario */
-.admin-update-user label {
-  display: flex;
-  flex-direction: column;
-  font-size: 0.9em;
-  color: #555;
+.admin-update-user-header h2 {
+  font-size: 1.8rem;
+  color: #333;
+  margin-bottom: 10px;
 }
 
-.admin-update-user input,
-.admin-update-user select {
-  padding: 8px;
-  font-size: 1em;
+.admin-update-user-close-button {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: transparent;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+}
+.admin-update-user-close-button:hover {
+  color: red;
+}
+
+.colum-one-update,
+.colum-two-update,
+.colum-three-update {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  text-align: left;
+}
+
+/* Estilos para los grupos de entrada */
+.register-name-group-update,
+.register-correo-group-update,
+.register-genero-group-update,
+.register-edad-group-update,
+.register-peso-group-update,
+.register-estatura-group-update,
+.register-telefono-group-update,
+.register-rol-group-update,
+.register-padecimientos-group-update {
+  display: flex;
+  flex-direction: column;
+}
+
+.register-label-nombre-update,
+.register-label-genero-update,
+.register-label-edad-update,
+.register-label-peso-update,
+.register-label-estatura-update,
+.register-label-telefono-update,
+.register-label-rol-update,
+.register-label-padecimientos-update {
+  font-size: 1rem;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 5px;
+  text-align: left;
+}
+
+.register-input-nombre-update,
+.register-input-genero-update,
+.register-input-edad-update,
+.register-input-peso-update,
+.register-input-estatura-update,
+.register-input-telefono-update,
+.register-input-rol-update,
+.register-input-padecimientos-update {
+  padding: 0.75rem;
   border: 1px solid #ccc;
   border-radius: 4px;
-  background-color: #fff;
+  font-size: 1rem;
   box-sizing: border-box;
   width: 100%;
 }
+.register-input-genero-update,
+.register-input-rol-update {
+  width: 40%;
+}
+.colum-one-update .register-input-nombre-update {
+  width: 80%;
+  max-width: 390px;
+  min-width: 240px;
+  margin: 0;
+  text-align: left;
+}
 
-/* Estilos para los botones */
-.admin-update-user button {
-  grid-column: span 2;
-  padding: 10px;
-  font-size: 1em;
+.colum-two-update .register-input-edad-update,
+.colum-two-update .register-input-peso-update,
+.colum-two-update .register-input-estatura-update {
+  width: 70%;
+  max-width: 160px;
+  min-width: 120px;
+  margin: 0;
+  text-align: left;
+}
+.colum-two-update .register-input-genero-update {
+  width: 80%;
+  max-width: 170px;
+  min-width: 150px;
+  margin: 0;
+  text-align: left;
+}
+
+.colum-three-update .register-input-telefono-update {
+  width: 80%;
+  max-width: 350px;
+  min-width: 200px;
+  margin: 0;
+  text-align: justify;
+}
+.colum-three-update .register-input-rol-update {
+  width: 80%;
+  max-width: 170px;
+  min-width: 150px;
+  margin: 0;
+  text-align: left;
+}
+
+/* Ajusta el contenedor del teléfono para evitar superposición */
+.register-telefono-group-update .phone-input {
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
+.phone-input .form-control {
+  padding-left: 60px;
+  width: 100%;
+  max-width: 100%;
+}
+
+.phone-input input[type="tel"] {
+  width: calc(100% - 70px);
+  padding-left: 60px;
+  box-sizing: border-box;
+}
+
+.phone-input .flag-dropdown {
+  position: absolute;
+  left: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 1;
+}
+
+.phone-input .country-list {
+  z-index: 10000;
+}
+
+/* Estilo general para los inputs y selects */
+.register-input-telefono-update {
+  width: 100%;
+  max-width: 350px;
+  min-width: 200px;
+  margin: 0;
+  padding-left: 60px;
+}
+
+.register-button-register-update {
+  background-color: #28a745;
+  color: white;
   border: none;
+  padding: 0.75rem 2rem;
+  font-size: 1.1rem;
+  font-weight: bold;
   border-radius: 4px;
   cursor: pointer;
   transition: background-color 0.3s ease;
 }
 
-.admin-update-user button[type="submit"] {
-  background-color: #4caf50;
-  color: #fff;
+.register-button-register-update:hover {
+  background-color: #218838;
 }
 
-.admin-update-user button[type="button"].cancel-button {
-  background-color: #f44336;
-  color: #fff;
+/* Estilos adicionales */
+.register-button-register-container-update {
+  grid-column: span 3;
+  display: flex;
+  justify-content: flex-end;
 }
 
-/* Estilo hover para los botones */
-.admin-update-user button:hover {
-  opacity: 0.9;
+textarea.register-input-padecimientos-update {
+  resize: none;
+  height: 100px;
 }
 
-/* Estilos para el contenedor de la contraseña */
-.password-input-container {
-  position: relative;
+/* Alertas */
+.swal2-popup {
+  font-size: 1.2em;
 }
 
-/* Estilos para el botón de mostrar/ocultar contraseña */
-.password-toggle-btn {
-  position: absolute;
-  right: 10px;
-  top: 50%;
-  transform: translateY(-50%);
-  background-color: transparent; /* Fondo transparente */
-  border: none; /* Sin bordes */
-  cursor: pointer;
-  padding: 0; /* Sin padding */
-  outline: none; /* Sin outline cuando está enfocado */
+.swal2-title {
+  color: #333;
 }
 
-/* Estilos para el ícono de mostrar/ocultar contraseña */
-.eye-icon {
-  width: 1.5rem;
-  height: 1.5rem;
-  color: #333; /* Color independiente */
-  background: none; /* Sin fondo */
+.swal2-content {
+  color: #666;
 }
 
-.close-button-admin-update-user {
-  position: absolute; /* Posiciona el botón en relación al contenedor */
-  top: -5px; /* Ajusta la distancia desde el borde superior */
-  right: 0px; /* Ajusta la distancia desde el borde derecho */
-  background: transparent;
+.swal2-confirm {
+  background-color: #4CAF50;
+  color: white;
   border: none;
-  cursor: pointer;
-  color: #333; /* Ajusta el color según el diseño */
 }
 
-/* Estilos para el botón de cierre cuando se pasa el mouse sobre él */
-.close-button-admin-update-user:hover {
-  color: #666; /* Cambia el color en hover si lo deseas */
+.swal2-confirm:hover {
+  background-color: #45a049;
+}
+
+.swal2-cancel {
+  background-color: #f44336;
+  color: white;
+  border: none;
+}
+
+.swal2-cancel:hover {
+  background-color: #e53935;
+}
+
+.swal2-popup .swal2-styled {
+  border-radius: 8px;
 }

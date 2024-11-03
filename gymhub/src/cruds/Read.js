@@ -59,7 +59,6 @@ export const obtenerTodosLosUsuarios = async (sortOption) => {
   }
 };
 
-
 export const obtenerInfoUsuario = async (correo, usuario) => {
   try {
     const q = query(
@@ -124,6 +123,30 @@ export const obtenerInfoUsuarioCorreo = async (correo) => {
     throw new Error('No se pudo obtener la información del usuario.');
   }
 };
+
+export const obtenerUsuariosPorRol = async (rol, sortOption) => {
+  try {
+    // Consulta para obtener los usuarios con el rol especificado
+    const q = query(collection(db, 'User'), where('rol', '==', rol));
+    const querySnapshot = await getDocs(q);
+    const usuarios = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+
+    // Ordenar usuarios de acuerdo con la opción de ordenamiento
+    if (sortOption === 'Nombre completo (A-Z)') {
+      usuarios.sort((a, b) => a.nombre.localeCompare(b.nombre));
+    } else if (sortOption === 'Correo (A-Z)') {
+      usuarios.sort((a, b) => a.correo.localeCompare(b.correo));
+    } else if (sortOption === 'Recientes') {
+      usuarios.sort((a, b) => b.createdAt.toMillis() - a.createdAt.toMillis());
+    }
+
+    return usuarios;
+  } catch (error) {
+    console.error('Error al obtener usuarios por rol:', error);
+    throw new Error('No se pudo obtener la lista de usuarios.');
+  }
+};
+
 
 export const obtenerTodosLosProductos = async (filter) => {
   const productosRef = collection(db, 'Sales');

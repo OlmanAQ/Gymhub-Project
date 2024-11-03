@@ -220,7 +220,7 @@ const AdminInventoryView = ({ onShowRegisterInventory, onShowEditInventory }) =>
                   <th>Nombre</th>
                   <th>Cantidad</th>
                   <th>Estado</th>
-                  <th>Información</th>
+                  <th>Info</th>
                   <th>Editar</th>
                   <th>Eliminar</th>
                 </tr>

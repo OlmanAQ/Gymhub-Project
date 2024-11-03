@@ -187,6 +187,44 @@
   white-space: nowrap;
 }
 
+.cantidad-input {
+  -moz-appearance: textfield; /* Para navegadores Firefox */
+  -webkit-appearance: none; /* Para navegadores basados en WebKit como Chrome y Safari */
+  appearance: none; /* Asegura compatibilidad con otros navegadores */
+  
+  width: 60px;
+  text-align: center;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 16px;
+  padding: 5px;
+}
+
+/* Oculta los controles de número para WebKit */
+.cantidad-input::-webkit-outer-spin-button,
+.cantidad-input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Personaliza la apariencia del input al pasar el ratón */
+.cantidad-input:focus {
+  outline: none;
+  border-color: #999;
+}
+
+/* Iconos de incrementar y decrementar */
+.icono-incrementar,
+.icono-decrementar {
+  cursor: pointer;
+  transition: transform 0.2s ease-in-out;
+}
+
+.icono-incrementar:hover,
+.icono-decrementar:hover {
+  transform: scale(1.1);
+}
+
 /* --- Media Queries para hacer el diseño responsive --- */
 @media (max-width: 768px) {
   .grid-container {

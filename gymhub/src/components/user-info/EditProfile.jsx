@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import '../../css/AdminUpdateUser.css';
+import '../../css/EditProfile.css';
 import { X } from 'lucide-react';
 import Swal from 'sweetalert2';
 import { actualizarUsuario } from '../../cruds/Update';
@@ -7,30 +7,30 @@ import PhoneInput from 'react-phone-input-2';
 import 'react-phone-input-2/lib/style.css';
 import UserTypes from '../../utils/UsersTipos';
 
-const AdminUpdateUser = ({ user, onClose }) => {
+const EditProfile = ({ user, onCancel }) => { // Recibir el usuario como prop
   const [form, setForm] = useState({
+    usuario: '',
     nombre: '',
     edad: '',
     genero: '',
     estatura: '',
     peso: '',
     padecimientos: '',
-    telefono: '',
-    rol: ''
+    telefono: ''
   });
 
   useEffect(() => {
     // Prellenar el formulario con los datos del usuario a editar
     if (user) {
       setForm({
+        usuario: user.usuario || '',
         nombre: user.nombre || '',
         edad: user.edad || '',
         genero: user.genero || '',
         estatura: user.estatura || '',
         peso: user.peso || '',
         padecimientos: user.padecimientos || '',
-        telefono: user.telefono || '',
-        rol: user.rol || '',
+        telefono: user.telefono || ''
       });
     }
   }, [user]);
@@ -46,8 +46,8 @@ const AdminUpdateUser = ({ user, onClose }) => {
 
   const validateForm = () => {
     const requiredFields = [
-      'nombre', 'edad', 'genero', 'estatura', 'peso', 'padecimientos',
-      'telefono', 'rol'
+      'usuario', 'nombre', 'edad', 'genero', 'estatura', 'peso', 'padecimientos',
+      'telefono'
     ];
     for (let field of requiredFields) {
       if (form[field] === undefined || form[field].trim() === '') {
@@ -55,7 +55,7 @@ const AdminUpdateUser = ({ user, onClose }) => {
       }
     }
 
-    if (form.genero === '' || form.rol === '' || form.genero === 'Seleccione' || form.rol === 'Seleccione') {
+    if (form.genero === '' || form.genero === 'Seleccione' || form.telefono === '') {
       return false;
     }
 
@@ -84,7 +84,7 @@ const AdminUpdateUser = ({ user, onClose }) => {
         text: 'Los datos del usuario han sido actualizados exitosamente.',
         confirmButtonText: 'Ok'
       });
-      onClose(); // Cerrar el formulario de actualización
+      onCancel(); // Volver a la vista de perfil
     } catch (error) {
       console.error('Error al actualizar el usuario:', error);
       Swal.fire({
@@ -108,42 +108,54 @@ const AdminUpdateUser = ({ user, onClose }) => {
       cancelButtonText: 'Cancelar'
     }).then((result) => {
       if (result.isConfirmed) {
-        onClose();
+        onCancel(); // Volver a la vista de perfil sin guardar
       }
     });
   };
 
   return (
-    <div className="admin-update-user-container">
-      <div className="admin-update-user-header">
-        <h2>Actualizar Usuario</h2>
+    <div className="editprofile-user-container">
+      <div className="editprofile-user-header">
+        <h2>Editar perfil</h2>
       </div>
 
-      <form className="admin-update-user-form" onSubmit={handleSubmit}>
-        <button type="button" className="admin-update-user-close-button" onClick={cerrarFormulario}>
+      <form className="editprofile-user-form" onSubmit={handleSubmit}>
+        <button type="button" className="editprofile-user-close-button" onClick={cerrarFormulario}>
           <X />
         </button>
-        <div className='colum-one-update'>
-          <div className="register-name-group-update">
-            <label htmlFor="nombre" className="register-label-nombre-update">Nombre completo</label>
+        <div className='colum-one-editprofile'>
+          <div className="register-user-group-editprofile">
+            <label htmlFor="usuario" className="register-label-usuario-editprofile">Usuario</label>
+            <input
+              type="text"
+              id="usuario"
+              name="usuario"
+              value={form.usuario}
+              onChange={estadoElemento}
+              className="register-input-usuario-editprofile"
+            />
+          </div>
+          
+          <div className="register-name-group-editprofile">
+            <label htmlFor="nombre" className="register-label-nombre-editprofile">Nombre completo</label>
             <input
               type="text"
               id="nombre"
               name="nombre"
               value={form.nombre}
               onChange={estadoElemento}
-              className="register-input-nombre-update"
+              className="register-input-nombre-editprofile"
             />
           </div>
 
-          <div className="register-genero-group-update">
-            <label htmlFor="genero" className="register-label-genero-update">Género</label>
+          <div className="register-genero-group-editprofile">
+            <label htmlFor="genero" className="register-label-genero-editprofile">Género</label>
             <select
               id="genero"
               name="genero"
               value={form.genero}
               onChange={estadoElemento}
-              className="register-input-genero-update"
+              className="register-input-genero-editprofile"
             >
               <option value="">Seleccione</option>
               <option value="Hombre">Hombre</option>
@@ -151,70 +163,54 @@ const AdminUpdateUser = ({ user, onClose }) => {
               <option value="Otro">Otro</option>
             </select>
           </div>
-
-          <div className="register-rol-group-update">
-            <label htmlFor="rol" className="register-label-rol-update">Rol</label>
-            <select
-              id="rol"
-              name="rol"
-              value={form.rol}
-              onChange={estadoElemento}
-              className="register-input-rol-update"
-            >
-              <option value="">Seleccione</option>
-              <option value={UserTypes.ADMINISTRADOR}>Administrador</option>
-              <option value={UserTypes.ENTRENADOR}>Entrenador</option>
-              <option value={UserTypes.CLIENTE}>Cliente</option>
-            </select>
-          </div>
         </div>
 
-        <div className='colum-two-update'>
-          <div className="register-edad-group-update">
-            <label htmlFor="edad" className="register-label-edad-update">Edad</label>
+        <div className='colum-two-editprofile'>
+          <div className="register-edad-group-editprofile">
+            <label htmlFor="edad" className="register-label-edad-editprofile">Edad</label>
             <input
               type="number"
               id="edad"
               name="edad"
               value={form.edad}
               onChange={estadoElemento}
-              className="register-input-edad-update"
+              className="register-input-edad-editprofile"
               min="0"
             />
           </div>
 
-          <div className="register-peso-group-update">
-            <label htmlFor="peso" className="register-label-peso-update">Peso (kg)</label>
+          <div className="register-peso-group-editprofile">
+            <label htmlFor="peso" className="register-label-peso-editprofile">Peso (kg)</label>
             <input
               type="number"
               id="peso"
               name="peso"
               value={form.peso}
               onChange={estadoElemento}
-              className="register-input-peso-update"
+              className="register-input-peso-editprofile"
               step="0.1"
               min="0"
             />
           </div>
 
-          <div className="register-estatura-group-update">
-            <label htmlFor="estatura" className="register-label-estatura-update">Estatura (metros)</label>
+          <div className="register-estatura-group-editprofile">
+            <label htmlFor="estatura" className="register-label-estatura-editprofile">Estatura (metros)</label>
             <input
               type="number"
               id="estatura"
               name="estatura"
               value={form.estatura}
               onChange={estadoElemento}
-              className="register-input-estatura-update"
+              className="register-input-estatura-editprofile"
               step="0.01"
               min="0"
             />
           </div>
         </div>
 
-        <div className='colum-three-update'>
-          <div className="register-telefono-group-update">
-            <label htmlFor="telefono" className="register-label-telefono-update">Teléfono</label>
+        <div className='colum-three-editprofile'>
+          <div className="register-telefono-group-editprofile">
+            <label htmlFor="telefono" className="register-label-telefono-editprofile">Teléfono</label>
             <PhoneInput
               country={'cr'}
               value={form.telefono}
@@ -222,25 +218,25 @@ const AdminUpdateUser = ({ user, onClose }) => {
               inputProps={{
                 name: 'telefono',
                 required: true,
-                className: "register-input-telefono-update"
+                className: "register-input-telefono-editprofile"
               }}
             />
           </div>
 
-          <div className="register-padecimientos-group-update">
-            <label htmlFor="padecimientos" className="register-label-padecimientos-update">Padecimientos</label>
+          <div className="register-padecimientos-group-editprofile">
+            <label htmlFor="padecimientos" className="register-label-padecimientos-editprofile">Padecimientos</label>
             <textarea
               id="padecimientos"
               name="padecimientos"
               value={form.padecimientos}
               onChange={estadoElemento}
-              className="register-input-padecimientos-update"
+              className="register-input-padecimientos-editprofile"
             />
           </div>
         </div>
 
-        <div className="register-button-register-container-update">
-          <button type="submit" className="register-button-register-update">
+        <div className="register-button-register-container-editprofile">
+          <button type="submit" className="register-button-register-editprofile">
             Actualizar
           </button>
         </div>
@@ -249,4 +245,4 @@ const AdminUpdateUser = ({ user, onClose }) => {
   );
 };
 
-export default AdminUpdateUser;
+export default EditProfile;

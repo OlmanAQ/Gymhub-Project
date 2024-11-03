@@ -41,9 +41,8 @@ const AdminEditExpense = ({ gastoId, onClose }) => {
     };
 
     return (
-        <div className="admin-edit-expense-view">
+        <div className="admin-expense-view">
             <h2>Editar Gasto</h2>
-            <button className="btn-close" onClick={onClose}>X</button>
             <form className="expense-form" onSubmit={handleSubmit}>
                 <input
                     type="text"

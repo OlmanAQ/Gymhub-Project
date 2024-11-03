@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { obtenerTodosLosProductos } from '../../cruds/Read';
 import { eliminarProducto } from '../../cruds/Delete';
 import { comprarProducto, contarProductosEnCarrito } from '../../cruds/Update';
-import { Edit, Trash, Search, Paintbrush, Plus, ShoppingCart } from 'lucide-react';
+import { Edit, Trash, Search, Paintbrush, Plus, ShoppingCart, MinusCircle, PlusCircle } from 'lucide-react';
 import AdminUpdateProduct from './AdminUpdateProduct';
 import { useSelector } from 'react-redux';
 import AdminAddProduct from './AdminAddProduct';
@@ -21,12 +21,11 @@ const AdminSalesView = () => {
   const [filter, setFilter] = useState('');
   const [mostrarAgregarProducto, setMostrarAgregarProducto] = useState(false);
   const usuario = useSelector((state) => state.user);
+  const [cantidadSeleccionada, setCantidadSeleccionada] = useState({});
 
-  // Función para cambiar entre AdminSalesView y ShopingCarView
   const toggleCartView = () => {
     setShowShoppingCart(!showShoppingCart);
     if (showShoppingCart) {
-      // Si estamos cerrando el carrito, actualizamos el contador del carrito
       actualizarContadorCarrito();
     }
   };
@@ -52,7 +51,7 @@ const AdminSalesView = () => {
     setContadorCarrito(cantidad);
   };
 
-  const handleAddToCart = async (producto) => {
+  const handleAddToCart = async (producto, cantidad) => {
     if (!usuario || !usuario.userId) {
       Swal.fire({
         title: 'Error',
@@ -61,27 +60,46 @@ const AdminSalesView = () => {
       });
       return;
     }
-
+  
     if (producto.quantity === "0") {
       Swal.fire({
         title: 'Producto agotado',
         text: 'Este producto no está disponible.',
         icon: 'warning',
       });
+    } else if (cantidad > producto.quantity) {
+      Swal.fire({
+        title: 'Cantidad excedida',
+        text: 'No hay suficientes productos en stock.',
+        icon: 'warning',
+      });
     } else {
-      await comprarProducto(producto.id, usuario.userId);
+      await comprarProducto(producto.id, usuario.userId, cantidad);
       await actualizarContadorCarrito();
       recargarAdminSalesView();
     }
+  };  
+
+  const actualizarCantidadSeleccionada = (productoId, cantidad) => {
+    setCantidadSeleccionada((prevState) => ({
+      ...prevState,
+      [productoId]: cantidad,
+    }));
   };
 
-  useEffect(() => {
-    loadProducts('');
-  }, []);
+  const incrementarCantidad = (productoId, maxQuantity) => {
+    setCantidadSeleccionada((prevState) => ({
+      ...prevState,
+      [productoId]: Math.min(prevState[productoId] + 1, maxQuantity),
+    }));
+  };
 
-  useEffect(() => {
-    loadProducts(filter);
-  }, [filter]);
+  const decrementarCantidad = (productoId) => {
+    setCantidadSeleccionada((prevState) => ({
+      ...prevState,
+      [productoId]: Math.max(prevState[productoId] - 1, 1),
+    }));
+  };
 
   const handleEditProduct = (productoId) => {
     const productoSeleccionado = productos.find((producto) => producto.id === productoId);
@@ -202,6 +220,35 @@ const AdminSalesView = () => {
                     <p>Precio: ₡{producto.price}</p>
                     <p>Cantidad disponible: {producto.quantity}</p>
                     <p>Estado: {producto.state}</p>
+                    <div className="quantity-control">
+                      <MinusCircle
+                        className="icono-decrementar"
+                        size={24}
+                        onClick={() => decrementarCantidad(producto.id)}
+                      />
+                      <input
+                        type="number"
+                        className="cantidad-input"
+                        value={cantidadSeleccionada[producto.id] || 1}
+                        min={1}
+                        max={producto.quantity}
+                        onChange={(e) => {
+                          const value = parseInt(e.target.value, 10);
+                          if (value >= 1 && value <= producto.quantity) {
+                            actualizarCantidadSeleccionada(producto.id, value);
+                          } else if (value < 1) {
+                            actualizarCantidadSeleccionada(producto.id, 1);
+                          } else if (value > producto.quantity) {
+                            actualizarCantidadSeleccionada(producto.id, producto.quantity);
+                          }
+                        }}
+                      />
+                      <PlusCircle
+                        className="icono-incrementar"
+                        size={24}
+                        onClick={() => incrementarCantidad(producto.id, producto.quantity)}
+                      />
+                    </div>                  
                     <div className="producto-actions">
                       <ShoppingCart
                         className="icono-comprar"
@@ -215,9 +262,7 @@ const AdminSalesView = () => {
                               icon: 'warning',
                             });
                           } else {
-                            await comprarProducto(producto.id, usuario.userId);
-                            recargarAdminSalesView();
-                            await actualizarContadorCarrito();
+                            await handleAddToCart(producto, cantidadSeleccionada[producto.id] || 1);
                           }
                         }}
                       />
@@ -237,11 +282,11 @@ const AdminSalesView = () => {
                   </div>
                 ))}
               </div>
+              <FloatingCart contador={contadorCarrito} onClick={toggleCartView} />
             </>
           )}
         </>
       )}
-      {!showShoppingCart && <FloatingCart contador={contadorCarrito} onClick={toggleCartView} />}
     </div>
   );
 };
