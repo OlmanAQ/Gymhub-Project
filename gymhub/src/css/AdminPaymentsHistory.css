@@ -1,0 +1,181 @@
+/* Contenedor principal */
+.admin-payments-history-container {
+  max-width: 90%;
+  margin: 20px auto;
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+  font-family: Arial, sans-serif;
+  border: 1px solid #e0e0e0;
+  position: relative;
+  text-align: left;
+  min-height: 600px;
+}
+
+/* Icono de cerrar */
+.close-icon {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  color: #000;
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+
+.close-icon:hover {
+  color: #f44336;
+}
+
+/* Título */
+.admin-payments-history-container h2 {
+  font-size: 1.8rem;
+  color: #333;
+  margin-bottom: 20px;
+}
+
+/* Contenedor de historial */
+.history-content {
+  display: flex;
+  gap: 30px;
+}
+
+/* Lista de facturas */
+.facturas-list {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+  width: 45%;
+  max-height: 500px;
+  overflow-y: auto;
+}
+
+.facturas-list li {
+  background-color: #ffffff;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  padding: 15px;
+  margin-bottom: 10px;
+  display: flex;
+  flex-direction: column;
+  cursor: pointer;
+  box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.05);
+  width: 100%;
+}
+
+.facturas-list li.selected {
+  background-color: #d4edda;
+  border-color: #c3e6cb;
+  box-shadow: 0px 4px 12px rgba(0, 172, 193, 0.3);
+}
+
+.facturas-list li:hover {
+  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.facturas-list li span {
+  font-size: 1rem;
+  color: #555;
+  line-height: 1.5;
+  margin-bottom: 5px;
+}
+
+.facturas-list li .factura-id {
+  font-weight: bold;
+  color: #333;
+}
+
+/* Detalles de factura seleccionada */
+.factura-details {
+  width: 55%;
+  padding: 20px;
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.05);
+  min-height: 500px;
+  position: relative;
+}
+
+/* Encabezado de factura */
+.factura-header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 15px;
+}
+
+.header-left {
+  width: 60%;
+}
+
+.header-right {
+  width: 40%;
+  text-align: right;
+}
+
+.logo-image {
+  width: 70px;
+  height: auto;
+  margin-bottom: 8px;
+}
+
+.company-name {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #333;
+}
+
+.header-left p,
+.header-right p {
+  margin: 5px 0;
+}
+
+.header-left p strong,
+.header-right p strong {
+  font-weight: bold;
+}
+
+/* Línea divisora */
+.divider {
+  border-top: 1px solid #ddd;
+  margin: 15px 0;
+}
+
+/* Cuerpo de detalles de factura */
+.factura-body {
+  display: flex;
+  justify-content: space-between;
+}
+
+.body-left, .body-right {
+  width: 48%;
+}
+
+.body-left p, .body-right p {
+  margin: 8px 0;
+}
+
+/* Botón Eliminar */
+.delete-button {
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+  background-color: #f44336;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  padding: 10px 15px;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: background-color 0.3s ease;
+}
+
+.delete-button .trash-icon {
+  margin-right: 5px;
+}
+
+.delete-button:hover {
+  background-color: #d32f2f;
+}
