@@ -6,7 +6,6 @@ import { format } from 'date-fns';
 import { es } from 'date-fns/locale';
 import { toZonedTime } from 'date-fns-tz';
 import '../../css/AdminPaymentsAdd.css';
-// Agrergar paginacion de los usuarios, agregar un mensaje de confirmacion para eliminar usuario, un buscador de facturas.
 const timeZone = 'America/Costa_Rica';
 
 const formatFecha = (fecha) => {

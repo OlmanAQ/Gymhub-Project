@@ -193,4 +193,41 @@
   .process-button:hover {
     background-color: #218838; /* Verde más oscuro en hover */
   }
-  
+/* Estilos para la tabla de usuarios */
+.tabla-usuarios {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+  background-color: #ffffff;
+  box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.tabla-usuarios th,
+.tabla-usuarios td {
+  padding: 12px 15px;
+  border: 1px solid #ddd;
+  text-align: left;
+  font-size: 1rem;
+  color: #333;
+}
+
+.tabla-usuarios th {
+  background-color: #333333de;
+  color: #ffffff;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.tabla-usuarios tr:nth-child(even) {
+  background-color: #f9f9f9; /* Fondo alterno para filas */
+}
+
+.tabla-usuarios tr:hover {
+  background-color: #f1f1f1; /* Fondo claro al pasar el cursor */
+}
+
+.tabla-usuarios tr.selected {
+  background-color: #d4edda !important; /* Verde claro para la selección */
+  border-color: #c3e6cb;
+  transition: background-color 0.3s, border-color 0.3s;
+}

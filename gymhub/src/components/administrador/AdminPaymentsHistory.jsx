@@ -6,7 +6,7 @@ import logo from '../../assets/LogoGymHub.png';
 import { format } from 'date-fns';
 import { es } from 'date-fns/locale';
 import '../../css/AdminPaymentsHistory.css';
-import { showAlert, AlertType } from '../../utils/Alert';
+import { showSuccessAlert, showConfirmAlert, showErrorAlert } from '../../utils/Alert';
 
 const AdminPaymentsHistory = ({ selectedUser, onCancel }) => {
   const [facturas, setFacturas] = useState([]);
@@ -26,7 +26,7 @@ const AdminPaymentsHistory = ({ selectedUser, onCancel }) => {
           setSelectedFactura(facturasUsuario[0]);
         }
       } catch (error) {
-        console.error('Error al obtener el historial de facturas:', error);
+        showErrorAlert('Error', 'No se pudo obtener el historial de facturas.');
         setFacturas([]);
       }
     };
@@ -42,10 +42,24 @@ const AdminPaymentsHistory = ({ selectedUser, onCancel }) => {
 
   const handleDeleteFactura = async () => {
     if (selectedFactura) {
-      await eliminarFactura(selectedFactura.id);
-      setFacturas(facturas.filter(factura => factura.id !== selectedFactura.id));
-      setSelectedFactura(null);
-      showAlert('Factura eliminada', 'La factura se ha eliminado correctamente.', AlertType.SUCCESS);
+      // Muestra confirmación antes de eliminar
+      const result = await showConfirmAlert(
+        'Confirmar eliminación',
+        '¿Estás seguro de que deseas eliminar esta factura? Esta acción no se puede deshacer.',
+        'Sí, eliminar',
+        'Cancelar'
+      );
+
+      if (result.isConfirmed) {
+        try {
+          await eliminarFactura(selectedFactura.id);
+          setFacturas(facturas.filter(factura => factura.id !== selectedFactura.id));
+          setSelectedFactura(null);
+          showSuccessAlert('Factura eliminada', 'La factura se ha eliminado correctamente.');
+        } catch (error) {
+          showErrorAlert('Error', 'No se pudo eliminar la factura.');
+        }
+      }
     }
   };
 
@@ -98,7 +112,7 @@ const AdminPaymentsHistory = ({ selectedUser, onCancel }) => {
               )}
             </div>
 
-            {/* Botón Eliminar */}
+            {/* Botón Eliminar con confirmación */}
             <button className="delete-button" onClick={handleDeleteFactura}>
               <Trash className="trash-icon" /> Eliminar
             </button>
