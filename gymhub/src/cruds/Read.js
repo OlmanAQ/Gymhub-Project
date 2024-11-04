@@ -199,3 +199,51 @@ export const obtenerCarritoCompras = async (usuarioId) => {
     throw new Error('No se pudo obtener el carrito de compras.');
   }
 };
+
+export const obtenerFacturasPorUsuario = async (uid) => {
+  try {
+    const facturasQuery = query(
+      collection(db, 'Payments'),
+      where('uid', '==', uid),
+      orderBy('createdAt', 'desc')
+    );
+
+    const querySnapshot = await getDocs(facturasQuery);
+    const facturas = querySnapshot.docs.map(doc => ({
+      id: doc.id,
+      ...doc.data()
+    }));
+
+    return facturas;
+  } catch (error) {
+    console.error('Error al obtener las facturas del usuario: ', error);
+  }
+};
+
+export const contarFacturasPorUsuario = async (usuarios) => {
+  try {
+    // Itera sobre cada usuario para contar sus facturas
+    const usuariosConFacturas = await Promise.all(
+      usuarios.map(async (usuario) => {
+        const facturasQuery = query(
+          collection(db, 'Payments'),
+          where('uid', '==', usuario.uid)
+        );
+
+        const querySnapshot = await getDocs(facturasQuery);
+        const cantidadFacturas = querySnapshot.size; // Cuenta la cantidad de documentos
+
+        // Retorna el usuario con el conteo de facturas añadido
+        return {
+          ...usuario,
+          cantidadFacturas
+        };
+      })
+    );
+
+    return usuariosConFacturas;
+  } catch (error) {
+    console.error('Error al contar las facturas de los usuarios: ', error);
+    throw new Error('No se pudo contar las facturas de los usuarios.');
+  }
+};
