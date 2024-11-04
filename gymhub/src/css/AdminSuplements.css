@@ -11,11 +11,18 @@
   padding: 10px;
 }
 
+@media (max-width: 768px) {
+  .container-buttons {
+    flex-direction: column;
+    gap: 10px; /* Opcional: espacio entre los elementos al apilarlos */
+  }
+}
+
 .container-DE{
-display: flex;
-justify-content: space-between; 
-padding: 10px;
-margin-top: auto;
+  display: flex;
+  justify-content: space-between; 
+  padding: 10px;
+  margin-top: auto;
 }
 
 
@@ -24,6 +31,26 @@ margin-top: auto;
   grid-template-columns: repeat(4, 1fr); 
   gap: 20px;
   padding: 20px;
+}
+
+/* Para pantallas medianas, reduce a 2-3 columnas */
+@media (max-width: 1024px) {
+  .suplementos-container {
+    grid-template-columns: repeat(3, 1fr); /* Cambia a 3 columnas */
+  }
+}
+
+@media (max-width: 768px) {
+  .suplementos-container {
+    grid-template-columns: repeat(2, 1fr); /* Cambia a 2 columnas */
+  }
+}
+
+/* Para pantallas pequeñas, reduce a una sola columna */
+@media (max-width: 480px) {
+  .suplementos-container {
+    grid-template-columns: 1fr; /* Cambia a 1 columna */
+  }
 }
 
 .suplemento-card {
@@ -144,6 +171,12 @@ margin-top: auto;
   padding: 10px;
   border: white;
   outline: none;
+}
+
+@media (max-width: 600px) {
+  .flex-container {
+      width: 100%; /* Ajusta el ancho en pantallas pequeñas */
+  }
 }
 
 .search-button-flex {

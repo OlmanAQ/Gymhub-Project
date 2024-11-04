@@ -44,7 +44,6 @@ const AdminRewardsComp = ({ role, onShowAddRewards, onShowEditRewards }) => {
           break;
         
         default:
-          console.log('algo salió mal')
           break;
       }
 
@@ -136,7 +135,6 @@ const AdminRewardsComp = ({ role, onShowAddRewards, onShowEditRewards }) => {
         break;
   
       default:
-        console.log('Estado no reconocido');
         break;
     }
 
@@ -169,24 +167,24 @@ const AdminRewardsComp = ({ role, onShowAddRewards, onShowEditRewards }) => {
 
 
   return (
-    <div className="cont-principal">
+    <div className="cont-pr">
       <div> 
-        <h1 className="titulo">Premios</h1>
+        <h1 className="titulo-prn">Premios</h1>
       </div>
 
-      <div className='container-buttons'>        
-        <div className='flex-container'>
+      <div className='cont-buttons'>        
+        <div className='flex-cont'>
           <input
             type="text"
             placeholder="Buscar premio"
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            className="search-input-flex"
+            className="search-input-fl"
           />
-          <button className="search-button-flex" onClick={handleSearch}>
+          <button className="search-button-fl" onClick={handleSearch}>
             <Search size={28} color="#007BFF" />
           </button>
-          <button className="button-refresh" onClick={handleRefresh}>
+          <button className="button-rfs" onClick={handleRefresh}>
             <Paintbrush size={28} color="#007BFF" />
           </button>
         </div>
@@ -206,16 +204,16 @@ const AdminRewardsComp = ({ role, onShowAddRewards, onShowEditRewards }) => {
         </div>
         
         {role === 'admin' && (
-          <button className="button-create" onClick={onShowAddRewards}> Agregar premio </button>
+          <button className="btn-create" onClick={onShowAddRewards}> Agregar premio </button>
         )}
       </div>
 
-      <div className="suplementos-container">
+      <div className="rewards-container">
         {filteredRewards.length > 0 ? (
           filteredRewards.map((reward) => (
-            <div key={reward.id} className="suplemento-card">
+            <div key={reward.id} className="reward-card">
               <div>
-                <img src={reward.url} alt={reward.nombre} className="suplemento-img" />
+                <img src={reward.url} alt={reward.nombre} className="reward-img" />
                 <h2>{reward.nombre}</h2>
                 <p>Descripción: {reward.descripcion}</p>
                 <p>Ganador: {reward.ganador}</p>
@@ -223,12 +221,12 @@ const AdminRewardsComp = ({ role, onShowAddRewards, onShowEditRewards }) => {
                 <p>Estado: {reward.estado}</p>
               </div>
               {role === 'admin' && (
-                <div className="container-DE">
-                  <button className="button-sec" onClick={() => handleDelete(reward.id)}>
+                <div className="cont-DE">
+                  <button className="button-aux" onClick={() => handleDelete(reward.id)}>
                     <Trash size={28} color="#FF5C5C" />
                     Eliminar
                   </button>
-                  <button className="button-sec" onClick={() => onShowEditRewards(reward)}>
+                  <button className="button-aux" onClick={() => onShowEditRewards(reward)}>
                     <Edit size={28} color="#F7E07F" />
                     Editar
                   </button>

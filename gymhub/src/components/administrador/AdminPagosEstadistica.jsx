@@ -202,43 +202,46 @@ const fetchIngresos = async () => {
           <button className='cons-btn' onClick={fetchIngresos}>Consultar</button>
         </div>
       </div>
-  
-      <div className='graph-container'>
-        {chartData.labels.length > 0 ? (
-          <Line
-            data={chartData}
-            options={{
-              responsive: true,
-              plugins: {
-                legend: {
-                  display: false,
-                  position: 'top',
-                },
-                title: {
-                  display: true,
-                  text: 'Ingresos del gimnasio por fecha',
-                },
-              },
-              scales: {
-                x: {
+
+      <div class="graph-wrapper">
+        <div className='graph-container'>
+          {chartData.labels.length > 0 ? (
+            <Line
+              data={chartData}
+              options={{
+                responsive: true,
+                plugins: {
+                  legend: {
+                    display: false,
+                    position: 'top',
+                  },
                   title: {
                     display: true,
-                    text: 'Fechas',
+                    text: 'Ingresos del gimnasio por fecha',
                   },
                 },
-                y: {
-                  title: {
-                    display: true,
-                    text: 'Monto (Colones)',
+                scales: {
+                  x: {
+                    title: {
+                      display: true,
+                      text: 'Fechas',
+                    },
+                  },
+                  y: {
+                    title: {
+                      display: true,
+                      text: 'Monto (Colones)',
+                    },
                   },
                 },
-              },
-            }}
-          />
-        ) : (
-          <p className='message'>No hay datos disponibles para mostrar.</p>
-        )}
+              }}
+            />
+          ) : (
+            <p className='message'>No hay datos disponibles para mostrar.</p>
+          )}
+        </div>
       </div>
+
     </div>
   );
 };

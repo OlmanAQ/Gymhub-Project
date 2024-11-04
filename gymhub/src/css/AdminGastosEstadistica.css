@@ -35,6 +35,34 @@
     box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.05); 
     transition: box-shadow 0.4s ease, transform 0.3s ease; 
   }
+
+  @media (max-width: 768px) {
+    .form-data {
+      padding: 20px; /* Reduce el padding en pantallas medianas */
+      width: 100%;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .form-data {
+      padding: 15px; /* Reduce más el padding en pantallas pequeñas */
+      box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1); /* Ajusta la sombra */
+      width: 80%;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .dates-container, .categories-container, .btn-container {
+      flex-direction: column; /* Cambia a columna en pantallas pequeñas */
+      align-items: flex-start;
+      width: 100%; /* Asegura que los elementos ocupen todo el ancho */
+  }
+
+    .date-input, .select-categories, .cons-btn {
+      width: 100%; /* Ocupa el 100% del contenedor en pantallas pequeñas */
+      margin-bottom: 10px; /* Espacio entre los elementos */
+    }
+}
   
   .form-data:hover {
     box-shadow: 0px 12px 25px rgba(0, 0, 0, 0.1); 
@@ -120,7 +148,9 @@
   
 
   .graph-container {
-    width: 100%;
+    /*width: 100%;
+    max-width: 850px;*/
+    width: 850px;
     max-width: 850px;
     margin: 20px auto;
     border-radius: 15px; 
@@ -144,3 +174,7 @@
     margin-top: 30px;
   }
   
+  .graph-wrapper {
+    width: 100%;
+    overflow-x: auto; /* Activa el desplazamiento horizontal */
+}

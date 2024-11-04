@@ -57,11 +57,29 @@ const AdminNavBarComponent = ({
               <li class="nav-item">
                 <a class="nav-link" href="#gastos" onClick={onShowExpenseView}>Gastos</a>
               </li>
-              <li class="nav-item">
-                <a class="nav-link" href="#estadisticas-gastos" onClick={onShowGastosStd}>Est. Gastos</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="#estadisticas-pagos" onClick={onShowPagosStd}>Est. Pagos</a>
+              <li class="nav-item dropdown">
+                <a
+                  class="nav-link dropdown-toggle"
+                  href="#estadisticas"
+                  id="statsDropdown"
+                  role="button"
+                  data-bs-toggle="dropdown"
+                  aria-expanded="false"
+                >
+                  Estadísticas
+                </a>
+                <ul class="dropdown-menu" aria-labelledby="statsDropdown">
+                  <li>
+                    <a class="dropdown-item" href="#estadisticas-gastos" onClick={onShowGastosStd}>
+                      De gastos
+                    </a>
+                  </li>
+                  <li>
+                    <a class="dropdown-item" href="#estadisticas-ingresos" onClick={onShowPagosStd}>
+                      De ingresos
+                    </a>
+                  </li>
+                </ul>
               </li>
               <li class="nav-item">
                 <a class="nav-link" href="#suplementos" onClick={onShowSuplementos}>Suplementos</a>
