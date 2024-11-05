@@ -17,6 +17,7 @@ import AdminSalesView from './AdminSalesView';
 import AdminAlertView from './AdminAlertView';
 import AdminPaymentsView from './AdminPaymentsView';
 import AdminPaymentsAdd from './AdminPaymentsAdd';
+import AdminPaymentsHistory from './AdminPaymentsHistory';
 import Profile from '../user-info/Profile';
 
 const AdminComponent = ({ setIsAuthenticating }) => {
@@ -60,12 +61,17 @@ const AdminComponent = ({ setIsAuthenticating }) => {
   };
 
   const handleShowAddPayment = (user) => {
-    setSelectedUser(user); // Guardamos el usuario seleccionado
-    setView('addPayment'); // Cambiamos la vista a 'addPayment'
+    setSelectedUser(user);
+    setView('addPayment');
   };
 
   const handleShowPaymentsMain = () => {
     setView('paymentsView');
+  };
+
+  const handleShowPaymentHistory = (user) => {
+    setSelectedUser(user);
+    setView('paymentHistory');
   };
 
   const handleShowUpdateUser = (user) => {
@@ -123,10 +129,19 @@ const AdminComponent = ({ setIsAuthenticating }) => {
         onShowAlertView={handleShowAlertView}
       />
       {view === 'paymentsView' && (
-        <AdminPaymentsView onShowAddPayment={handleShowAddPayment} />
+        <AdminPaymentsView
+          onShowAddPayment={handleShowAddPayment}
+          onShowPaymentHistory={handleShowPaymentHistory} // Pasa el manejador de historial
+        />
       )}
       {view === 'addPayment' && (
         <AdminPaymentsAdd
+          selectedUser={selectedUser}
+          onCancel={handleShowPaymentsMain}
+        />
+      )}
+      {view === 'paymentHistory' && (
+        <AdminPaymentsHistory
           selectedUser={selectedUser}
           onCancel={handleShowPaymentsMain}
         />
