@@ -1,22 +1,15 @@
 import React, { useState, useEffect } from 'react';
-import { getAlerts, sendAlert, scheduleAlert, getClientsWithUpcomingPayments, configureGeneralAlert, getGeneralAlertConfig } from '../../cruds/Alert';
+import { sendAlert, getClientsWithUpcomingPayments, configureGeneralAlert, getGeneralAlertConfig } from '../../cruds/Alert';
 import Swal from 'sweetalert2';
 import '../../css/AdminAlertView.css';
 
 const AdminAlertView = () => {
-  const [alerts, setAlerts] = useState([]);
-  const [newAlert, setNewAlert] = useState('');
-  const [scheduleDate, setScheduleDate] = useState('');
   const [clients, setClients] = useState([]);
   const [daysBefore, setDaysBefore] = useState(0);
   const [generalAlertMessage, setGeneralAlertMessage] = useState('');
 
   useEffect(() => {
-    const fetchAlerts = async () => {
-      const fetchedAlerts = await getAlerts();
-      setAlerts(fetchedAlerts);
-    };
-
+  
     const fetchClients = async () => {
       const fetchedClients = await getClientsWithUpcomingPayments();
       setClients(fetchedClients);
@@ -30,33 +23,10 @@ const AdminAlertView = () => {
       }
     };
 
-    fetchAlerts();
     fetchClients();
     fetchGeneralAlertConfig();
   }, []);
-
-  const handleSendAlert = async () => {
-    if (!newAlert) {
-      Swal.fire('Error', 'El mensaje de alerta no puede estar vacío.', 'error');
-      return;
-    }
-
-    await sendAlert(newAlert);
-    setNewAlert('');
-    Swal.fire('Éxito', 'Alerta enviada correctamente.', 'success');
-  };
-
-  const handleScheduleAlert = async () => {
-    if (!newAlert || !scheduleDate) {
-      Swal.fire('Error', 'El mensaje de alerta y la fecha no pueden estar vacíos.', 'error');
-      return;
-    }
-
-    await scheduleAlert(newAlert, scheduleDate);
-    setNewAlert('');
-    setScheduleDate('');
-    Swal.fire('Éxito', 'Alerta programada correctamente.', 'success');
-  };
+  
 
   const handleSendPaymentReminder = async (client) => {
     const message = `Recordatorio: Su próximo pago es el ${client.nextPaymentDate}.`;
@@ -74,18 +44,10 @@ const AdminAlertView = () => {
     Swal.fire('Éxito', 'Alerta general configurada correctamente.', 'success');
   };
 
-  const [showAlertConfig, setShowAlertConfig] = useState(false);
-
-  const toggleAlertConfig = () => {
-    setShowAlertConfig(!showAlertConfig);
-  };
 
   return (
     <div className="admin-alert-view">
       <h2>Gestión de Alertas</h2>
-
-
-
       <div className="table-container">
         <table class="table">
           <thead class="table-dark">

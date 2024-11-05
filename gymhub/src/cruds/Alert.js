@@ -1,17 +1,8 @@
 import { db } from '../firebaseConfig/firebase';
 import { collection, addDoc, getDocs, deleteDoc, doc, query, where, setDoc, getDoc } from 'firebase/firestore';
 
-export const getAlerts = async () => {
-  const querySnapshot = await getDocs(collection(db, 'alerts'));
-  return querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-};
-
 export const sendAlert = async (message, clientId = null) => {
   await addDoc(collection(db, 'alerts'), { message, clientId, scheduleDate: new Date().toISOString() });
-};
-
-export const scheduleAlert = async (message, scheduleDate) => {
-  await addDoc(collection(db, 'alerts'), { message, scheduleDate });
 };
 
 export const getClientAlerts = async () => {
