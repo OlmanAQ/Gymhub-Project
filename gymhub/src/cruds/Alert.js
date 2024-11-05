@@ -1,6 +1,5 @@
 import { db } from '../firebaseConfig/firebase';
 import { collection, addDoc, getDocs, deleteDoc, doc, query, where, setDoc, getDoc } from 'firebase/firestore';
-import { send } from './mailer';
 
 export const getAlerts = async () => {
   const querySnapshot = await getDocs(collection(db, 'alerts'));
@@ -9,8 +8,6 @@ export const getAlerts = async () => {
 
 export const sendAlert = async (message, clientId = null) => {
   await addDoc(collection(db, 'alerts'), { message, clientId, scheduleDate: new Date().toISOString() });
-  send(message);
-
 };
 
 export const scheduleAlert = async (message, scheduleDate) => {
