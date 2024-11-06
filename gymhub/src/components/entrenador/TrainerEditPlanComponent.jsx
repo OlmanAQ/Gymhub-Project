@@ -4,12 +4,11 @@ import { db } from '../../firebaseConfig/firebase';
 import Swal from 'sweetalert2';
 import '../../css/TrainerEditPlanComponent.css';
 
-function TrainerEditPlanComponent({ plan }) { 
-
-  console.log("Desde edit:", plan);
+function TrainerEditPlanComponent({ plan, onClose }) { 
 
 
   const daysOfWeek = ['Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado', 'Domingo'];
+
 
   const [routineName, setRoutineName] = useState('');
   const [weeklyRoutine, setWeeklyRoutine] = useState({
@@ -116,6 +115,7 @@ function TrainerEditPlanComponent({ plan }) {
     };
 
     const fetchRoutine = async () => {
+      console.log('plan recibido:', plan);
       try {
         console.log('Llega al try');
         const docRef = doc(db, 'plans', plan.id);
@@ -148,14 +148,14 @@ function TrainerEditPlanComponent({ plan }) {
   const MuscleGroup = ({ group, exercises }) => {
     const [isExpanded, setIsExpanded] = useState(false);
     return (
-      <div className="muscle-group">
-        <button onClick={() => setIsExpanded(!isExpanded)} className="muscle-group-button">
+      <div className="edit-muscle-group">
+        <button onClick={() => setIsExpanded(!isExpanded)} className="edit-muscle-group-button">
           {group}
         </button>
         {isExpanded && (
-          <div className="exercise-list">
+          <div className="edit-exercise-list">
             {exercises.map((exercise, index) => (
-              <button key={index} className="exercise-button" onClick={() => addExerciseToDay(selectedDay, exercise)}>
+              <button key={index} className="edit-exercise-button" onClick={() => addExerciseToDay(selectedDay, exercise)}>
                 {exercise}
               </button>
             ))}
@@ -166,90 +166,100 @@ function TrainerEditPlanComponent({ plan }) {
   };
 
   return (
-    <div className="mi-div">
+    <div className="mi-contenedor">
       <h1 className="title">Edición de rutina</h1>
-
-      <div className="input-container">
-        <div className="user-search-container">
-          <input
-            type="text"
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            placeholder="Buscar usuario..."
-            className="user-search-input"
-          />
-          <button onClick={fetchUsers} className="user-search-button">Buscar usuario</button>
-          {users.length > 0 && (
-            <ul className="user-list">
-              {users.map(user => (
-                <li key={user.id} onClick={() => handleUserSelect(user)}>
-                  {user.nombre} ({user.usuario})
-                </li>
-              ))}
-            </ul>
-          )}
-          {selectedUser && (
-            <div className="selected-user">
-              <p>Usuario seleccionado: {selectedUser.nombre} ({selectedUser.usuario})</p>
-            </div>
-          )}
-        </div>
-
-        <div className="routine-name-container">
-          <input
-            type="text"
-            value={routineName}
-            onChange={(e) => setRoutineName(e.target.value)}
-            placeholder="Nombre de la rutina"
-            className="routine-name-input"
-          />
-        </div>
-
-        <div className="activity-state-container">
-          <label>
-            Estado de rutina
-            <select
-              value={activityState}
-              onChange={(e) => setActivityState(e.target.value === 'true')} // Convierte el string a booleano
-              className="activity-state-select"
-            >
-              <option value="false">Inactiva</option>
-              <option value="true">Activa</option>
-            </select>
-
-          </label>
-        </div>
+      <div className="cont-aux">
+        <button type="button" className="back-btn" onClick={onClose}>Volver</button>
       </div>
 
-      <div className="exercise-menu">
+      <div className='wrapper-cnt'>
+        <div className="edit-input-container">
+          <div className="edit-user-search-container">
+            <input
+              type="text"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              placeholder="Buscar usuario..."
+              className="edit-user-search-input"
+            />
+            <button onClick={fetchUsers} className="edit-user-search-button">Buscar usuario</button>
+            {users.length > 0 && (
+              <ul className="edit-user-list">
+                {users.map(user => (
+                  <li key={user.id} onClick={() => handleUserSelect(user)}>
+                    {user.nombre} ({user.usuario})
+                  </li>
+                ))}
+              </ul>
+            )}
+            {selectedUser && (
+              <div className="edit-selected-user">
+                <p>Usuario seleccionado: {selectedUser.nombre} ({selectedUser.usuario})</p>
+              </div>
+            )}
+          </div>
+
+          <div className="edit-routine-name-container">
+            <input
+              type="text"
+              value={routineName}
+              onChange={(e) => setRoutineName(e.target.value)}
+              placeholder="Nombre de la rutina"
+              className="edit-routine-name-input"
+            />
+          </div>
+
+          <div className="edit-activity-state-container">
+            <label>
+              Estado de rutina
+            </label>
+            <select
+                value={activityState}
+                onChange={(e) => setActivityState(e.target.value === 'true')} 
+                className="edit-activity-state-select"
+              >
+                <option value="false">Inactiva</option>
+                <option value="true">Activa</option>
+            </select>
+          </div>
+
+        </div>
+      </div>
+      
+
+      <div className="edit-exercise-menu">
         {muscleGroups.map((muscleGroup, index) => (
           <MuscleGroup key={index} group={muscleGroup.group} exercises={muscleGroup.exercises} />
         ))}
       </div>
 
-      <div className="days-container">
-        <div className="weekly-plan">
-          {daysOfWeek.map(day => (
-            <div key={day} className={`day-column ${selectedDay === day ? 'active-day' : ''}`}>
-              <h2 onClick={() => setSelectedDay(day)}>{day}</h2>
-              <ul>
-                {weeklyRoutine[day].map((exerciseObj, index) => {
-                  const exercise = Object.keys(exerciseObj)[0];
-                  const details = exerciseObj[exercise];
-                  return (
-                    <li key={index}>
-                      {`${exercise} - ${details.Series} sets x ${details.Repeticiones} reps`}
-                      <button className="remove-button" onClick={() => removeExerciseFromDay(day, exercise)}>X</button>
-                    </li>
-                  );
-                })}
-              </ul>
-            </div>
-          ))}
+
+      <div className='wrapper-cnt'>
+        <div className="edit-days-container">
+          <div className="edit-weekly-plan">
+            {daysOfWeek.map(day => (
+              <div key={day} className={`edit-day-column ${selectedDay === day ? 'edit-active-day' : ''}`}>
+                <h2 onClick={() => setSelectedDay(day)}>{day}</h2>
+                <ul>
+                  {weeklyRoutine[day].map((exerciseObj, index) => {
+                    const exercise = Object.keys(exerciseObj)[0];
+                    const details = exerciseObj[exercise];
+                    return (
+                      <li key={index}>
+                        {`${exercise} - ${details.Series} sets x ${details.Repeticiones} reps`}
+                        <button className="edit-remove-button" onClick={() => removeExerciseFromDay(day, exercise)}>X</button>
+                      </li>
+                    );
+                  })}
+                </ul>
+              </div>
+            ))}
+          </div>
         </div>
       </div>
 
-      <button className="save-routine-button" onClick={saveRoutine}>Guardar Cambios</button>
+
+      <button className="btn-act" onClick={saveRoutine}>Guardar Cambios</button>
     </div>
   );
 }

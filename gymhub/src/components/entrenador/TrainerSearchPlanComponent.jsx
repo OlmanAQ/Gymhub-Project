@@ -254,7 +254,7 @@ function TrainerSearchPlanComponent( {onShowCreatePlan,onShowEditPlan} ) {
                         </button>
                       </td>
                       <td>
-                        <button className='aux-button' onClick={onShowEditPlan}>
+                        <button className='aux-button' onClick={() => onShowEditPlan(plan)}>
                           <Edit size={28} color="#F7E07F" />
                         </button>
                       </td>

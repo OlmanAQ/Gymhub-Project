@@ -1,4 +1,4 @@
-.admin-add-suplement-container {
+.edit-suplement-container {
     width: 100%;
     display: flex; 
     flex-direction: column; 
@@ -7,7 +7,7 @@
     background-color: #f5f5f5;
   }
   
-  .admin-add-suplement-title {
+  .edit-suplement-title {
     font-size: 2.5rem;
     color: #ffffff;
     text-align: center;
@@ -21,14 +21,15 @@
     width: 100%;
   }
   
-  .admin-add-suplement-back-container {
+  /*No se usa*/
+  .edit-suplement-back-container {
     display: flex;
     justify-content: flex-start; 
     padding: 10px;
     width: 100%;
   }
   
-  .admin-add-suplement-back-button {
+  .edit-suplement-back-button {
     padding: 10px 20px;
     background-color: #007bff;
     color: white;
@@ -37,11 +38,11 @@
     cursor: pointer;
   }
   
-  .admin-add-suplement-back-button:hover {
+  .edit-suplement-back-button:hover {
     background-color: #0056b3;
   }
   
-  .admin-add-suplement-form {
+  .edit-suplement-form {
     display: flex;
     flex-direction: column;
     margin-top: 20px;
@@ -49,19 +50,19 @@
   }
     
   
-  .admin-add-suplement-form-group {
+  .edit-suplement-form-group {
     margin-bottom: 15px;
   }
   
-  .admin-add-suplement-label {
+  .edit-suplement-label {
     font-weight: bold;
     margin-bottom: 5px;
     color: #555;
   }
   
-  .admin-add-suplement-input,
-  .admin-add-suplement-textarea,
-  .admin-add-suplement-select {
+  .edit-suplement-input,
+  .edit-suplement-textarea,
+  .edit-suplement-select {
     width: 100%;
     padding: 10px;
     border: 1px solid #ccc;
@@ -69,14 +70,14 @@
     font-size: 16px;
   }
   
-  .admin-add-suplement-input:focus,
-  .admin-add-suplement-textarea:focus,
-  .admin-add-suplement-select:focus {
+  .edit-suplement-input:focus,
+  .edit-suplement-textarea:focus,
+  .edit-suplement-select:focus {
     border-color: #007bff;
     outline: none;
   }
   
-  .admin-add-suplement-textarea {
+  .edit-suplement-textarea {
     resize: vertical;
     min-height: 100px;
   }
@@ -84,14 +85,14 @@
   
   
   
-  .division-form-entry{
+  .edit-division-form-entry{
     display: flex;
     flex-direction: row;
     margin-top: 20px;
     justify-content: space-between;
   }
   
-  .left{
+  .edit-left{
     display: flex;
     flex-direction: column;
     width: 100%;
@@ -99,7 +100,7 @@
     height: fit-content;
   }
   
-  .right{
+  .edit-right{
     display: flex;
     flex-direction: column;
     padding: 1%;
@@ -107,12 +108,12 @@
     height: fit-content;
   }
   
-  .division-form-button{
+  .edit-division-form-button{
     margin-top: 3%;
   }
   
   
-  .uploaded-image-container {
+  .edit-uploaded-image-container {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -121,15 +122,15 @@
     max-height: 100%;
   }
   
-  .uploaded-image {
+  .edit-uploaded-image {
     width: 60%;  
     height: 60%;
     border-radius: 8px; 
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);  /* Sombra sutil */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);  
     margin-bottom: 10px;
   }
   
-  .remove-image-button {
+  .edit-remove-image-button {
     padding: 10px 15px;
     background-color: #e61a1a;
     color: white;
@@ -139,12 +140,12 @@
     cursor: pointer;
   }
   
-  .remove-image-button:hover {
-    background-color: #c00b0b;  /* Cambia a un rojo más intenso al hacer hover */
+  .edit-remove-image-button:hover {
+    background-color: #c00b0b;  
   }
 
 
-  .cancel-button {
+  .edit-cancel-button {
     padding: 10px 15px;
     background-color: #e61a1a;
     color: white;
@@ -154,12 +155,12 @@
     cursor: pointer;
   }
   
-  .cancel-button:hover {
-    background-color: #c00b0b;  /* Cambia a un rojo más intenso al hacer hover */
+  .edit-cancel-button:hover {
+    background-color: #c00b0b;  
   }
   
 
-  .as-submit-button {
+  .edit-as-submit-button {
     padding: 10px 15px;
     background-color: #28a745;
     color: white;
@@ -171,10 +172,10 @@
     margin-bottom: 5%;
   }
   
-  .as-submit-button:hover {
+  .edit-as-submit-button:hover {
     background-color: #218838;
   }
   
-  .as-submit-button:focus {
+  .edit-as-submit-button:focus {
     outline: none;
   }

@@ -91,32 +91,32 @@ const AdminEditSuplement = ({ suplemento, onClose }) => {
   };
 
   return (
-    <div className="admin-add-suplement-container">
-      <h1 className="admin-add-suplement-title">Editar suplemento</h1>
-      <form onSubmit={handleSubmit} className="admin-add-suplement-form">
+    <div className="edit-suplement-container">
+      <h1 className="edit-suplement-title">Editar suplemento</h1>
+      <form onSubmit={handleSubmit} className="edit-suplement-form">
         <div className="division-form-entry">
 
-          <div className="left">
-            <div className="admin-add-suplement-form-group">
-              <label className="admin-add-suplement-label">Subir imagen</label>
+          <div className="edit-left">
+            <div className="edit-suplement-form-group">
+              <label className="edit-suplement-label">Subir imagen</label>
               <input
                 type="file"
                 accept="image/*"
                 onChange={handleImageChange}
-                className="admin-add-suplement-input"
+                className="edit-suplement-input"
               />
               {image && (
-                <div className="uploaded-image-container">
-                  <img src={URL.createObjectURL(image)} alt="Suplemento" className="uploaded-image" />
-                  <button type="button" onClick={handleRemoveImage} className="remove-image-button">
+                <div className="edit-uploaded-image-container">
+                  <img src={URL.createObjectURL(image)} alt="Suplemento" className="edit-uploaded-image" />
+                  <button type="button" onClick={handleRemoveImage} className="edit-remove-image-button">
                     Eliminar imagen
                   </button>
                 </div>
               )}
               {!image && imageUrl && (
-                <div className="uploaded-image-container">
-                  <img src={imageUrl} alt="Suplemento" className="uploaded-image" />
-                  <button type="button" onClick={handleRemoveImage} className="remove-image-button">
+                <div className="edit-uploaded-image-container">
+                  <img src={imageUrl} alt="Suplemento" className="edit-uploaded-image" />
+                  <button type="button" onClick={handleRemoveImage} className="edit-remove-image-button">
                     Eliminar imagen
                   </button>
                 </div>
@@ -124,49 +124,49 @@ const AdminEditSuplement = ({ suplemento, onClose }) => {
             </div>
           </div>
 
-          <div className="right">
-            <div className="admin-add-suplement-form-group">
-              <label htmlFor="nuevoNombre" className="admin-add-suplement-label">Nombre</label>
+          <div className="edit-right">
+            <div className="edit-suplement-form-group">
+              <label htmlFor="nuevoNombre" className="edit-suplement-label">Nombre</label>
               <input
                 type="text"
                 id="nuevoNombre"
                 value={nuevoNombre}
                 onChange={(e) => setNuevoNombre(e.target.value)}
-                className="admin-add-suplement-input"
+                className="edit-suplement-input"
                 required
               />
             </div>
 
-            <div className="admin-add-suplement-form-group">
-              <label htmlFor="cantidad" className="admin-add-suplement-label">Cantidad</label>
+            <div className="edit-suplement-form-group">
+              <label htmlFor="cantidad" className="edit-suplement-label">Cantidad</label>
               <input
                 type="number"
                 id="cantidad"
                 value={cantidad === 0 ? '' : cantidad}
                 onChange={(e) => setCantidad(e.target.value)}
-                className="admin-add-suplement-input"
+                className="edit-suplement-input"
                 required
               />
             </div>
 
-            <div className="admin-add-suplement-form-group">
-              <label htmlFor="descripcion" className="admin-add-suplement-label">Descripción</label>
+            <div className="edit-suplement-form-group">
+              <label htmlFor="descripcion" className="edit-suplement-label">Descripción</label>
               <textarea
                 id="descripcion"
                 value={descripcion}
                 onChange={(e) => setDescripcion(e.target.value)}
-                className="admin-add-suplement-textarea"
+                className="edit-suplement-textarea"
                 required
               />
             </div>
 
-            <div className="admin-add-suplement-form-group">
-              <label htmlFor="disponible" className="admin-add-suplement-label">Disponible</label>
+            <div className="edit-suplement-form-group">
+              <label htmlFor="disponible" className="edit-suplement-label">Disponible</label>
               <select
                 id="disponible"
                 value={disponible}
                 onChange={(e) => setDisponible(e.target.value === 'true')}
-                className="admin-add-suplement-select"
+                className="edit-suplement-select"
                 required
               >
                 <option value="true">Disponible</option>
@@ -174,14 +174,14 @@ const AdminEditSuplement = ({ suplemento, onClose }) => {
               </select>
             </div>
 
-            <div className="admin-add-suplement-form-group">
-              <label htmlFor="precio" className="admin-add-suplement-label">Precio</label>
+            <div className="edit-suplement-form-group">
+              <label htmlFor="precio" className="edit-suplement-label">Precio</label>
               <input
                 type="number"
                 id="precio"
                 value={precio === 0 ? '' : precio}
                 onChange={(e) => setPrecio(e.target.value)}
-                className="admin-add-suplement-input"
+                className="edit-suplement-input"
                 required
               />
             </div>
@@ -189,9 +189,9 @@ const AdminEditSuplement = ({ suplemento, onClose }) => {
 
         </div>
 
-        <div className="division-form-button">
-          <button type="submit" className="as-submit-button">Actualizar</button>
-          <button type="button" className="cancel-button" onClick={onClose}>Cancelar</button>
+        <div className="edit-division-form-button">
+          <button type="submit" className="edit-as-submit-button">Actualizar</button>
+          <button type="button" className="edit-cancel-button" onClick={onClose}>Cancelar</button>
         </div>
 
       </form>
