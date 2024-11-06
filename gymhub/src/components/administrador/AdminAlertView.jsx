@@ -1,127 +1,137 @@
-import React, { useState, useEffect } from 'react';
-import { getAlerts, sendAlert, scheduleAlert, getClientsWithUpcomingPayments, configureGeneralAlert, getGeneralAlertConfig } from '../../cruds/Alert';
+import React, { useState, useEffect, useCallback } from 'react';
+import { ChevronsLeft, ChevronsRight, ChevronLeft, ChevronRight } from 'lucide-react';
+import { sendAlert, getClientsWithUpcomingPayments } from '../../cruds/Alert';
 import Swal from 'sweetalert2';
+import 'bootstrap/dist/css/bootstrap.min.css';
 import '../../css/AdminAlertView.css';
+import '../../css/GeneralAlertConfig.css';
 
-const AdminAlertView = () => {
-  const [alerts, setAlerts] = useState([]);
-  const [newAlert, setNewAlert] = useState('');
-  const [scheduleDate, setScheduleDate] = useState('');
-  const [clients, setClients] = useState([]);
-  const [daysBefore, setDaysBefore] = useState(0);
-  const [generalAlertMessage, setGeneralAlertMessage] = useState('');
+const AdminAlertView = ({ onShowGeneralAlertConfig }) => {
+  const [payments, setPayments] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const [reminderLoadingId, setReminderLoadingId] = useState(null);
+  const [currentPage, setCurrentPage] = useState(0);
+  const paymentsPerPage = 5;
 
   useEffect(() => {
-    const fetchAlerts = async () => {
-      const fetchedAlerts = await getAlerts();
-      setAlerts(fetchedAlerts);
-    };
-
-    const fetchClients = async () => {
-      const fetchedClients = await getClientsWithUpcomingPayments();
-      setClients(fetchedClients);
-    };
-
-    const fetchGeneralAlertConfig = async () => {
-      const config = await getGeneralAlertConfig();
-      if (config) {
-        setGeneralAlertMessage(config.message);
-        setDaysBefore(config.daysBefore);
+    const fetchData = async () => {
+      try {
+        setIsLoading(true);
+        const fetchedPayments = await getClientsWithUpcomingPayments();
+        // Get the most recent payment for each unique client
+        const latestPayments = Object.values(fetchedPayments.reduce((acc, payment) => {
+          if (!acc[payment.cliente] || new Date(payment.fechaVencimiento) > new Date(acc[payment.cliente].fechaVencimiento)) {
+            acc[payment.cliente] = payment;
+          }
+          return acc;
+        }, {}));
+        // Sort payments by those with the most days overdue or closest to due
+        latestPayments.sort((a, b) => new Date(a.fechaVencimiento) - new Date(b.fechaVencimiento));
+        setPayments(latestPayments);
+      } catch (error) {
+        Swal.fire('Error', 'No se pudo cargar la información.', 'error');
+      } finally {
+        setIsLoading(false);
       }
     };
-
-    fetchAlerts();
-    fetchClients();
-    fetchGeneralAlertConfig();
+    fetchData();
   }, []);
 
-  const handleSendAlert = async () => {
-    if (!newAlert) {
-      Swal.fire('Error', 'El mensaje de alerta no puede estar vacío.', 'error');
-      return;
+  const handleSendPaymentReminder = useCallback(async (payment) => {
+    try {
+      setReminderLoadingId(payment.id);
+      const message = `Recordatorio: Su próximo pago es el ${payment.fechaVencimiento.split(',')[0]}.`;
+      await sendAlert(message, payment.id, payment.uid);
+      Swal.fire('Éxito', 'Recordatorio de pago enviado correctamente.', 'success');
+    } catch (error) {
+      Swal.fire('Error', 'No se pudo enviar el recordatorio de pago.', 'error');
+    } finally {
+      setReminderLoadingId(null);
+    }
+  }, []);
+
+  const handlePageClick = ({ selected }) => {
+    setCurrentPage(selected);
+  };
+
+  const pageCount = Math.ceil(payments.length / paymentsPerPage);
+  const offset = currentPage * paymentsPerPage;
+  const currentPayments = payments.slice(offset, offset + paymentsPerPage);
+  
+  const handlePagination = (direction) => {
+    if (direction === 'next' && currentPage < Math.floor(payments.length / paymentsPerPage)) {
+      setCurrentPage(currentPage + 1);
+    }
+    else if (direction === 'prev' && currentPage > 0) {
+      setCurrentPage(currentPage - 1);
+    }
+    else if (direction === 'first') {
+      setCurrentPage(0);
+    }
+    else if (direction === 'last') {
+      setCurrentPage(Math.floor(payments.length / paymentsPerPage));
     }
 
-    await sendAlert(newAlert);
-    setNewAlert('');
-    Swal.fire('Éxito', 'Alerta enviada correctamente.', 'success');
-  };
-
-  const handleScheduleAlert = async () => {
-    if (!newAlert || !scheduleDate) {
-      Swal.fire('Error', 'El mensaje de alerta y la fecha no pueden estar vacíos.', 'error');
-      return;
-    }
-
-    await scheduleAlert(newAlert, scheduleDate);
-    setNewAlert('');
-    setScheduleDate('');
-    Swal.fire('Éxito', 'Alerta programada correctamente.', 'success');
-  };
-
-  const handleSendPaymentReminder = async (client) => {
-    const message = `Recordatorio: Su próximo pago es el ${client.nextPaymentDate}.`;
-    await sendAlert(message, client.id);
-    Swal.fire('Éxito', 'Recordatorio de pago enviado correctamente.', 'success');
-  };
-
-  const handleConfigureGeneralAlert = async () => {
-    if (!generalAlertMessage || daysBefore <= 0) {
-      Swal.fire('Error', 'El mensaje de alerta y los días antes del pago no pueden estar vacíos o ser negativos.', 'error');
-      return;
-    }
-
-    await configureGeneralAlert(generalAlertMessage, daysBefore);
-    Swal.fire('Éxito', 'Alerta general configurada correctamente.', 'success');
-  };
-
-  const [showAlertConfig, setShowAlertConfig] = useState(false);
-
-  const toggleAlertConfig = () => {
-    setShowAlertConfig(!showAlertConfig);
   };
 
   return (
-    <div className="admin-alert-view">
-      <h2>Gestión de Alertas</h2>
-
-
-
-      <div className="table-container">
-        <table class="table">
-          <thead class="table-dark">
+    <div className="container mt-4 admin-alert-view">
+      <h2 className="mb-4">Gestión de Alertas</h2>
+      <button className="btn btn-secondary mb-4" onClick={onShowGeneralAlertConfig}>
+        Configurar Alerta General
+      </button>
+      <div className="table-responsive">
+        <table className="table table-bordered table-hover">
+          <thead className="table-dark">
             <tr>
-              <th scope="col">Usuario</th>
-              <th scope="col">Próximo Pago</th>
+              <th scope="col">Cliente</th>
+              <th scope="col">Correo</th>
+              <th scope="col">Fecha de Vencimiento</th>
+              <th scope="col">Monto</th>
               <th scope="col">Acciones</th>
             </tr>
           </thead>
           <tbody>
-            {clients.map((client) => (
-              <tr key={client.id}>
-                <td>{client.usuario}</td>
-                <td>{client.nextPaymentDate}</td>
-                <td>
-                  <button onClick={() => handleSendPaymentReminder(client)}>Enviar Alerta</button>
-                </td>
+            {currentPayments.length > 0 ? (
+              currentPayments.map((payment) => (
+                <tr key={payment.uid}>
+                  <td>{payment.cliente}</td>
+                  <td>{payment.correo}</td>
+                  <td>{payment.fechaVencimiento.split(',')[0]}</td>
+                  <td>{payment.monto}</td>
+                  <td>
+                    <button 
+                      className="btn btn-primary" 
+                      onClick={() => handleSendPaymentReminder(payment)} 
+                      disabled={isLoading || reminderLoadingId === payment.uid}
+                    >
+                      {reminderLoadingId === payment.uid ? 'Enviando...' : 'Enviar Alerta'}
+                    </button>
+                  </td>
+                </tr>
+              ))
+            ) : (
+              <tr>
+                <td colSpan="5" className="text-center">No hay pagos próximos.</td>
               </tr>
-            ))}
+            )}
           </tbody>
         </table>
-      </div>
-      <div className="general-alert-form">
-        <h3>Configurar Alerta General</h3>
-        <textarea
-          placeholder="Escribe el mensaje de alerta general..."
-          value={generalAlertMessage}
-          onChange={(e) => setGeneralAlertMessage(e.target.value)}
-        />
-        <input
-          type="number"
-          placeholder="Días antes del pago"
-          value={daysBefore}
-          onChange={(e) => setDaysBefore(e.target.value)}
-        />
-        <button onClick={handleConfigureGeneralAlert}>Configurar Alerta General</button>
+        <div className="pagination-buttons">
+          <button className='button-actions' onClick={() => handlePagination('first')} disabled={currentPage === 0}>
+            <ChevronsLeft />
+          </button>
+          <button className='button-actions' onClick={() => handlePagination('prev')} disabled={currentPage === 0}>
+            <ChevronLeft />
+          </button>
+          <span className="page-indicator">{currentPage + 1} de {pageCount}</span>
+          <button className='button-actions' onClick={() => handlePagination('next')} disabled={currentPage === pageCount - 1}>
+            <ChevronRight />
+          </button>
+          <button className='button-actions' onClick={() => handlePagination('last')} disabled={currentPage === pageCount - 1}>
+            <ChevronsRight />
+          </button>
+        </div>
       </div>
     </div>
   );
