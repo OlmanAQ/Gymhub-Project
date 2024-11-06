@@ -83,14 +83,14 @@ function TrainerEditPlanComponent({ plan }) {
     try {
       const routineRef = doc(db, 'plans', plan.id);
   
-      // Verifica que el estado sea un valor booleano
+      
       const validState = typeof activityState === 'boolean' ? activityState : false;
   
       await updateDoc(routineRef, {
         usuario: selectedUser.usuario,
         nombre: routineName,
         rutina: weeklyRoutine,
-        estado: validState,  // Asegúrate de que siempre sea booleano
+        estado: validState, 
       });
   
       Swal.fire("Excelente!", "Rutina actualizada exitosamente!", "success");

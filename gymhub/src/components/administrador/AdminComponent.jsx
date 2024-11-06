@@ -13,7 +13,11 @@ import AdminSuplements from './AdminSuplements';
 import AdminAddSuplement from './AdminAddSuplement';
 import AdminEditSuplement from './AdminEditSuplement';
 import AdminRewardsComp from './AdminRewardsComp';
+import AdminAddReward from './AdminAddReward';
+import AdminEditReward from './AdminEditReward';
 import AdminSalesView from './AdminSalesView';
+import AdminGastosEstadistica from './AdminGastosEstadistica';
+import AdminPagosEstadistica from './AdminPagosEstadistica';
 import AdminAlertView from './AdminAlertView';
 import AdminPaymentsView from './AdminPaymentsView';
 import AdminPaymentsAdd from './AdminPaymentsAdd';
@@ -28,6 +32,7 @@ const AdminComponent = ({ setIsAuthenticating }) => {
   const [equipoId, setEquipoId] = useState(null);
   const [gastoId, setGastoId] = useState(null);
   const [selectedSuplement, setSelectedSuplement] = useState(null);
+  const [selectedReward, setSelectedReward] = useState(null);
 
   const handleShowRegisterUser = () => {
     setView('registerUser');
@@ -57,6 +62,15 @@ const AdminComponent = ({ setIsAuthenticating }) => {
     setView('rewardsView');
   };
 
+  const handleShowAddRewardsView = () => {
+    setView('addRewardsView');
+  };
+
+  const handleShowEditRewardsView = (reward) => {
+    setSelectedReward(reward);
+    setView('editRewardsView');
+  };
+  
   const handleShowPaymentsView = () => {
     setView('paymentsView'); 
   };
@@ -91,9 +105,19 @@ const AdminComponent = ({ setIsAuthenticating }) => {
     setView('editInventory');
   };
 
+
+  const handleShowGastoStad = () => {
+    setView('gastoStad');
+  };
+
+  const handleShowPagoStad = () => {
+    setView('pagoStad');
+  };
+
   const handleShowExpenseView = () => {
     setView('expenseView');
   };
+  
 
   const handleShowRegisterExpense = () => {
     setView('registerExpense');
@@ -131,6 +155,8 @@ const AdminComponent = ({ setIsAuthenticating }) => {
         onShowPayments={handleShowPaymentsView}
         onShowSales={handleShowSalesView}
         onShowProfile={handleShowProfile}
+        onShowGastosStd={handleShowGastoStad}
+        onShowPagosStd={handleShowPagoStad}
         onShowAlertView={handleShowAlertView}
       />
       {view === 'paymentsView' && (
@@ -212,9 +238,19 @@ const AdminComponent = ({ setIsAuthenticating }) => {
       )}
       {view === 'rewardsView' && (
         <AdminRewardsComp
+          onShowAddRewards={handleShowAddRewardsView} 
+          onShowEditRewards={handleShowEditRewardsView} 
           role="admin"
         />
       )}
+      {view === 'addRewardsView' && <AdminAddReward onClose={handleShowRewardsView} />}
+      {view === 'editRewardsView' && (
+        <AdminEditReward 
+          reward={selectedReward}
+          onClose={handleShowRewardsView} 
+        />
+      )}
+
       {view === 'salesView' && <AdminSalesView />}
       {view === 'alertView' && (
         <AdminAlertView
@@ -225,6 +261,8 @@ const AdminComponent = ({ setIsAuthenticating }) => {
         <GeneralAlertConfig onClose={handleShowAlertView} />
       )}
       {view === 'profileView' && <Profile />}
+      {view === 'gastoStad' && <AdminGastosEstadistica />}
+      {view === 'pagoStad' && <AdminPagosEstadistica />}
     </>
   );
 };

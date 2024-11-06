@@ -3,30 +3,13 @@ import logo from '../../assets/LogoGymHub.png';
 import { User } from 'lucide-react';
 import '../../css/AdminNavBarComponent.css';
 import appFirebase from '../../firebaseConfig/firebase';
-import TrainerCreatePlanComponent from './TrainerCreatePlanComponent';
-import TrainerSearchPlanComponent from './TrainerSearchPlanComponent';
-import EntrenadorInventoryView from './EntrenadorInventoryView';
-import EntrenadorEditInventory from './EntrenadorEditInventory';
-import ClientSalesView from '../cliente/ClientSalesView';
 import { getAuth } from 'firebase/auth';
 
 const auth = getAuth(appFirebase);
 
-const EntrenadorNavBarComponent = ({onShowProfile,ProfileView, onShowSuplements }) => {
+const EntrenadorNavBarComponent = ({ onShowProfile, onShowSuplements, onShowPlans, onShowSales, onShowInventory }) => {
   const [isDropdownVisible, setDropdownVisible] = useState(false);
-  const [showProfileVIew, setShowProfileView] = useState(false);
-  const [showTrainingPlans, setShowTrainingPlans] = useState(false);
-  const [showSearchPlanComp, setShowSearchPlanComp] = useState(false);
-  const [showInventario, setShowInventario] = useState(false);
-  const [showEditInventory, setShowEditInventory] = useState(false);
-  const [showSales, setShowSales] = useState(false);
-  const [gimnasioId, setGimnasioId] = useState('');
-  const [equipoId, setEquipoId] = useState('');
-
-  const handleShowProfileView = () => {
-    onShowProfile();
-    setDropdownVisible(false);
-  };
+ 
 
   const handleLogout = () => {
     auth.signOut().then(() => {
@@ -36,36 +19,6 @@ const EntrenadorNavBarComponent = ({onShowProfile,ProfileView, onShowSuplements 
     });
   };
 
-  const handleSearchPlansClick = () => {
-    setShowSearchPlanComp(true);
-    setShowTrainingPlans(false);
-    setShowSales(false);
-  };
-
-  const handleInventarioClick = () => {
-    setShowInventario(true);
-    setShowTrainingPlans(false);
-    setShowSearchPlanComp(false);
-    setShowEditInventory(false);
-    setShowSales(false);
-  };
-
-  const handleEditInventory = (gimnasioId, equipoId) => {
-    setGimnasioId(gimnasioId);
-    setEquipoId(equipoId);
-    setShowEditInventory(true);
-    setShowInventario(false);
-    setShowSales(false);
-  };
-
-  const handleSalesClick = () => {
-    setShowSales(true);
-    setShowTrainingPlans(false);
-    setShowSearchPlanComp(false);
-    setShowInventario(false);
-    setShowEditInventory(false);
-  };
-  
 
   return (
     <div>
@@ -86,13 +39,16 @@ const EntrenadorNavBarComponent = ({onShowProfile,ProfileView, onShowSuplements 
                   <a class="nav-link" aria-current="page" href="#home">Inicio</a>
                 </li>
                 <li class="nav-item">
-                  <a class="nav-link" href="#planes" onClick={handleSearchPlansClick}>Planes</a>
+                  <a class="nav-link" href="#planes" onClick={onShowPlans}>Planes</a>
                 </li>
                 <li class="nav-item">
-                  <a class="nav-link" href="#inventario" onClick={handleInventarioClick}>Inventario</a>
+                  <a class="nav-link" href="#suplementos" onClick={onShowSuplements}>Suplementos</a>
                 </li>
                 <li class="nav-item">
-                  <a class="nav-link" href="#ventas" onClick={handleSalesClick}>Ventas</a>
+                  <a class="nav-link" href="#inventario" onClick={onShowInventory}>Inventario</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="#ventas" onClick={onShowSales}>Ventas</a>
                 </li>
               </ul>
             </div>
@@ -102,21 +58,14 @@ const EntrenadorNavBarComponent = ({onShowProfile,ProfileView, onShowSuplements 
               <User size={24} />
             </button>
             <ul class="dropdown-menu dropdown-menu-end">
-              <li><a class="dropdown-item" href="#perfil" onClick={handleShowProfileView}>Perfil</a></li>
+              <li><a class="dropdown-item" href="#perfil" onClick={onShowProfile}>Perfil</a></li>
               <li><a class="dropdown-item" href="#cerrar-sesión" onClick={handleLogout}>Cerrar sesión</a></li>
             </ul>
           </div>
         </div>
       </nav>
 
-      <div className="content">
-        {showProfileVIew && <ProfileView onClose={handleSearchPlansClick}/>}
-        {showTrainingPlans && <TrainerCreatePlanComponent />}
-        {showSearchPlanComp && <TrainerSearchPlanComponent />}
-        {showInventario && <EntrenadorInventoryView onShowEditInventory={handleEditInventory} />}
-        {showEditInventory && <EntrenadorEditInventory gimnasioId={gimnasioId} equipoId={equipoId} onClose={handleInventarioClick}/>}
-        {showSales && <ClientSalesView />}
-      </div>
+      
     </div>
   );
 };
