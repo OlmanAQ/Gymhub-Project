@@ -175,8 +175,8 @@
 
 @media (max-width: 600px) {
   .flex-container {
-      width: 100%; /* Ajusta el ancho en pantallas pequeñas */
-  }
+      width: 100%;
+    }
 }
 
 .search-button-flex {

@@ -71,7 +71,11 @@ const TrainerComponent = () => {
           onShowEditPlan={handleShowEditPlanView}
         />
       }
-      {view === 'createPlansView' && <TrainerCreatePlanComponent />}
+      {view === 'createPlansView' && 
+        <TrainerCreatePlanComponent
+          onClose={handleShowPlansView} 
+        />
+      }
       {view === 'editPlanView' && 
         <TrainerEditPlanComponent 
           plan={selectedPlan}

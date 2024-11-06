@@ -1,4 +1,4 @@
-.mi-div {
+.mi-contenedor {
     background-color: rgb(255, 255, 255);
     color: rgb(0, 0, 0);
     padding: 20px;
@@ -24,7 +24,7 @@
     width: 100%;
   }
   
-  .exercise-menu {
+  .edit-exercise-menu {
     display: flex;
     flex-wrap: wrap;
     gap: 10px;
@@ -33,13 +33,13 @@
   }
   
   
-  .muscle-group {
+  .edit-muscle-group {
     flex: 1 1 calc(25% - 20px); 
     min-width: 200px; 
     margin-bottom: 10px; 
   }
   
-  .muscle-group-button {
+  .edit-muscle-group-button {
     width: 100%;
     background-color: #000000;
     color: rgb(255, 255, 255);
@@ -50,16 +50,16 @@
     text-align: center;
   }
   
-  .muscle-group-button:focus {
+  .edit-muscle-group-button:focus {
     outline: none;
   }
   
-  .exercise-list {
+  .edit-exercise-list {
     margin-top: 10px;
     padding-left: 20px;
   }
   
-  .exercise-button {
+  .edit-exercise-button {
     display: block;
     width: 100%;
     background-color: #f8f9fa;
@@ -72,20 +72,20 @@
     cursor: pointer;
   }
   
-  .exercise-button:focus {
+  .edit-exercise-button:focus {
     outline: none;
     background-color: #e9ecef;
   }
   
   
   
-  .days-of-week {
+  .edit-days-of-week {
     display: flex;
     justify-content: space-between;
     margin-bottom: 20px;
   }
   
-  .day-button {
+  .edit-day-button {
     flex: 1;
     padding: 10px;
     background-color: #f8f9fa;
@@ -96,12 +96,12 @@
     text-align: center;
   }
   
-  .day-button.active {
+  .edit-day-button.active {
     background-color: #007bff;
     color: white;
   }
   
-  .days-container {
+  .edit-days-container {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -114,7 +114,7 @@
     width: 100%;
   }
   
-  .weekly-plan {
+  .edit-weekly-plan {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     grid-template-rows: repeat(2, auto);
@@ -122,7 +122,7 @@
     width: 100%; 
   }
   
-  .day-column {
+  .edit-day-column {
     background-color: #fff;
     border: 1px solid #ddd;
     border-radius: 5px;
@@ -131,17 +131,17 @@
     cursor: pointer;
   }
   
-  .day-column h2 {
+  .edit-day-column h2 {
     font-size: 1.2rem;
     margin-bottom: 10px;
   }
   
-  .day-column ul {
+  .edit-day-column ul {
     list-style-type: none;
     padding: 0;
   }
   
-  .day-column li {
+  .edit-day-column li {
     background-color: #b0e23c;
     padding: 8px;
     margin-bottom: 5px;
@@ -150,11 +150,11 @@
     justify-content: space-between;
   }
   
-  .active-day {
+  .edit-active-day {
     border: 2px solid #64cf00;
   }
   
-  .exercise-menu {
+  .edit-exercise-menu {
     display: flex;
     flex-wrap: wrap;
     gap: 10px;
@@ -164,7 +164,7 @@
   
   
   
-  .remove-button {
+  .edit-remove-button {
     background-color: #ec3434;
     border: none;
     border-radius: 4px;
@@ -181,21 +181,21 @@
     transition: background-color 0.3s ease, box-shadow 0.3s ease;
   }
   
-  .remove-button:hover {
+  .edit-remove-button:hover {
     background-color: #ff1e00;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   }
   
-  .remove-button:focus {
+  .edit-remove-button:focus {
     outline: none;
   }
   
-  .remove-button:active {
+  .edit-remove-button:active {
     background-color: #e03e1f;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   }
   
-  .input-container {
+  .edit-input-container {
     display: flex;
     justify-content: space-between;
     gap: 15;
@@ -209,7 +209,7 @@
     width: 60%;
   }
   
-  .input-container input {
+  .edit-input-container input {
     width: 90%;
     padding: 12px;
     border: 1px solid #ddd;
@@ -218,7 +218,7 @@
     background-color: #ffffff;
   }
   
-  .user-list {
+  .edit-user-list {
     margin-top: 10px;
     list-style-type: none;
     padding: 0;
@@ -229,31 +229,31 @@
     overflow-y: auto;
   }
   
-  .user-list li {
+  .edit-user-list li {
     padding: 10px;
     border-bottom: 1px solid #ddd;
     cursor: pointer;
   }
   
-  .user-list li:hover {
+  .edit-user-list li:hover {
     background-color: #e7f3ff;
   }
   
-  .selected-user {
+  .edit-selected-user {
     margin-top: 10px;
     font-weight: bold;
     color: #1b1a1a;
   }
   
-  .user-search-container,
-  .routine-name-container {
+  .edit-user-search-container,
+  .edit-routine-name-container {
     display: flex;
     flex-direction: column;
     width: 48%;
   }
   
-  .user-search-input,
-  .routine-name-input {
+  .edit-user-search-input,
+  .edit-routine-name-input {
     width: 100%;
     padding: 12px;
     border-radius: 5px;
@@ -262,14 +262,14 @@
     background-color: #ffffff;
   }
   
-  .user-search-input::placeholder,
-  .routine-name-input::placeholder {
+  .edit-user-search-input::placeholder,
+  .edit-routine-name-input::placeholder {
     color: #999;
   }
   
   
   
-  .activity-state-container {
+  .edit-activity-state-container {
     border: 2px solid #ddd; /* Borde verde elegante */
     border-radius: 8px; /* Esquinas redondeadas */
     padding: 10px; /* Espaciado interno */
@@ -279,14 +279,14 @@
     height: 50%;
   }
   
-  .activity-state-container label {
+  .edit-activity-state-container label {
     font-size: 16px; /* Tamaño del texto */
     color: #333; /* Color del texto */
     display: block; /* Cada etiqueta en su propia línea */
     margin-bottom: 8px; /* Separación inferior */
   }
   
-  .activity-state-container select {
+  .edit-activity-state-container select {
     width: 100%; /* Anchura completa */
     padding: 10px; /* Espaciado interno */
     border: 1px solid #ccc; /* Borde gris claro */
@@ -298,7 +298,7 @@
     outline: none; /* Sin borde de enfoque */
   }
   
-  .user-search-button {
+  .edit-user-search-button {
     padding: 8px 12px;
     margin-top: 10px;
     background-color: #3c9bc0;

@@ -2,10 +2,9 @@ import React, { useState, useEffect } from 'react';
 import '../../css/TrainerSearchPlanComponent.css';
 import { collection, query, where, getDocs, deleteDoc, doc } from 'firebase/firestore';
 import { db } from '../../firebaseConfig/firebase';
-import TrainerCreatePlanComponent from './TrainerCreatePlanComponent';
 import Swal from 'sweetalert2';
 import { Edit, Trash, Info, ChevronLeft, ChevronRight, ChevronsLeft, ChevronsRight, Search } from 'lucide-react';
-import TrainerEditPlanComponent from './TrainerEditPlanComponent';
+
 
 
 
@@ -28,8 +27,8 @@ const obtenerPlanesUsuario = async (usuario) => {
     return querySnapshot.docs.map(doc => ({
       id: doc.id,
       ...doc.data(),
-      estado: doc.data().estado || false, // Asegúrate de incluir el estado
-      fechaCreacion: doc.data().fechaCreacion || new Date().toISOString(), // Asegúrate de incluir la fecha como string
+      estado: doc.data().estado || false, 
+      fechaCreacion: doc.data().fechaCreacion || new Date().toISOString(), 
     }));
   } catch (error) {
     console.error('Error al obtener los planes: ', error);
@@ -39,25 +38,22 @@ const obtenerPlanesUsuario = async (usuario) => {
 
 
 
-function TrainerSearchPlanComponent() {
+function TrainerSearchPlanComponent( {onShowCreatePlan,onShowEditPlan} ) {
   const [userSearch, setUserSearch] = useState('');
   const [plans, setPlans] = useState([]);
   const [error, setError] = useState('');
-  const [showCreatePlan, setShowCreatePlan] = useState(false);
-  const [showEditPlan, setShowEditPlan] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1); 
   const plansPerPage = 5;
 
   useEffect(() => {
-    // Cambiar el fondo a blanco al montar el componente
+    
     document.body.style.backgroundImage = 'none';
     document.body.style.backgroundColor = '#f1f3f5';
 
-    // Limpiar el fondo cuando el componente se desmonte (opcional)
     return () => {
-      document.body.style.backgroundImage = '';  // Vuelve al fondo original
-      document.body.style.backgroundColor = '';  // Vuelve al color original
+      document.body.style.backgroundImage = '';  
+      document.body.style.backgroundColor = '';  
     };
   }, []);
 
@@ -95,46 +91,48 @@ function TrainerSearchPlanComponent() {
     const diasSemana = ['Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado', 'Domingo'];
   
     const rutinaHtml = `
-      <table style="width: 100%; border-collapse: collapse;">
-        <thead>
-          <tr style="background-color: #71b112; color: #fff">
-            <th style="border: 1.3px solid #ddd; padding: 8px;">Día</th>
-            <th style="border: 1.3px solid #ddd; padding: 8px;">Ejercicio</th>
-            <th style="border: 1.3px solid #ddd; padding: 8px;">Repeticiones</th>
-            <th style="border: 1.3px solid #ddd; padding: 8px;">Series</th>
-          </tr>
-        </thead>
-        <tbody>
-          ${diasSemana.map(dia => `
-            <tr>
-              <td style="border: 1.3px solid #ddd; padding: 8px;">${dia}</td>
-              <td style="border: 1.3px solid #ddd; padding: 8px;">
-                ${plan.rutina[dia] ? plan.rutina[dia].map(ejercicio => `
-                  <div>${Object.keys(ejercicio)[0]}</div>
-                `).join('') : 'Sin ejercicio'}
-              </td>
-              <td style="border: 1.3px solid #ddd; padding: 8px;">
-                ${plan.rutina[dia] ? plan.rutina[dia].map(ejercicio => `
-                  <div>${ejercicio[Object.keys(ejercicio)[0]].Repeticiones || 'N/A'}</div>
-                `).join('') : 'N/A'}
-              </td>
-              <td style="border: 1.3px solid #ddd; padding: 8px;">
-                ${plan.rutina[dia] ? plan.rutina[dia].map(ejercicio => `
-                  <div>${ejercicio[Object.keys(ejercicio)[0]].Series || 'N/A'}</div>
-                `).join('') : 'N/A'}
+      <div class="table-scroll">
+        <table style="width: 1050px; border-collapse: collapse;">
+          <thead>
+            <tr style="background-color: #71b112; color: #fff">
+              <th style="border: 1.3px solid #ddd; padding: 8px;">Día</th>
+              <th style="border: 1.3px solid #ddd; padding: 8px;">Ejercicio</th>
+              <th style="border: 1.3px solid #ddd; padding: 8px;">Repeticiones</th>
+              <th style="border: 1.3px solid #ddd; padding: 8px;">Series</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${diasSemana.map(dia => `
+              <tr>
+                <td style="border: 1.3px solid #ddd; padding: 8px;">${dia}</td>
+                <td style="border: 1.3px solid #ddd; padding: 8px;">
+                  ${plan.rutina[dia] ? plan.rutina[dia].map(ejercicio => `
+                    <div>${Object.keys(ejercicio)[0]}</div>
+                  `).join('') : 'Sin ejercicio'}
+                </td>
+                <td style="border: 1.3px solid #ddd; padding: 8px;">
+                  ${plan.rutina[dia] ? plan.rutina[dia].map(ejercicio => `
+                    <div>${ejercicio[Object.keys(ejercicio)[0]].Repeticiones || 'N/A'}</div>
+                  `).join('') : 'N/A'}
+                </td>
+                <td style="border: 1.3px solid #ddd; padding: 8px;">
+                  ${plan.rutina[dia] ? plan.rutina[dia].map(ejercicio => `
+                    <div>${ejercicio[Object.keys(ejercicio)[0]].Series || 'N/A'}</div>
+                  `).join('') : 'N/A'}
+                </td>
+              </tr>
+            `).join('')}
+          </tbody>
+          <tfoot>
+            <tr style="background-color: #f1f1f1;">
+              <td style="border: 1.3px solid #ddd; padding: 8px;" colspan="4">
+                <strong>Estado:</strong> ${plan.estado ? 'Activa' : 'Inactiva'} <br>
+                <strong>Fecha de creación:</strong> ${new Date(plan.fechaCreacion).toLocaleDateString()}
               </td>
             </tr>
-          `).join('')}
-        </tbody>
-        <tfoot>
-          <tr style="background-color: #f1f1f1;">
-            <td style="border: 1.3px solid #ddd; padding: 8px;" colspan="4">
-              <strong>Estado:</strong> ${plan.estado ? 'Activa' : 'Inactiva'} <br>
-              <strong>Fecha de creación:</strong> ${new Date(plan.fechaCreacion).toLocaleDateString()}
-            </td>
-          </tr>
-        </tfoot>
-      </table>
+          </tfoot>
+        </table>
+      </div>
     `;
   
     Swal.fire({
@@ -153,26 +151,6 @@ function TrainerSearchPlanComponent() {
     });
   };
   
-  
-
-  
-  
-
-  const handleCreatePlanClick = () => {
-    setShowCreatePlan(true);
-  };
-
-  const handleBackToSearch = () => {
-    setShowCreatePlan(false);
-    setShowEditPlan(null); // Vuelve a null al salir de la edición
-  };
-
-  const handleEditPlan = (plan) => {
-    console.log("Desde search:", plan);
-    setShowEditPlan(plan);  // Guarda el plan a editar en el estado
-  };
-
-
 
   
 
@@ -195,10 +173,9 @@ function TrainerSearchPlanComponent() {
             icon: "success"
           });
   
-          // Ajustar paginación si la página actual queda vacía
           const newTotalPages = Math.ceil(updatedPlans.length / plansPerPage);
           if (currentPage > newTotalPages) {
-            setCurrentPage(newTotalPages); // Mover a la última página válida
+            setCurrentPage(newTotalPages); 
           }
           setTotalPages(newTotalPages);
   
@@ -227,32 +204,32 @@ function TrainerSearchPlanComponent() {
   };
 
   return (
-    <div className="mi-div">
-      {!showCreatePlan && !showEditPlan ? (
-        <>
+    <div className="contenedor-princ">
+      
           <h1 className="title">Planes de entrenamiento</h1>
-          <div className="search-container">
-            <div className="left">
+          <div className="search-cont">
+            <div className="left-half">
               <input 
                 type="text" 
                 placeholder="Buscar usuario" 
                 value={userSearch}
                 onChange={(e) => setUserSearch(e.target.value)} 
+                className='sch-input'
               />
-              <button className='button-sec' onClick={handleSearch}>
+              <button className='sch-button' onClick={handleSearch}>
                 <Search size={26} color="#007BFF" />
               </button>
             </div>
-            <div className="right">
-              <button className='button-crt' onClick={handleCreatePlanClick}>Crear rutina</button>
-            </div>
+
+            <button className='create-btn' onClick={onShowCreatePlan}>Crear rutina</button>
+
           </div>
 
           {error && <p className="error-message">{error}</p>}
 
           {plans.length > 0 && (
-            <div className="table-container">
-              <table className="plans-table">
+            <div className="table-cont">
+              <table className="table-pln">
                 <thead>
                   <tr>
                     <th>Usuario</th>
@@ -272,17 +249,17 @@ function TrainerSearchPlanComponent() {
                       <td>{plan.estado ? 'Activa' : 'Inactiva'}</td>
                       <td>{new Date(plan.fechaCreacion).toLocaleDateString()}</td>
                       <td>
-                        <button className='button-sec' onClick={() => handleShowPlanInfo(plan)}>
+                        <button className='aux-button' onClick={() => handleShowPlanInfo(plan)}>
                           <Info size={28} color="#007BFF" />
                         </button>
                       </td>
                       <td>
-                        <button className='button-sec' onClick={() => handleEditPlan(plan)}>
+                        <button className='aux-button' onClick={onShowEditPlan}>
                           <Edit size={28} color="#F7E07F" />
                         </button>
                       </td>
                       <td>
-                        <button className='button-sec' onClick={() => handleDeletePlan(plan.id)}>
+                        <button className='aux-button' onClick={() => handleDeletePlan(plan.id)}>
                           <Trash size={28} color="#FF5C5C" />
                         </button>
                       </td>
@@ -292,35 +269,23 @@ function TrainerSearchPlanComponent() {
               </table>
 
               {/* Paginación */}
-              <div className="pagination-controls">
-                <button className='button-pag' onClick={() => paginate(1)} disabled={currentPage === 1}>
+              <div className="pgn-control">
+                <button className='pagination-btn' onClick={() => paginate(1)} disabled={currentPage === 1}>
                   <ChevronsLeft size={20} />
                 </button>
-                <button className='button-pag' onClick={() => paginate(currentPage - 1)} disabled={currentPage === 1}>
+                <button className='pagination-btn' onClick={() => paginate(currentPage - 1)} disabled={currentPage === 1}>
                   <ChevronLeft size={20} />
                 </button>
                 <span>Página {currentPage} de {totalPages}</span>
-                <button className='button-pag' onClick={() => paginate(currentPage + 1)} disabled={currentPage === totalPages}>
+                <button className='pagination-btn' onClick={() => paginate(currentPage + 1)} disabled={currentPage === totalPages}>
                   <ChevronRight size={20} />
                 </button>
-                <button className='button-pag' onClick={() => paginate(totalPages)} disabled={currentPage === totalPages}>
+                <button className='pagination-btn' onClick={() => paginate(totalPages)} disabled={currentPage === totalPages}>
                   <ChevronsRight size={20} />
                 </button>
               </div>
             </div>
           )}
-        </>
-      ) : showCreatePlan ? (
-        <>
-          <button className='button-back' onClick={handleBackToSearch}>Volver a la búsqueda</button>
-          <TrainerCreatePlanComponent />
-        </>
-      ) : (
-        <>
-          <button className='button-back' onClick={handleBackToSearch}>Volver a la búsqueda</button>
-          <TrainerEditPlanComponent plan={showEditPlan} />
-        </>
-      )}
     </div>
   );
 }
