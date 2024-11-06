@@ -1,40 +1,19 @@
 .client-alert-view {
+  border: 1px solid #ccc;
+  border-radius: 0.5rem;
+  background-color: #f8f9fa;
   padding: 20px;
-  background-color: #f9f9f9;
-  border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .client-alert-view h2 {
-  margin-bottom: 20px;
   color: #333;
+  margin-bottom: 20px;
 }
 
-.client-alert-view ul {
-  list-style-type: none;
-  padding: 0;
+.client-alert-view .table {
+  background-color: white;
 }
 
-.client-alert-view li {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 10px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  margin-bottom: 10px;
-  background-color: #fff;
-}
-
-.client-alert-view li button {
-  padding: 5px 10px;
-  border: none;
-  border-radius: 4px;
-  background-color: #dc3545;
-  color: white;
-  cursor: pointer;
-}
-
-.client-alert-view li button:hover {
-  background-color: #c82333;
+.client-alert-view .table-hover tbody tr:hover {
+  background-color: #f1f1f1;
 }

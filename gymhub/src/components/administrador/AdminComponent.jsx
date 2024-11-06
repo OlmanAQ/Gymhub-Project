@@ -18,6 +18,7 @@ import AdminAlertView from './AdminAlertView';
 import AdminPaymentsView from './AdminPaymentsView';
 import AdminPaymentsAdd from './AdminPaymentsAdd';
 import AdminPaymentsHistory from './AdminPaymentsHistory';
+import GeneralAlertConfig from './GeneralAlertConfig';
 import Profile from '../user-info/Profile';
 
 const AdminComponent = ({ setIsAuthenticating }) => {
@@ -113,6 +114,10 @@ const AdminComponent = ({ setIsAuthenticating }) => {
 
   const handleShowAlertView = () => {
     setView('alertView');
+  };
+
+  const handleShowGeneralAlert = () => {
+    setView('generalAlert');
   };
 
   return (
@@ -211,7 +216,14 @@ const AdminComponent = ({ setIsAuthenticating }) => {
         />
       )}
       {view === 'salesView' && <AdminSalesView />}
-      {view === 'alertView' && <AdminAlertView />}
+      {view === 'alertView' && (
+        <AdminAlertView
+          onShowGeneralAlertConfig={handleShowGeneralAlert}
+        />
+      )}
+      {view === 'generalAlert' && (
+        <GeneralAlertConfig onClose={handleShowAlertView} />
+      )}
       {view === 'profileView' && <Profile />}
     </>
   );

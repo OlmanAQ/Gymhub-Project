@@ -1,0 +1,24 @@
+.general-alert-form {
+    border: 1px solid #ccc;
+    border-radius: 0.5rem;
+    background-color: #f8f9fa;
+  }
+  
+  .general-alert-form .card-title {
+    color: #333;
+  }
+  
+  .general-alert-form .btn {
+    margin-top: 10px;
+  }
+  
+  .general-alert-form .btn-success {
+    background-color: #28a745;
+    color: white;
+    border: none;
+  }
+  
+  .general-alert-form .btn-success:hover {
+    background-color: #218838;
+  }
+  

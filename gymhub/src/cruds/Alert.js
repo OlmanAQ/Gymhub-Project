@@ -1,12 +1,13 @@
 import { db } from '../firebaseConfig/firebase';
 import { collection, addDoc, getDocs, deleteDoc, doc, query, where, setDoc, getDoc } from 'firebase/firestore';
 
-export const sendAlert = async (message, clientId = null) => {
-  await addDoc(collection(db, 'alerts'), { message, clientId, scheduleDate: new Date().toISOString() });
+export const sendAlert = async (message, paymentId = null, clientId) => {
+  await addDoc(collection(db, 'alerts'), { message, paymentId, clientId, scheduleDate: new Date().toISOString() });
 };
 
-export const getClientAlerts = async () => {
-  const querySnapshot = await getDocs(collection(db, 'alerts'));
+export const getClientAlerts = async (clientId) => {
+  const q = query(collection(db, 'alerts'), where('clientId', '==', clientId));
+  const querySnapshot = await getDocs(q);
   return querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
 };
 
@@ -15,8 +16,7 @@ export const deleteAlert = async (alertId) => {
 };
 
 export const getClientsWithUpcomingPayments = async () => {
-  //const q = query(collection(db, 'clients'), where('nextPaymentDate', '>', new Date().toISOString()));
-  const q = query(collection(db, 'User'), where('rol', '==', 'Cliente'));
+  const q = query(collection(db, 'Payments'), where('fechaVencimiento', '>', new Date().toISOString()));
   const querySnapshot = await getDocs(q);
   return querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
 };
