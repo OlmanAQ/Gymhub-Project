@@ -12,6 +12,8 @@ const AdminAlertView = ({ onShowGeneralAlertConfig }) => {
   const [reminderLoadingId, setReminderLoadingId] = useState(null);
   const [currentPage, setCurrentPage] = useState(0);
   const paymentsPerPage = 5;
+  const now = new Date();
+
 
   useEffect(() => {
     const fetchData = async () => {
@@ -21,6 +23,10 @@ const AdminAlertView = ({ onShowGeneralAlertConfig }) => {
         // Get the most recent payment for each unique client
         const latestPayments = Object.values(fetchedPayments.reduce((acc, payment) => {
           if (!acc[payment.cliente] || new Date(payment.fechaVencimiento) > new Date(acc[payment.cliente].fechaVencimiento)) {
+            const dueDate = new Date(payment.fechaVencimiento.split(',')[0]);
+            console.log(dueDate);
+            const differenceInDays = Math.ceil((dueDate - now) / (1000 * 60 * 60 * 24));
+            console.log(differenceInDays);
             acc[payment.cliente] = payment;
           }
           return acc;
@@ -41,7 +47,7 @@ const AdminAlertView = ({ onShowGeneralAlertConfig }) => {
     try {
       setReminderLoadingId(payment.id);
       const message = `Recordatorio: Su próximo pago es el ${payment.fechaVencimiento.split(',')[0]}.`;
-      await sendAlert(message, payment.id, payment.uid);
+      await sendAlert(message, payment.id, payment.uid, payment.correo);
       Swal.fire('Éxito', 'Recordatorio de pago enviado correctamente.', 'success');
     } catch (error) {
       Swal.fire('Error', 'No se pudo enviar el recordatorio de pago.', 'error');
@@ -50,13 +56,11 @@ const AdminAlertView = ({ onShowGeneralAlertConfig }) => {
     }
   }, []);
 
-  const handlePageClick = ({ selected }) => {
-    setCurrentPage(selected);
-  };
-
+  
   const pageCount = Math.ceil(payments.length / paymentsPerPage);
   const offset = currentPage * paymentsPerPage;
   const currentPayments = payments.slice(offset, offset + paymentsPerPage);
+
   
   const handlePagination = (direction) => {
     if (direction === 'next' && currentPage < Math.floor(payments.length / paymentsPerPage)) {

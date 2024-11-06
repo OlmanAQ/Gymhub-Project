@@ -19,7 +19,7 @@ const ClientNavBarComponent = ({ onShowSuplements, onShowRewards, onShowSales, o
   };
 
   return (
-    <nav class="navbar bg-body-tertiary navbar-expand-lg bg-dark border-bottom border-body" data-bs-theme="dark">
+    <nav class="navbar navbar-expand-lg bg-dark border-bottom border-body" data-bs-theme="dark">
       <div class="container-fluid">
         <a class="navbar-brand" href="#home">
           <img src={logo} alt="Logo" class="d-inline-block align-text-top" />

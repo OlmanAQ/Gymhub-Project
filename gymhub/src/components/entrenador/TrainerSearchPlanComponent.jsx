@@ -27,8 +27,8 @@ const obtenerPlanesUsuario = async (usuario) => {
     return querySnapshot.docs.map(doc => ({
       id: doc.id,
       ...doc.data(),
-      estado: doc.data().estado || false, 
-      fechaCreacion: doc.data().fechaCreacion || new Date().toISOString(), 
+      estado: doc.data().estado || false,
+      fechaCreacion: doc.data().fechaCreacion || new Date().toISOString(),
     }));
   } catch (error) {
     console.error('Error al obtener los planes: ', error);
@@ -38,22 +38,22 @@ const obtenerPlanesUsuario = async (usuario) => {
 
 
 
-function TrainerSearchPlanComponent( {onShowCreatePlan,onShowEditPlan} ) {
+function TrainerSearchPlanComponent({ onShowCreatePlan, onShowEditPlan }) {
   const [userSearch, setUserSearch] = useState('');
   const [plans, setPlans] = useState([]);
   const [error, setError] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
-  const [totalPages, setTotalPages] = useState(1); 
+  const [totalPages, setTotalPages] = useState(1);
   const plansPerPage = 5;
 
   useEffect(() => {
-    
+
     document.body.style.backgroundImage = 'none';
     document.body.style.backgroundColor = '#f1f3f5';
 
     return () => {
-      document.body.style.backgroundImage = '';  
-      document.body.style.backgroundColor = '';  
+      document.body.style.backgroundImage = '';
+      document.body.style.backgroundColor = '';
     };
   }, []);
 
@@ -89,7 +89,7 @@ function TrainerSearchPlanComponent( {onShowCreatePlan,onShowEditPlan} ) {
 
   const handleShowPlanInfo = (plan) => {
     const diasSemana = ['Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado', 'Domingo'];
-  
+
     const rutinaHtml = `
       <div class="table-scroll">
         <table style="width: 1050px; border-collapse: collapse;">
@@ -134,7 +134,7 @@ function TrainerSearchPlanComponent( {onShowCreatePlan,onShowEditPlan} ) {
         </table>
       </div>
     `;
-  
+
     Swal.fire({
       title: 'Información de la rutina',
       html: rutinaHtml,
@@ -150,9 +150,9 @@ function TrainerSearchPlanComponent( {onShowCreatePlan,onShowEditPlan} ) {
       }
     });
   };
-  
 
-  
+
+
 
   const handleDeletePlan = async (planId) => {
     Swal.fire({
@@ -166,19 +166,19 @@ function TrainerSearchPlanComponent( {onShowCreatePlan,onShowEditPlan} ) {
           await deleteDoc(doc(db, 'plans', planId));
           const updatedPlans = plans.filter(plan => plan.id !== planId);
           setPlans(updatedPlans);
-          
+
           Swal.fire({
             title: "Excelente!",
             text: "Rutina eliminada con éxito!",
             icon: "success"
           });
-  
+
           const newTotalPages = Math.ceil(updatedPlans.length / plansPerPage);
           if (currentPage > newTotalPages) {
-            setCurrentPage(newTotalPages); 
+            setCurrentPage(newTotalPages);
           }
           setTotalPages(newTotalPages);
-  
+
         } catch (error) {
           console.error('Error al eliminar el plan: ', error);
           setError('No se pudo eliminar el plan.');
@@ -186,10 +186,10 @@ function TrainerSearchPlanComponent( {onShowCreatePlan,onShowEditPlan} ) {
       }
     });
   };
-  
 
 
-  
+
+
 
 
 
@@ -205,87 +205,87 @@ function TrainerSearchPlanComponent( {onShowCreatePlan,onShowEditPlan} ) {
 
   return (
     <div className="contenedor-princ">
-      
-          <h1 className="title">Planes de entrenamiento</h1>
-          <div className="search-cont">
-            <div className="left-half">
-              <input 
-                type="text" 
-                placeholder="Buscar usuario" 
-                value={userSearch}
-                onChange={(e) => setUserSearch(e.target.value)} 
-                className='sch-input'
-              />
-              <button className='sch-button' onClick={handleSearch}>
-                <Search size={26} color="#007BFF" />
-              </button>
-            </div>
 
-            <button className='create-btn' onClick={onShowCreatePlan}>Crear rutina</button>
+      <h1 className="title">Planes de entrenamiento</h1>
+      <div className="search-cont">
+        <div className="left-half">
+          <input
+            type="text"
+            placeholder="Buscar usuario"
+            value={userSearch}
+            onChange={(e) => setUserSearch(e.target.value)}
+            className='sch-input'
+          />
+          <button className='sch-button' onClick={handleSearch}>
+            <Search size={26} color="#007BFF" />
+          </button>
+        </div>
 
+        <button className='create-btn' onClick={onShowCreatePlan}>Crear rutina</button>
+
+      </div>
+
+      {error && <p className="error-message">{error}</p>}
+
+      {plans.length > 0 && (
+        <div className="table-cont">
+          <table className="table-pln">
+            <thead>
+              <tr>
+                <th>Usuario</th>
+                <th>Nombre de rutina</th>
+                <th>Estado</th>
+                <th>Fecha de creación</th>
+                <th>Ver rutina</th>
+                <th>Editar rutina</th>
+                <th>Eliminar rutina</th>
+              </tr>
+            </thead>
+            <tbody>
+              {currentPlans.map(plan => (
+                <tr key={plan.id}>
+                  <td>{plan.usuario}</td>
+                  <td>{plan.nombre || 'Rutina sin nombre'}</td>
+                  <td>{plan.estado ? 'Activa' : 'Inactiva'}</td>
+                  <td>{new Date(plan.fechaCreacion).toLocaleDateString()}</td>
+                  <td>
+                    <button className='aux-button' onClick={() => handleShowPlanInfo(plan)}>
+                      <Info size={28} color="#007BFF" />
+                    </button>
+                  </td>
+                  <td>
+                    <button className='aux-button' onClick={() => onShowEditPlan(plan)}>
+                      <Edit size={28} color="#F7E07F" />
+                    </button>
+                  </td>
+                  <td>
+                    <button className='aux-button' onClick={() => handleDeletePlan(plan.id)}>
+                      <Trash size={28} color="#FF5C5C" />
+                    </button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+
+          {/* Paginación */}
+          <div className="pgn-control">
+            <button className='pagination-btn' onClick={() => paginate(1)} disabled={currentPage === 1}>
+              <ChevronsLeft size={20} />
+            </button>
+            <button className='pagination-btn' onClick={() => paginate(currentPage - 1)} disabled={currentPage === 1}>
+              <ChevronLeft size={20} />
+            </button>
+            <span>Página {currentPage} de {totalPages}</span>
+            <button className='pagination-btn' onClick={() => paginate(currentPage + 1)} disabled={currentPage === totalPages}>
+              <ChevronRight size={20} />
+            </button>
+            <button className='pagination-btn' onClick={() => paginate(totalPages)} disabled={currentPage === totalPages}>
+              <ChevronsRight size={20} />
+            </button>
           </div>
-
-          {error && <p className="error-message">{error}</p>}
-
-          {plans.length > 0 && (
-            <div className="table-cont">
-              <table className="table-pln">
-                <thead>
-                  <tr>
-                    <th>Usuario</th>
-                    <th>Nombre de rutina</th>
-                    <th>Estado</th>
-                    <th>Fecha de creación</th>
-                    <th>Ver rutina</th>
-                    <th>Editar rutina</th>
-                    <th>Eliminar rutina</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {currentPlans.map(plan => (
-                    <tr key={plan.id}>
-                      <td>{plan.usuario}</td>
-                      <td>{plan.nombre || 'Rutina sin nombre'}</td>
-                      <td>{plan.estado ? 'Activa' : 'Inactiva'}</td>
-                      <td>{new Date(plan.fechaCreacion).toLocaleDateString()}</td>
-                      <td>
-                        <button className='aux-button' onClick={() => handleShowPlanInfo(plan)}>
-                          <Info size={28} color="#007BFF" />
-                        </button>
-                      </td>
-                      <td>
-                        <button className='aux-button' onClick={() => onShowEditPlan(plan)}>
-                          <Edit size={28} color="#F7E07F" />
-                        </button>
-                      </td>
-                      <td>
-                        <button className='aux-button' onClick={() => handleDeletePlan(plan.id)}>
-                          <Trash size={28} color="#FF5C5C" />
-                        </button>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-
-              {/* Paginación */}
-              <div className="pgn-control">
-                <button className='pagination-btn' onClick={() => paginate(1)} disabled={currentPage === 1}>
-                  <ChevronsLeft size={20} />
-                </button>
-                <button className='pagination-btn' onClick={() => paginate(currentPage - 1)} disabled={currentPage === 1}>
-                  <ChevronLeft size={20} />
-                </button>
-                <span>Página {currentPage} de {totalPages}</span>
-                <button className='pagination-btn' onClick={() => paginate(currentPage + 1)} disabled={currentPage === totalPages}>
-                  <ChevronRight size={20} />
-                </button>
-                <button className='pagination-btn' onClick={() => paginate(totalPages)} disabled={currentPage === totalPages}>
-                  <ChevronsRight size={20} />
-                </button>
-              </div>
-            </div>
-          )}
+        </div>
+      )}
     </div>
   );
 }

@@ -213,9 +213,9 @@ const AdminInventoryView = ({ onShowRegisterInventory, onShowEditInventory }) =>
           </div>
 
           {/* Tabla de inventario */}
-          <div className='table-container'>
-            <table className="inventory-table">
-              <thead>
+          <div className="table-responsive">
+          <table className="table table-bordered table-hover">
+            <thead className="table-dark">
                 <tr>
                   <th>Nombre</th>
                   <th>Cantidad</th>

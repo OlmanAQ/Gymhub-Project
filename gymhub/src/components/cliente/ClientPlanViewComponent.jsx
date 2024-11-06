@@ -145,7 +145,7 @@ function ClientPlanViewComponent() {
   };
 
   return (
-    <div className="mi-div">
+    <div className="contenedor-princ">
       {!showCreatePlan && !showEditPlan ? (
         <>
           <h1 className="title">Planes de entrenamiento</h1>
@@ -153,50 +153,53 @@ function ClientPlanViewComponent() {
           {error && <p className="error-message">{error}</p>}
 
           {plans.length > 0 && (
-            <div className="table-container">
-              <table className="plans-table">
-                <thead>
-                  <tr>
-                    <th>Nombre de rutina</th>
-                    <th>Estado</th>
-                    <th>Fecha de creación</th>
-                    <th>Ver rutina</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {currentPlans.map(plan => (
-                    <tr key={plan.id}>
-                      <td>{plan.nombre || 'Rutina sin nombre'}</td>
-                      <td>{plan.estado ? 'Activa' : 'Inactiva'}</td>
-                      <td>{new Date(plan.fechaCreacion).toLocaleDateString()}</td>
-                      <td>
-                        <button className='button-sec' onClick={() => handleShowPlanInfo(plan)}>
-                          <Info size={28} color="#007BFF" />
-                        </button>
-                      </td>                      
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
+        <div className="table-cont">
+          <table className="table-pln">
+            <thead>
+              <tr>
+                <th>Usuario</th>
+                <th>Nombre de rutina</th>
+                <th>Estado</th>
+                <th>Fecha de creación</th>
+                <th>Ver rutina</th>
+              </tr>
+            </thead>
+            <tbody>
+              {currentPlans.map(plan => (
+                <tr key={plan.id}>
+                  <td>{plan.usuario}</td>
+                  <td>{plan.nombre || 'Rutina sin nombre'}</td>
+                  <td>{plan.estado ? 'Activa' : 'Inactiva'}</td>
+                  <td>{new Date(plan.fechaCreacion).toLocaleDateString()}</td>
+                  <td>
+                    <button className='aux-button' onClick={() => handleShowPlanInfo(plan)}>
+                      <Info size={28} color="#007BFF" />
+                    </button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
 
-              {/* Paginación */}
-              <div className="pagination-controls">
-                <button className='button-pag' onClick={() => paginate(1)} disabled={currentPage === 1}>
-                  <ChevronsLeft size={20} />
-                </button>
-                <button className='button-pag' onClick={() => paginate(currentPage - 1)} disabled={currentPage === 1}>
-                  <ChevronLeft size={20} />
-                </button>
-                <span>Página {currentPage} de {totalPages}</span>
-                <button className='button-pag' onClick={() => paginate(currentPage + 1)} disabled={currentPage === totalPages}>
-                  <ChevronRight size={20} />
-                </button>
-                <button className='button-pag' onClick={() => paginate(totalPages)} disabled={currentPage === totalPages}>
-                  <ChevronsRight size={20} />
-                </button>
-              </div>
-            </div>
-          )}
+          {/* Paginación */}
+          <div className="pgn-control">
+            <button className='pagination-btn' onClick={() => paginate(1)} disabled={currentPage === 1}>
+              <ChevronsLeft size={20} />
+            </button>
+            <button className='pagination-btn' onClick={() => paginate(currentPage - 1)} disabled={currentPage === 1}>
+              <ChevronLeft size={20} />
+            </button>
+            <span>Página {currentPage} de {totalPages}</span>
+            <button className='pagination-btn' onClick={() => paginate(currentPage + 1)} disabled={currentPage === totalPages}>
+              <ChevronRight size={20} />
+            </button>
+            <button className='pagination-btn' onClick={() => paginate(totalPages)} disabled={currentPage === totalPages}>
+              <ChevronsRight size={20} />
+            </button>
+          </div>
+        </div>
+      )}
+      
         </>
       ) : showCreatePlan ? (
         <>
