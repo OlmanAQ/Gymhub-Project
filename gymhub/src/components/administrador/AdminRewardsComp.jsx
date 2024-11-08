@@ -6,16 +6,13 @@ import Swal from 'sweetalert2';
 import { Edit, Trash, Search, Paintbrush } from 'lucide-react';
 import '../../css/AdminRewardsComp.css'; 
 
-const AdminRewardsComp = ({ role, onShowAddRewards, onShowEditRewards }) => {
+const AdminRewardsComp = ({ onShowAddRewards, onShowEditRewards }) => {
   const [rewards, setRewards] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
   const [filteredRewards, setFilteredRewards] = useState([]);
   const [isSearching, setIsSearching] = useState(false); 
   const [selectedState, setSelectedState] = useState('');
-
-  const userRole = useSelector((state) => state.user.rol);
-  console.log(userRole);
-
+  const userRole = useSelector((state) => state.user.role);
   const pageSize = 8; 
 
   const fetchRewards = async (search = false) => {
@@ -30,23 +27,18 @@ const AdminRewardsComp = ({ role, onShowAddRewards, onShowEditRewards }) => {
         case 'todos':
           rewardsList = rewardsList;
           break;
-        
         case 'sinreclamar':
           rewardsList = rewardsList.filter(reward => reward.estado === 'sin reclamar');
           break;
-        
         case 'reclamado':
           rewardsList = rewardsList.filter(reward => reward.estado === 'reclamado');
           break;
-
         case 'vencido':
           rewardsList = rewardsList.filter(reward => reward.estado === 'vencido');
           break;
-        
         default:
           break;
       }
-
       if (!search) {
         setRewards(rewardsList);
         setFilteredRewards(rewardsList.slice(0, pageSize)); 
@@ -58,8 +50,6 @@ const AdminRewardsComp = ({ role, onShowAddRewards, onShowEditRewards }) => {
 
   const loadMore = () => {
     let results = rewards;
-  
-
     if (selectedState !== 'todos') {
       switch (selectedState) {
         case 'sinreclamar':
@@ -75,13 +65,11 @@ const AdminRewardsComp = ({ role, onShowAddRewards, onShowEditRewards }) => {
           break;
       }
     }
-  
     if (isSearching) {
       results = results.filter((reward) =>
         reward.nombre.toLowerCase().includes(searchTerm.toLowerCase())
       );
     }
-  
     const nextRewards = results.slice(filteredRewards.length, filteredRewards.length + pageSize);
     setFilteredRewards((prevRewards) => [...prevRewards, ...nextRewards]);
   };
@@ -119,21 +107,16 @@ const AdminRewardsComp = ({ role, onShowAddRewards, onShowEditRewards }) => {
     
     switch (selectedState) {
       case 'todos':
-        
         break;
-  
       case 'sinreclamar':
         filteredRewardsByState = filteredRewardsByState.filter(reward => reward.estado === 'sin reclamar');
         break;
-  
       case 'reclamado':
         filteredRewardsByState = filteredRewardsByState.filter(reward => reward.estado === 'reclamado');
         break;
-  
       case 'vencido':
         filteredRewardsByState = filteredRewardsByState.filter(reward => reward.estado === 'vencido');
         break;
-  
       default:
         break;
     }
@@ -141,11 +124,10 @@ const AdminRewardsComp = ({ role, onShowAddRewards, onShowEditRewards }) => {
     const results = filteredRewardsByState.filter((reward) =>
       reward.nombre.toLowerCase().includes(searchTerm.toLowerCase())
     );
-   
     setFilteredRewards(results.slice(0, pageSize));
     setIsSearching(true); 
   };
-
+  
   const handleRefresh = () => {
     setSearchTerm('');
     setSelectedState('');
@@ -203,7 +185,7 @@ const AdminRewardsComp = ({ role, onShowAddRewards, onShowEditRewards }) => {
 
         </div>
         
-        {role === 'admin' && (
+        {userRole === 'Administrador' && (
           <button className="btn-create" onClick={onShowAddRewards}> Agregar premio </button>
         )}
       </div>
@@ -220,7 +202,7 @@ const AdminRewardsComp = ({ role, onShowAddRewards, onShowEditRewards }) => {
                 <p>Válido hasta: {reward.valido}</p>
                 <p>Estado: {reward.estado}</p>
               </div>
-              {role === 'admin' && (
+              {userRole === 'Administrador' && (
                 <div className="cont-DE">
                   <button className="button-aux" onClick={() => handleDelete(reward.id)}>
                     <Trash size={28} color="#FF5C5C" />

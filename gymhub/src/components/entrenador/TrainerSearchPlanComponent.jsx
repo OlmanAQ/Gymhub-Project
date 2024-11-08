@@ -6,9 +6,6 @@ import Swal from 'sweetalert2';
 import { Edit, Trash, Info, ChevronLeft, ChevronRight, ChevronsLeft, ChevronsRight, Search } from 'lucide-react';
 
 
-
-
-
 const verificarUsuario = async (usuario) => {
   try {
     const q = query(collection(db, 'plans'), where('usuario', '==', usuario));
@@ -35,8 +32,6 @@ const obtenerPlanesUsuario = async (usuario) => {
     throw new Error('No se pudo obtener los planes.');
   }
 };
-
-
 
 function TrainerSearchPlanComponent({ onShowCreatePlan, onShowEditPlan }) {
   const [userSearch, setUserSearch] = useState('');
@@ -186,12 +181,7 @@ function TrainerSearchPlanComponent({ onShowCreatePlan, onShowEditPlan }) {
       }
     });
   };
-
-
-
-
-
-
+  
 
   const indexOfLastPlan = currentPage * plansPerPage;
   const indexOfFirstPlan = indexOfLastPlan - plansPerPage;

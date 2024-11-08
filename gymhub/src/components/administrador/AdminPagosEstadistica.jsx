@@ -38,44 +38,6 @@ const AdminPagosEstadistica = () => {
   };
 
 
-
-
-
-
-
-
-
-
-/*
-
-  const fetchIngresos = async () => {
-    try{
-        const allIngresosQuery = query(collection(db, 'Payments'));
-        const allQuerySnapshot = await getDocs(allIngresosQuery);
-        allQuerySnapshot.docs.forEach(doc => {
-            const data = doc.data();
-            console.log("Fecha de createdAt en documento:", data.createdAt.toDate());
-        });
-
-        const ingresosList = allQuerySnapshot.docs.map(doc => ({
-            id: doc.id,
-            ...doc.data(),
-            monto: parseFloat(doc.data().monto)
-        }));
-
-        processChartData(ingresosList);
-
-        
-    } catch{
-        Swal.fire('Error', 'Hubo un problema al obtener los ingresos.', 'error');
-    }
-  }
-
-
-*/
-
-
-
 const fetchIngresos = async () => {
   if (!startDate || !endDate) {
       Swal.fire('Error', 'Por favor, completa todos los campos.', 'error');

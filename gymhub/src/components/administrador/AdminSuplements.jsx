@@ -1,16 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import { collection, getDocs, deleteDoc, doc } from 'firebase/firestore';
 import { db } from '../../firebaseConfig/firebase';
+import { useSelector } from 'react-redux';
 import Swal from 'sweetalert2';
 import { Edit, Trash, Search, Paintbrush } from 'lucide-react';
 import '../../css/AdminSuplements.css';
 
-const AdminSuplemenstComp = ({ onShowAddSuplements, onShowEditSuplements, role }) => {
+const AdminSuplemenstComp = ({ onShowAddSuplements, onShowEditSuplements }) => {
   const [suplementos, setSuplementos] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
   const [filteredSuplementos, setFilteredSuplementos] = useState([]);
   const [isSearching, setIsSearching] = useState(false); 
-
+  const userRole = useSelector((state) => state.user.role);
   const pageSize = 8; 
 
   const fetchSuplementos = async (search = false) => {
@@ -20,7 +21,6 @@ const AdminSuplemenstComp = ({ onShowAddSuplements, onShowEditSuplements, role }
         id: doc.id,
         ...doc.data()
       }));
-
       if (!search) {
         setSuplementos(suplementosList);
         setFilteredSuplementos(suplementosList.slice(0, pageSize)); 
@@ -54,11 +54,9 @@ const AdminSuplemenstComp = ({ onShowAddSuplements, onShowEditSuplements, role }
       if (result.isConfirmed) {
         try {
           await deleteDoc(doc(db, 'suplements', id));
-
           const updatedSuplementos = suplementos.filter(suplemento => suplemento.id !== id);
           setSuplementos(updatedSuplementos);
           setFilteredSuplementos(updatedSuplementos.slice(0, pageSize));
-
           Swal.fire('Eliminado', 'El suplemento ha sido eliminado.', 'success');
         } catch (error) {
           console.error('Error al eliminar el suplemento: ', error);
@@ -81,6 +79,7 @@ const AdminSuplemenstComp = ({ onShowAddSuplements, onShowEditSuplements, role }
     setFilteredSuplementos(suplementos.slice(0, pageSize)); 
     setIsSearching(false); 
   };
+
 
   useEffect(() => {
     fetchSuplementos(); 
@@ -109,7 +108,7 @@ const AdminSuplemenstComp = ({ onShowAddSuplements, onShowEditSuplements, role }
           </button>
         </div>
 
-        {role === 'admin' && (
+        {userRole === 'Administrador' && (
           <button className="button-create" onClick={onShowAddSuplements}>
             Agregar suplemento
           </button>
@@ -128,7 +127,7 @@ const AdminSuplemenstComp = ({ onShowAddSuplements, onShowEditSuplements, role }
                 <p>Estado: {suplemento.disponible ? 'Disponible' : 'No disponible'}</p>
                 <p>Descripción: {suplemento.descripcion || 'Sin descripción disponible'}</p>
               </div>
-              {role === 'admin' && (
+              {userRole === 'Administrador' && (
                 <div className="container-DE">
                   <button className="button-sec" onClick={() => handleDelete(suplemento.id)}>
                     <Trash size={28} color="#FF5C5C" />

@@ -226,7 +226,6 @@ const AdminComponent = ({ setIsAuthenticating }) => {
         <AdminSuplements
           onShowAddSuplements={handleShowAddSuplementsView}
           onShowEditSuplements={handleShowEditSuplement}
-          role="admin"
         />
       )}
       {view === 'addSuplementsView' && <AdminAddSuplement onClose={handleShowSuplementosView} />}
@@ -240,7 +239,6 @@ const AdminComponent = ({ setIsAuthenticating }) => {
         <AdminRewardsComp
           onShowAddRewards={handleShowAddRewardsView} 
           onShowEditRewards={handleShowEditRewardsView} 
-          role="admin"
         />
       )}
       {view === 'addRewardsView' && <AdminAddReward onClose={handleShowRewardsView} />}
