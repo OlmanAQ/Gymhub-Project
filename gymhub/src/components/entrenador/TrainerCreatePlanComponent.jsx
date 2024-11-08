@@ -101,7 +101,6 @@ function TrainerCreatePlanComponent( {onClose} ) {
       });
       return;
     }
-
     if (!routineName) {
       Swal.fire({
         title: "Cuidado!",
@@ -110,16 +109,11 @@ function TrainerCreatePlanComponent( {onClose} ) {
       });
       return;
     }
-
     const currentDate = new Date().toLocaleDateString('es-ES', {
       day: '2-digit',
       month: '2-digit',
       year: 'numeric',
     });
-    
-    
-    
-
     try {
       await addDoc(collection(db, 'plans'), {
         usuario: selectedUser.usuario,
@@ -160,14 +154,12 @@ function TrainerCreatePlanComponent( {onClose} ) {
         console.error('Error fetching muscle groups: ', error);
       }
     };
-  
     fetchMuscleGroups();
   }, []);
 
 
   const MuscleGroup = ({ group, exercises }) => {
     const [isExpanded, setIsExpanded] = useState(false);
-
     const toggleExpand = () => {
       setIsExpanded(!isExpanded);
     };

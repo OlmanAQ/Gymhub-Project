@@ -14,8 +14,8 @@ const obtenerPlanesUsuario = async (usuario) => {
     return querySnapshot.docs.map(doc => ({
       id: doc.id,
       ...doc.data(),
-      estado: doc.data().estado || false, // Asegúrate de incluir el estado
-      fechaCreacion: doc.data().fechaCreacion || new Date().toISOString(), // Asegúrate de incluir la fecha como string
+      estado: doc.data().estado || false, 
+      fechaCreacion: doc.data().fechaCreacion || new Date().toISOString(), 
     }));
   } catch (error) {
     console.error('Error al obtener los planes: ', error);
@@ -36,14 +36,13 @@ function ClientPlanViewComponent() {
   const usuarioExiste = useSelector((state) => state.user.username);
 
   useEffect(() => {
-    // Cambiar el fondo a blanco al montar el componente
+  
     document.body.style.backgroundImage = 'none';
     document.body.style.backgroundColor = '#f1f3f5';
 
-    // Limpiar el fondo cuando el componente se desmonte (opcional)
     return () => {
-      document.body.style.backgroundImage = '';  // Vuelve al fondo original
-      document.body.style.backgroundColor = '';  // Vuelve al color original
+      document.body.style.backgroundImage = ''; 
+      document.body.style.backgroundColor = ''; 
     };
   }, []);
 
@@ -130,7 +129,7 @@ function ClientPlanViewComponent() {
 
   const handleBackToSearch = () => {
     setShowCreatePlan(false);
-    setShowEditPlan(null); // Vuelve a null al salir de la edición
+    setShowEditPlan(null); 
   };
 
 
@@ -179,7 +178,6 @@ function ClientPlanViewComponent() {
                 </tbody>
               </table>
 
-              {/* Paginación */}
               <div className="pagination-controls">
                 <button className='button-pag' onClick={() => paginate(1)} disabled={currentPage === 1}>
                   <ChevronsLeft size={20} />

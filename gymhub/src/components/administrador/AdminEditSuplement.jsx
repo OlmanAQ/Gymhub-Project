@@ -26,11 +26,9 @@ const AdminEditSuplement = ({ suplemento, onClose }) => {
 
     let downloadURL = imageUrl;
 
-
     if (image) {
       const storageRef = ref(storage, `suplements/${image.name}`);
       const uploadTask = uploadBytesResumable(storageRef, image);
-
 
       uploadTask.on(
         'state_changed',
@@ -49,7 +47,6 @@ const AdminEditSuplement = ({ suplemento, onClose }) => {
         }
       );
     } else {
-      
       updateSuplementData(downloadURL);
     }
   };
@@ -66,9 +63,7 @@ const AdminEditSuplement = ({ suplemento, onClose }) => {
 
     try {
       const docRef = doc(db, 'suplements', suplemento.id);  
-
       await updateDoc(docRef, updatedSuplement); 
-
       Swal.fire('Éxito', 'Suplemento actualizado correctamente.', 'success');
       onClose(); 
 
@@ -186,7 +181,6 @@ const AdminEditSuplement = ({ suplemento, onClose }) => {
               />
             </div>
           </div>
-
         </div>
 
         <div className="edit-division-form-button">

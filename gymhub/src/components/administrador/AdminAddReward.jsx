@@ -113,6 +113,17 @@ const AdminAddReward = ({ onClose }) => {
   };
 
   const handleSubmit = async (e) => {
+
+    switch (tipoPremio){
+      case "otros":
+        break;
+      default:
+        if (!ganadorSeleccionado || !itemSeleccionado) {
+          Swal.fire('Error', 'Por favor, completa todos los campos.', 'error');
+          return;
+        }
+    }
+
     e.preventDefault();
   
     let imageUrlToUse = imageUrl; 
@@ -203,11 +214,11 @@ const AdminAddReward = ({ onClose }) => {
               <label className="admin-add-reward-label">Imagen</label>
               {tipoPremio === 'articulo' && itemSeleccionado ? (
                 <div className="uploaded-image-container">
-                  <img src={itemSeleccionado.imageID} alt="Artículo seleccionado" className="uploaded-image" />
+                  <img src={itemSeleccionado.imageID} alt="Artículo seleccionado" className="uploaded-image" required />
                 </div>
               ) : tipoPremio === 'suplemento' && itemSeleccionado ? (
                 <div className="uploaded-image-container">
-                  <img src={itemSeleccionado.url} alt="Suplemento seleccionado" className="uploaded-image" />
+                  <img src={itemSeleccionado.url} alt="Suplemento seleccionado" className="uploaded-image" required />
                 </div>
               ) : tipoPremio === 'otros' ? (
                 <>
@@ -293,7 +304,7 @@ const AdminAddReward = ({ onClose }) => {
                   </div>
                 )}
                 {itemSeleccionado && (
-                  <div className="articulo-selected">
+                  <div className="articulo-selected" required>
                     <p>Artículo seleccionado: {itemSeleccionado.name}</p>
                     <p>Descripción: {itemSeleccionado.descripcion}</p>
                   </div>
