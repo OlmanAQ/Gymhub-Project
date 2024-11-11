@@ -17,9 +17,9 @@ export const obtenerInventarioPorGimnasio = async (gimnasioId) => {
 };
 
 // Agregar un producto a un gimnasio específico
-export const agregarProducto = async ({gimnasioId, producto}) => {
-  //si existe zonas, las elimina
-  if (producto.zonas.length === 0) {
+export const agregarProducto = async ({ gimnasioId, producto }) => {
+  // Verificar si `zonas` existe y tiene elementos, si no, eliminar `zonas`
+  if (producto.zonas && producto.zonas.length === 0) {
     delete producto.zonas;
   }
 
@@ -28,6 +28,7 @@ export const agregarProducto = async ({gimnasioId, producto}) => {
   await setDoc(docRef, producto);
   return { id: docRef.id, ...producto };
 };
+
 
 // Obtener un producto específico por ID
 export const obtenerProductoPorId = async (gimnasioId, productoId) => {
