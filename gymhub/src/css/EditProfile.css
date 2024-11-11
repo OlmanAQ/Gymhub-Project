@@ -1,0 +1,265 @@
+.editprofile-user-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 85vh;
+    background-color: #f2f2f2;
+    position: relative;
+  }
+  
+  .editprofile-user-form {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    width: 80%;
+    max-width: 1200px;
+    position: relative;
+  }
+  
+  .editprofile-user-header {
+    text-align: center;
+    margin-bottom: 20px;
+    width: 100%;
+  }
+  
+  .editprofile-user-header h2 {
+    font-size: 1.8rem;
+    color: #333;
+    margin-bottom: 10px;
+  }
+  
+  .editprofile-user-close-button {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: transparent;
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+  }
+  .editprofile-user-close-button:hover {
+    color: red;
+  }
+  
+  .colum-one-editprofile,
+  .colum-two-editprofile,
+  .colum-three-editprofile {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    text-align: left;
+  }
+  
+  /* Estilos para los grupos de entrada */
+  .register-name-group-editprofile,
+  .register-usuario-group-editprofile,
+  .register-genero-group-editprofile,
+  .register-edad-group-editprofile,
+  .register-peso-group-editprofile,
+  .register-estatura-group-editprofile,
+  .register-telefono-group-editprofile,
+  .register-rol-group-editprofile,
+  .register-padecimientos-group-editprofile {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .register-label-usuario-editprofile,
+  .register-label-nombre-editprofile,
+  .register-label-genero-editprofile,
+  .register-label-edad-editprofile,
+  .register-label-peso-editprofile,
+  .register-label-estatura-editprofile,
+  .register-label-telefono-editprofile,
+  .register-label-rol-editprofile,
+  .register-label-padecimientos-editprofile {
+    font-size: 1rem;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 5px;
+    text-align: left;
+  }
+  
+  .register-input-usuario-editprofile,
+  .register-input-nombre-editprofile,
+  .register-input-genero-editprofile,
+  .register-input-edad-editprofile,
+  .register-input-peso-editprofile,
+  .register-input-estatura-editprofile,
+  .register-input-telefono-editprofile,
+  .register-input-padecimientos-editprofile {
+    padding: 0.75rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 1rem;
+    box-sizing: border-box;
+    width: 100%;
+  }
+  .register-input-genero-editprofile{
+    width: 40%;
+  }
+
+  .register-input-usuario-editprofile,
+.register-input-nombre-editprofile {
+  display: block; 
+  width: 100%; 
+  max-width: 360px;
+  min-width: 210px;
+  margin: 0;
+  text-align: left;
+}
+
+.register-label-usuario-editprofile,
+.register-label-nombre-editprofile {
+  display: block; 
+  font-size: 1rem;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 5px;
+  text-align: left;
+}
+
+  .register-input-nombre-editprofile,
+  .register-input-usuario-editprofile{
+    width: 80%;
+    max-width: 360px;
+    min-width: 210px;
+    margin: 0;
+    text-align: left;
+  }
+
+  .colum-two-editprofile .register-input-edad-editprofile,
+  .colum-two-editprofile .register-input-peso-editprofile,
+  .colum-two-editprofile .register-input-estatura-editprofile {
+    width: 70%;
+    max-width: 160px;
+    min-width: 120px;
+    margin: 0;
+    text-align: left;
+  }
+  .colum-two-editprofile .register-input-genero-editprofile {
+    width: 80%;
+    max-width: 170px;
+    min-width: 150px;
+    margin: 0;
+    text-align: left;
+  }
+  
+  .colum-three-editprofile .register-input-telefono-editprofile {
+    width: 80%;
+    max-width: 350px;
+    min-width: 200px;
+    margin: 0;
+    text-align: justify;
+  }
+  
+  /* Ajusta el contenedor del teléfono para evitar superposición */
+  .register-telefono-group-editprofile .phone-input {
+    display: flex;
+    align-items: center;
+    width: 100%;
+  }
+  
+  .phone-input .form-control {
+    padding-left: 60px;
+    width: 100%;
+    max-width: 100%;
+  }
+  
+  .phone-input input[type="tel"] {
+    width: calc(100% - 70px);
+    padding-left: 60px;
+    box-sizing: border-box;
+  }
+  
+  .phone-input .flag-dropdown {
+    position: absolute;
+    left: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 1;
+  }
+  
+  .phone-input .country-list {
+    z-index: 10000;
+  }
+  
+  /* Estilo general para los inputs y selects */
+  .register-input-telefono-editprofile {
+    width: 100%;
+    max-width: 350px;
+    min-width: 200px;
+    margin: 0;
+    padding-left: 60px;
+  }
+  
+  .register-button-register-editprofile {
+    background-color: #28a745;
+    color: white;
+    border: none;
+    padding: 0.75rem 2rem;
+    font-size: 1.1rem;
+    font-weight: bold;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .register-button-register-editprofile:hover {
+    background-color: #218838;
+  }
+  
+  /* Estilos adicionales */
+  .register-button-register-container-editprofile {
+    grid-column: span 3;
+    display: flex;
+    justify-content: flex-end;
+  }
+  
+  textarea.register-input-padecimientos-editprofile {
+    resize: none;
+    height: 100px;
+  }
+  
+  /* Alertas */
+  .swal2-popup {
+    font-size: 1.2em;
+  }
+  
+  .swal2-title {
+    color: #333;
+  }
+  
+  .swal2-content {
+    color: #666;
+  }
+  
+  .swal2-confirm {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+  }
+  
+  .swal2-confirm:hover {
+    background-color: #45a049;
+  }
+  
+  .swal2-cancel {
+    background-color: #f44336;
+    color: white;
+    border: none;
+  }
+  
+  .swal2-cancel:hover {
+    background-color: #e53935;
+  }
+  
+  .swal2-popup .swal2-styled {
+    border-radius: 8px;
+  }
+  

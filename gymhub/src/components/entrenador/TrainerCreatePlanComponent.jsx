@@ -4,7 +4,7 @@ import { db } from '../../firebaseConfig/firebase';
 import '../../css/TrainerCreatePlanComponent.css';
 import Swal from 'sweetalert2';
 
-function TrainerCreatePlanComponent() {
+function TrainerCreatePlanComponent( {onClose} ) {
 
   const daysOfWeek = ['Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado', 'Domingo'];
 
@@ -22,7 +22,7 @@ function TrainerCreatePlanComponent() {
   const [searchQuery, setSearchQuery] = useState('');
   const [users, setUsers] = useState([]);
   const [selectedUser, setSelectedUser] = useState(null);
-  const [activityState, setActivityState] = useState(false); // Estado de actividad
+  const [activityState, setActivityState] = useState(false); 
   const [muscleGroups, setMuscleGroups] = useState([]);
 
   const addExerciseToDay = (day, exercise) => {
@@ -101,7 +101,6 @@ function TrainerCreatePlanComponent() {
       });
       return;
     }
-
     if (!routineName) {
       Swal.fire({
         title: "Cuidado!",
@@ -110,23 +109,18 @@ function TrainerCreatePlanComponent() {
       });
       return;
     }
-
     const currentDate = new Date().toLocaleDateString('es-ES', {
       day: '2-digit',
       month: '2-digit',
       year: 'numeric',
     });
-    
-    
-    
-
     try {
       await addDoc(collection(db, 'plans'), {
         usuario: selectedUser.usuario,
         nombre: routineName,
         rutina: weeklyRoutine,
-        fechaCreacion: currentDate, // Fecha de creación de la rutina
-        estado: activityState // Estado de la rutina (booleano)
+        fechaCreacion: currentDate, 
+        estado: activityState 
       });
       Swal.fire({
         title: "Excelente!",
@@ -160,29 +154,27 @@ function TrainerCreatePlanComponent() {
         console.error('Error fetching muscle groups: ', error);
       }
     };
-  
     fetchMuscleGroups();
   }, []);
 
 
   const MuscleGroup = ({ group, exercises }) => {
     const [isExpanded, setIsExpanded] = useState(false);
-
     const toggleExpand = () => {
       setIsExpanded(!isExpanded);
     };
 
     return (
-      <div className="muscle-group">
-        <button onClick={toggleExpand} className="muscle-group-button">
+      <div className="c-muscle-group">
+        <button onClick={toggleExpand} className="c-muscle-group-button">
           {group}
         </button>
         {isExpanded && (
-          <div className="exercise-list">
+          <div className="c-exercise-list">
             {exercises.map((exercise, index) => (
               <button
                 key={index}
-                className="exercise-button"
+                className="c-exercise-button"
                 onClick={() => addExerciseToDay(selectedDay, exercise)}
               >
                 {exercise}
@@ -195,64 +187,71 @@ function TrainerCreatePlanComponent() {
   };
 
   return (
-    <div className="mi-div">
+    <div className="conte-prin">
       <h1 className="title">Creación de rutina</h1>
-
-      <div className="input-container">
-        <div className="user-search-container">
-          <input
-            type="text"
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            placeholder="Buscar usuario..."
-            className="user-search-input"
-          />
-          <button onClick={fetchUsers} className="user-search-button">
-            Buscar usuario
-          </button>
-          {users.length > 0 && (
-            <ul className="user-list">
-              {users.map((user) => (
-                <li key={user.id} onClick={() => handleUserSelect(user)}>
-                  {user.nombre} ({user.usuario})
-                </li>
-              ))}
-            </ul>
-          )}
-          {selectedUser && (
-            <div className="selected-user">
-              <p>Usuario seleccionado: {selectedUser.nombre} ({selectedUser.usuario})</p>
-            </div>
-          )}
-        </div>
-
-        <div className="routine-name-container">
-          <input
-            type="text"
-            value={routineName}
-            onChange={(e) => setRoutineName(e.target.value)}
-            placeholder="Nombre de la rutina"
-            className="routine-name-input"
-          />
-        </div>
-
-        <div className="activity-state-container">
-          <label>
-            Estado de rutina
-            <select
-              value={activityState}
-              onChange={(e) => setActivityState(e.target.value === 'true')}
-              className="activity-state-select"
-            >
-              <option value={false}>Inactiva</option>
-              <option value={true}>Activa</option>
-            </select>
-          </label>
-        </div>
-
+      <div className="btn-bck-cont">
+        <button type="button" className="bck-btn" onClick={onClose}>Volver</button>
       </div>
 
-      <div className="exercise-menu">
+      <div className='wrapper'>
+        <div className="ipt-container">
+          <div className="srch-container">
+            <input
+              type="text"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              placeholder="Buscar usuario..."
+              className="user-sch-input"
+            />
+            <button onClick={fetchUsers} className="user-sch-button">
+              Buscar usuario
+            </button>
+            {users.length > 0 && (
+              <ul className="c-user-list">
+                {users.map((user) => (
+                  <li key={user.id} onClick={() => handleUserSelect(user)}>
+                    {user.nombre} ({user.usuario})
+                  </li>
+                ))}
+              </ul>
+            )}
+            {selectedUser && (
+              <div className="c-selected-user">
+                <p>Usuario seleccionado: {selectedUser.nombre} ({selectedUser.usuario})</p>
+              </div>
+            )}
+          </div>
+
+          <div className="rt-name-container">
+            <input
+              type="text"
+              value={routineName}
+              onChange={(e) => setRoutineName(e.target.value)}
+              placeholder="Nombre de la rutina"
+              className="rt-name-input"
+            />
+          </div>
+          
+          <div className="act-st-container">
+            <label>
+              Estado de rutina
+            </label>
+            <select
+                value={activityState}
+                onChange={(e) => setActivityState(e.target.value === 'true')}
+                className='activity-state-select'
+              >
+                <option value={false}>Inactiva</option>
+                <option value={true}>Activa</option>
+            </select>
+          </div>
+
+        </div>
+      </div>
+
+
+
+      <div className="c-exercise-menu">
         {muscleGroups.map((muscleGroup, index) => (
           <MuscleGroup
             key={index}
@@ -263,34 +262,37 @@ function TrainerCreatePlanComponent() {
       </div>
 
 
-      <div className="days-container">
-        <div className="weekly-plan">
-          {daysOfWeek.map((day) => (
-            <div
-              key={day}
-              className={`day-column ${selectedDay === day ? 'active-day' : ''}`}
-            >
-              <h2 onClick={() => setSelectedDay(day)}>{day}</h2>
-              <ul>
-                {weeklyRoutine[day].map((exerciseObj, index) => {
-                  const exercise = Object.keys(exerciseObj)[0];
-                  const details = exerciseObj[exercise];
-                  return (
-                    <li key={index}>
-                      {`${exercise} - ${details.Series} sets x ${details.Repeticiones} reps`}
-                      <button className="remove-button" onClick={() => removeExerciseFromDay(day, exercise)} >
-                        X
-                      </button>
-                    </li>
-                  );
-                })}
-              </ul>
-            </div>
-          ))}
+      <div className='wrapper'>
+        <div className="c-days-container">
+          <div className="c-weekly-plan">
+            {daysOfWeek.map((day) => (
+              <div
+                key={day}
+                className={`c-day-column ${selectedDay === day ? 'c-active-day' : ''}`}
+              >
+                <h2 onClick={() => setSelectedDay(day)}>{day}</h2>
+                <ul>
+                  {weeklyRoutine[day].map((exerciseObj, index) => {
+                    const exercise = Object.keys(exerciseObj)[0];
+                    const details = exerciseObj[exercise];
+                    return (
+                      <li key={index}>
+                        {`${exercise} - ${details.Series} sets x ${details.Repeticiones} reps`}
+                        <button className="c-remove-button" onClick={() => removeExerciseFromDay(day, exercise)} >
+                          X
+                        </button>
+                      </li>
+                    );
+                  })}
+                </ul>
+              </div>
+            ))}
+          </div>
         </div>
       </div>
 
-      <button className="button-grd" onClick={saveRoutine}>
+
+      <button className="btn-grd" onClick={saveRoutine}>
         Guardar rutina
       </button>
     </div>

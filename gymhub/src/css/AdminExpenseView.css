@@ -1,0 +1,79 @@
+.admin-expense-view {
+    padding: 20px;
+    background-color: #f8f9fa;
+  }
+  
+  .expense-actions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+  
+  .add-expense-button {
+    background-color: #28a745;
+    color: white;
+    padding: 8px 12px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+  }
+  
+  .search-box {
+    display: flex;
+    align-items: center;
+    border: 1px solid #ced4da;
+    border-radius: 5px;
+    padding: 5px;
+  }
+  
+  .search-box input {
+    border: none;
+    outline: none;
+    padding: 5px;
+    font-size: 14px;
+    width: 100%;
+  }
+  
+  .table-container {
+    overflow-x: auto;
+  }
+  
+  .expense-table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  .expense-table th, .expense-table td {
+    padding: 10px;
+    border: 1px solid #dee2e6;
+  }
+  
+  .expense-table th {
+    background-color: #343a40;
+    color: white;
+  }
+
+  .button-actions {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    margin: 0;
+  }
+  
+  .button-actions:hover {
+    opacity: 0.8;
+  }
+  
+  @media screen and (max-width: 768px) {
+    .expense-actions {
+      flex-direction: column;
+      gap: 10px;
+    }
+  
+    .search-box {
+      width: 100%;
+    }
+  }

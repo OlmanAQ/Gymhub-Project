@@ -1,0 +1,148 @@
+.profile-container {
+  width: 100%;
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 30px;
+  border: 1px solid #ddd;
+  border-radius: 12px;
+  background-color: #ffffff;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.profile-title {
+  text-align: center;
+  font-size: 28px;
+  font-weight: bold;
+  margin-bottom: 20px;
+  color: #444;
+  border-bottom: 2px solid #ddd;
+  padding-bottom: 10px;
+}
+
+.profile-column-one,
+.profile-column-two {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.profile-info {
+  display: flex;
+  justify-content: space-between;
+}
+
+.profile-info p {
+  font-size: 16px;
+  line-height: 1.6;
+  margin: 5px 0;
+  color: #555;
+  text-align: left;
+}
+
+.profile-info strong {
+  color: #333;
+  font-weight: bold;
+  margin-right: 10px;
+}
+
+.edit-profile,
+.change-password {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.edit-icon {
+  margin-right: 8px;
+  cursor: pointer;
+  color: #F7E07F;
+  transition: color 0.3s;
+}
+
+.edit-icon:hover {
+  color: #F7E07F;
+}
+
+.edit-text {
+  font-size: 18px;
+  font-weight: bold;
+  color: #333;
+}
+
+.lock-icon {
+  margin-right: 8px;
+  cursor: pointer;
+  color: #007bff;
+  transition: color 0.3s;
+}
+
+.lock-icon:hover {
+  color: #0056b3;
+}
+
+.change-text {
+  font-size: 18px;
+  font-weight: bold;
+  color: #333;
+}
+
+.settings-section,
+.info-section {
+  margin-bottom: 30px;
+}
+
+.settings-title,
+.info-title {
+  font-size: 22px;
+  font-weight: bold;
+  margin-bottom: 10px;
+  color: #333;
+  text-align: left;
+}
+
+.edit-profile,
+.change-password {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.edit-icon{
+  color: #F7E07F;
+  margin-right: 8px;
+  cursor: pointer;
+  transition: color 0.3s;
+}
+.lock-icon {
+  margin-right: 8px;
+  cursor: pointer;
+  color: #007bff;
+  transition: color 0.3s;
+}
+
+.edit-icon:hover{
+  color:#F7E07F;  
+}
+.lock-icon:hover {
+  color: #007bff;
+}
+
+.edit-text,
+.change-text {
+  font-size: 18px;
+  font-weight: bold;
+  color: #333;
+}
+
+@media (max-width: 768px) {
+  .profile-title {
+    font-size: 24px;
+  }
+
+  .profile-info p {
+    font-size: 14px;
+  }
+}

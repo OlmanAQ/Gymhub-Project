@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import Swal from 'sweetalert2';
-import { obtenerTodosLosUsuarios, obtenerInfoUsuario } from '../../cruds/Read';
+import { obtenerTodosLosUsuarios, obtenerInfoUsuario, esAdministrador} from '../../cruds/Read';
+import { showAlert, showConfirmAlert, AlertType, showUserInfoAlert } from '../../utils/Alert';
 import { eliminarUsuario } from '../../cruds/Delete';
-import { Edit, Trash, Info, ChevronLeft, ChevronRight, ChevronsLeft, ChevronsRight, UserPlus, Search, RefreshCcw } from 'lucide-react';
+import { Edit, Trash, Info, ChevronLeft, ChevronRight, ChevronsLeft, ChevronsRight, UserPlus, Search, Paintbrush } from 'lucide-react';
 import '../../css/AdminUserView.css';
 
 const AdminUserView = ({ onShowRegisterUser, onShowUpdateUser }) => {
@@ -14,6 +15,7 @@ const AdminUserView = ({ onShowRegisterUser, onShowUpdateUser }) => {
   const [loading, setLoading] = useState(true);
 
   const [selectedUser, setSelectedUser] = useState(null);
+
   useEffect(() => {
     const fetchUsers = async () => {
       try {
@@ -42,91 +44,33 @@ const AdminUserView = ({ onShowRegisterUser, onShowUpdateUser }) => {
     onShowUpdateUser(user);
   };
 
-  const deleteUser = (userId) => {
-    Swal.fire({
-      title: '¿Estás seguro?',
-      text: "Esta acción no se puede deshacer.",
-      icon: 'warning',
-      showCancelButton: true,
-      confirmButtonColor: '#3085d6',
-      cancelButtonColor: '#d33',
-      confirmButtonText: 'Sí, eliminar',
-      cancelButtonText: 'Cancelar'
-    }).then(async (result) => {
-      if (result.isConfirmed) {
-        try {
-          await eliminarUsuario(userId);
-          Swal.fire(
-            'Eliminado',
-            'El usuario ha sido eliminado.',
-            'success'
-          );
-          // Actualiza la lista de usuarios después de la eliminación
-          const updatedUsers = allUsers.filter(user => user.id !== userId);
-          setAllUsers(updatedUsers);
-          setDisplayedUsers(updatedUsers.slice(currentPage * usersPerPage, (currentPage + 1) * usersPerPage));
-        } catch (error) {
-          console.error('Error al eliminar el usuario:', error);
-          Swal.fire(
-            'Error',
-            'No se pudo eliminar el usuario.',
-            'error'
-          );
+  const deleteUser = (user) => {
+    showConfirmAlert('¿Estás seguro?', 'Esta acción no se puede deshacer.', 'Sí, eliminar', 'Cancelar')
+      .then(async (result) => {
+        if (result.isConfirmed) {
+          try {
+            // Pasamos el usuarioId y el uid al eliminar
+            await eliminarUsuario(user.id, user.uid); // Asegúrate de pasar ambos valores
+            showAlert('Eliminado', 'El usuario ha sido eliminado.', AlertType.SUCCESS);
+            
+            const updatedUsers = allUsers.filter(u => u.id !== user.id);
+            setAllUsers(updatedUsers);
+            setDisplayedUsers(updatedUsers.slice(currentPage * usersPerPage, (currentPage + 1) * usersPerPage));
+          } catch (error) {
+            console.error('Error al eliminar el usuario:', error);
+            showAlert('Error', 'No se pudo eliminar el usuario.', AlertType.ERROR);
+          }
         }
-      }
-    });
+      });
   };
-
+  
   const moreInfo = async (user) => {
     try {
       const userInfo = await obtenerInfoUsuario(user.correo, user.usuario);
-      Swal.fire({
-        title: 'Información del Usuario',
-        icon: 'info',
-        html: `
-          <div style="display: flex; flex-wrap: wrap; gap: 30px; justify-content: space-between;">
-            <div style="flex: 1; min-width: 300px;">
-              <table>
-                <tr><td><strong>Nombre:</strong></td><td>${userInfo.nombre || 'N/A'}</td></tr>
-                <tr><td><strong>Usuario:</strong></td><td>${userInfo.usuario || 'N/A'}</td></tr>
-                <tr><td><strong>Correo:</strong></td><td>${userInfo.correo || 'N/A'}</td></tr>
-                <tr><td><strong>Contraseña:</strong></td><td>${userInfo.contrasena || 'N/A'}</td></tr>
-                <tr><td><strong>Edad:</strong></td><td>${userInfo.edad || 'N/A'}</td></tr>
-                <tr><td><strong>Estatura:</strong></td><td>${userInfo.estatura + ' m' || 'N/A'}</td></tr>
-                <tr><td><strong>Peso:</strong></td><td>${userInfo.peso + ' kg' || 'N/A'}</td></tr>
-              </table>
-            </div>
-            <div style="flex: 1; min-width: 300px;">
-              <table>
-                <tr><td><strong>Fecha de Inscripción:</strong></td><td>${userInfo.fechaInscripcion || 'N/A'}</td></tr>
-                <tr><td><strong>Género:</strong></td><td>${userInfo.genero || 'N/A'}</td></tr>
-                <tr><td><strong>Padecimientos:</strong></td><td>${userInfo.padecimientos || 'N/A'}</td></tr>
-                <tr><td><strong>Teléfono:</strong></td><td>${userInfo.telefono || 'N/A'}</td></tr>
-                <tr><td><strong>Tipo de Membresía:</strong></td><td>${userInfo.tipoMembresia || 'N/A'}</td></tr>
-                <tr><td><strong>Renovación:</strong></td><td>${userInfo.renovacion || 'N/A'}</td></tr>
-                <tr><td><strong>Rol:</strong></td><td>${userInfo.rol || 'N/A'}</td></tr>
-              </table>
-            </div>
-          </div>
-        `,
-        width: '800px', // Ajusta el ancho de la alerta
-        confirmButtonText: 'Cerrar',
-        customClass: {
-          container: 'custom-swal-container',
-          popup: 'custom-swal-popup',
-          title: 'custom-swal-title',
-          htmlContainer: 'custom-swal-html-container',
-          confirmButton: 'custom-swal-confirm-button'
-        }
-      });
+      showUserInfoAlert(userInfo); // Llama a la alerta personalizada
     } catch (error) {
       console.error('Error fetching user info: ', error);
-      Swal.fire({
-        icon: 'error',
-        title: 'Error',
-        text: 'No se pudo obtener la información del usuario.',
-        confirmButtonText: 'Entendido'
-      });
+      showAlert('Error', 'No se pudo obtener la información del usuario.', AlertType.ERROR);
     }
   };
 
@@ -153,7 +97,7 @@ const AdminUserView = ({ onShowRegisterUser, onShowUpdateUser }) => {
       const usersData = await obtenerTodosLosUsuarios(sortOption);
       setAllUsers(usersData);
       setDisplayedUsers(usersData.slice(0, usersPerPage));
-      setCurrentPage(0); // Opcional: Reinicia la página a la primera
+      setCurrentPage(0); 
       setLoading(false);
     } catch (error) {
       console.error('Error fetching users: ', error);
@@ -161,7 +105,6 @@ const AdminUserView = ({ onShowRegisterUser, onShowUpdateUser }) => {
     }
   };
 
-  /*busqueda de elementos cuando se da click en la lupa o enter*/
   const search = () => {
     const searchTerm = document.querySelector('.buscador-input').value.toLowerCase();
     const searchBy = document.querySelector('.buscador-select').value;
@@ -203,15 +146,15 @@ const AdminUserView = ({ onShowRegisterUser, onShowUpdateUser }) => {
       <div className='controls-container'>
         <div className='add-user-container'>
           <button className='add-user-button' onClick={onShowRegisterUser}>
-            <UserPlus size={24} color="#28a745" />
+            <UserPlus className="icon-svg" size={24} color="#28a745" />
             Agregar usuario
           </button>
         </div>
-
+  
         <div className='buscador-container'>
           <div className="buscador-wrapper">
             <button className='refresh-button' onClick={refreshUsers}>
-              <RefreshCcw size={24} color="#007BFF" />
+              <Paintbrush className="icon-svg" size={24} color="#007BFF" />
             </button>
             <input
               type="text"
@@ -220,7 +163,7 @@ const AdminUserView = ({ onShowRegisterUser, onShowUpdateUser }) => {
               onKeyPress={keyPress}
             />
             <button className="buscador-button" onClick={search}>
-              <Search size={24} color="#007BFF" />
+              <Search className="icon-svg" size={24} color="#007BFF" />
             </button>
           </div>
           <select className="buscador-select">
@@ -229,7 +172,7 @@ const AdminUserView = ({ onShowRegisterUser, onShowUpdateUser }) => {
             <option value="correo">Correo</option>
           </select>
         </div>
-
+  
         <div className='filter-container'>
           <label htmlFor="sort">Ordenar por:</label>
           <select
@@ -243,90 +186,89 @@ const AdminUserView = ({ onShowRegisterUser, onShowUpdateUser }) => {
             <option value="Usuario (A-Z)">Usuario (A-Z)</option>
             <option value="Recientes">Recientes</option>
             <option value="Rol">Rol</option>
-            <option value="Tipo de membresía">Tipo de membresía</option>
           </select>
         </div>
       </div>
-
-      <div className='table-container'>
-        <table>
-          <thead>
-            <tr>
-              <th>Nombre</th>
-              <th>Usuario</th>
-              <th>Correo</th>
-              <th>Renovación</th>
-              <th>Membresía</th>
-              <th>Rol</th>
-              <th>Info</th>
-              <th>Editar</th>
-              <th>Eliminar</th>
-            </tr>
-          </thead>
-          <tbody>
-            {displayedUsers.length > 0 ? (
-              displayedUsers.map(user => (
-                <tr key={user.id}>
-                  <td>{user.nombre || 'N/A'}</td>
-                  <td>{user.usuario || 'N/A'}</td>
-                  <td>{user.correo || 'N/A'}</td>
-                  <td>{user.renovacion || 'N/A'}</td>
-                  <td>{user.tipoMembresia || 'N/A'}</td>
-                  <td>{user.rol || 'N/A'}</td>
-                  <td>
-                    <button className='button-actions' onClick={() => moreInfo(user)}>
-                      <Info size={16} color="#007BFF" />
-                    </button>
-                  </td>
-                  <td>
-                    <button className='button-actions' onClick={() => editUser(user)}>
-                      <Edit size={16} color="#F7E07F" />
-                    </button>
-                  </td>
-                  <td>
-                    <button className='button-actions' onClick={() => deleteUser(user.id)}>
-                      <Trash size={16} color="#FF5C5C" />
-                    </button>
-                  </td>
-                </tr>
-              ))
-            ) : (
+  
+      {/* Nuevo div envolvente para centrar la tabla */}
+      <div className='table-wrapper'>
+        <div className='table-container'>
+          <table className='user-table'>
+            <thead className='user-table-header'>
               <tr>
-                <td colSpan="10">No hay usuarios disponibles</td>
+                <th className='user-table-header-cell'>Nombre</th>
+                <th className='user-table-header-cell'>Usuario</th>
+                <th className='user-table-header-cell'>Correo</th>
+                <th className='user-table-header-cell'>Rol</th>
+                <th className='user-table-header-cell'>Info</th>
+                <th className='user-table-header-cell'>Editar</th>
+                <th className='user-table-header-cell'>Eliminar</th>
               </tr>
-            )}
-          </tbody>
-        </table>
-        <div className="pagination-buttons">
-          <button className='button-actions'
-            onClick={() => handlePagination('first')}
-            disabled={currentPage === 0}
-          >
-            <ChevronsLeft size={24} />
-          </button>
-          <button className='button-actions'
-            onClick={() => handlePagination('prev')}
-            disabled={currentPage === 0}
-          >
-            <ChevronLeft size={24} />
-          </button>
-          <span className="page-indicator">{currentPage + 1} de {Math.ceil(allUsers.length / usersPerPage)}</span>
-          <button className='button-actions'
-            onClick={() => handlePagination('next')}
-            disabled={(currentPage + 1) * usersPerPage >= allUsers.length}
-          >
-            <ChevronRight size={24} />
-          </button>
-          <button className='button-actions'
-            onClick={() => handlePagination('last')}
-            disabled={(currentPage + 1) * usersPerPage >= allUsers.length}
-          >
-            <ChevronsRight size={24} />
-          </button>
+            </thead>
+            <tbody className='user-table-body'>
+              {displayedUsers.length > 0 ? (
+                displayedUsers.map(user => (
+                  <tr key={user.id} className='user-table-row'>
+                    <td className='user-table-cell'>{user.nombre || 'N/A'}</td>
+                    <td className='user-table-cell'>{user.usuario || 'N/A'}</td>
+                    <td className='user-table-cell'>{user.correo || 'N/A'}</td>
+                    <td className='user-table-cell'>{user.rol || 'N/A'}</td>
+                    <td className='user-table-cell'>
+                      <button className='button-actions' onClick={() => moreInfo(user)}>
+                        <Info className="icon-svg" size={16} color="#007BFF" />
+                      </button>
+                    </td>
+                    <td className='user-table-cell'>
+                      <button className='button-actions' onClick={() => editUser(user)}>
+                        <Edit className="icon-svg" size={16} color="#F7E07F" />
+                      </button>
+                    </td>
+                    <td className='user-table-cell'>
+                      <button className='button-actions' onClick={() => deleteUser(user)}>
+                        <Trash className="icon-svg" size={16} color="#FF5C5C" />
+                      </button>
+                    </td>
+                  </tr>
+                ))
+              ) : (
+                <tr className='user-table-row'>
+                  <td className='user-table-cell' colSpan="7">No hay usuarios disponibles</td>
+                </tr>
+              )}
+            </tbody>
+          </table>
+          <div className="pagination-buttons">
+            <button className='button-actions'
+              onClick={() => handlePagination('first')}
+              disabled={currentPage === 0}
+            >
+              <ChevronsLeft className="icon-svg" size={24} />
+            </button>
+            <button className='button-actions'
+              onClick={() => handlePagination('prev')}
+              disabled={currentPage === 0}
+            >
+              <ChevronLeft className="icon-svg" size={24} />
+            </button>
+            <span className="page-indicator">{currentPage + 1} de {Math.ceil(allUsers.length / usersPerPage)}</span>
+            <button className='button-actions'
+              onClick={() => handlePagination('next')}
+              disabled={(currentPage + 1) * usersPerPage >= allUsers.length}
+            >
+              <ChevronRight className="icon-svg" size={24} />
+            </button>
+            <button className='button-actions'
+              onClick={() => handlePagination('last')}
+              disabled={(currentPage + 1) * usersPerPage >= allUsers.length}
+            >
+              <ChevronsRight className="icon-svg" size={24} />
+            </button>
+          </div>
         </div>
       </div>
     </>
   );
+  
 };
 
 export default AdminUserView;

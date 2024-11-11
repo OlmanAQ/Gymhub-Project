@@ -1,140 +1,243 @@
-.register-user-container {
-    position: relative;
+.admin-register-user-container {
     display: flex;
-    align-items: center;
     flex-direction: column;
     justify-content: center;
-    height: 100vh;
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    margin-top: -20px;
-}
-
-.register-user-header {
-    margin-bottom: 20px;
-    /* Espacio entre el título y el formulario */
-}
-
-.register-user-header h2 {
-    font-size: 2em;
-    /* Tamaño del título */
-    color: #333;
-    /* Color del título */
-    text-align: center;
-    /* Centrar el texto */
-}
-
-.register-user {
+    align-items: center;
+    height: 85vh;
+    background-color: #f2f2f2;
     position: relative;
-    width: 95%;
-    /* Usa un ancho relativo para que se ajuste al viewport */
-    max-width: 1400px;
-    /* Asegúrate de que el ancho no exceda 1400px */
-    height: 600px;
-    padding: 1em;
-    background-color: #fff;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    display: grid;
-    gap: 1em;
-    grid-template-columns: repeat(3, 1fr);
-    width: calc(100% - 2em);
-    /* Resta el padding del ancho total */
-    overflow: hidden;
-
 }
 
-.register-form-group {
+.admin-register-user-form {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    width: 80%;
+    max-width: 1200px;
+    position: relative;
+}
+
+.admin-register-user-header {
+    text-align: center;
+    margin-bottom: 20px;
+    width: 100%;
+}
+
+.admin-register-user-header h2 {
+    font-size: 1.8rem;
+    color: #333;
+    margin-bottom: 10px;
+}
+
+.admin-register-user-close-button {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: transparent;
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+}
+.admin-register-user-close-button:hover {
+    color: red;
+}
+
+.colum-one-admin,
+.colum-two-admin,
+.colum-three-admin {
     display: flex;
     flex-direction: column;
-    margin-bottom: 1em;
+    gap: 15px;
+    text-align: left;
 }
 
-.register-label {
-    margin-bottom: 0.5em;
+/* Estilos para los grupos de entrada */
+.register-user-group-admin,
+.register-name-group-admin,
+.register-correo-group-admin,
+.register-genero-group-admin,
+.register-edad-group-admin,
+.register-peso-group-admin,
+.register-estatura-group-admin,
+.register-telefono-group-admin,
+.register-rol-group-admin,
+.register-padecimientos-group-admin {
+    display: flex;
+    flex-direction: column;
+}
+
+.register-label-usuario-admin,
+.register-label-nombre-admin,
+.register-label-correo-admin,
+.register-label-genero-admin,
+.register-label-edad-admin,
+.register-label-peso-admin,
+.register-label-estatura-admin,
+.register-label-telefono-admin,
+.register-label-rol-admin,
+.register-label-padecimientos-admin {
+    font-size: 1rem;
     font-weight: bold;
     color: #333;
+    margin-bottom: 5px;
+    text-align: left;
 }
 
-.register-input,
-.register-input-usuario,
-.register-input-nombre,
-.register-input-edad,
-.register-input-genero,
-.register-input-estatura,
-.register-input-peso,
-.register-input-padecimientos,
-.register-input-correo,
-.register-input-telefono,
-.register-input-fecha-inscripcion,
-.register-input-tipo-membresia,
-.register-input-renovacion,
-.register-input-contrasena {
-    padding: 0.75em;
+.register-input-usuario-admin,
+.register-input-nombre-admin,
+.register-input-correo-admin,
+.register-input-genero-admin,
+.register-input-edad-admin,
+.register-input-peso-admin,
+.register-input-estatura-admin,
+.register-input-telefono-admin,
+.register-input-rol-admin,
+.register-input-padecimientos-admin {
+    padding: 0.75rem;
     border: 1px solid #ccc;
     border-radius: 4px;
-    font-size: 1em;
+    font-size: 1rem;
+    box-sizing: border-box;
     width: 100%;
+}
+.colum-one-admin .register-input-usuario-admin,
+.colum-one-admin .register-input-nombre-admin,
+.colum-one-admin .register-input-correo-admin {
+    width: 80%;
+    max-width: 390px;
+    min-width: 240px;
+    margin: 0;
+    text-align: left;
+}
+
+/* Ajusta el ancho del input de contraseña y su contenedor */
+.password-strength-container {
+    width: 85%;
+    max-width: 390px;
+    min-width: 240px;
+    margin: 0;
+    text-align: left;
+}
+
+.register-input-contrasena-admin {
+    padding: 0.75rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 1rem;
+    box-sizing: border-box;
+    width: 100%;
+}
+
+/* Alineación del texto del medidor de contraseña */
+.password-strength-text {
+    text-align: left; /* Alinea el texto a la izquierda */
+    margin-top: 5px;
+    font-size: 0.9rem;
+    color: #666;
+}
+
+
+.colum-two-admin .register-input-edad-admin,
+.colum-two-admin .register-input-peso-admin,
+.colum-two-admin .register-input-estatura-admin {
+    width: 70%;
+    max-width: 160px;
+    min-width: 120px;
+    margin: 0;
+    text-align: left;
+}
+.colum-two-admin .register-input-genero-admin {
+    width: 80%;
+    max-width: 170px;
+    min-width: 150px;
+    margin: 0;
+    text-align: left;
+}
+
+.colum-three-admin .register-input-telefono-admin{
+    width: 80%;
+    max-width: 350px;
+    min-width: 200px;
+    margin: 0;
+    text-align: justify;
+}
+.colum-three-admin .register-input-rol-admin {
+    width: 80%;
+    max-width: 170px;
+    min-width: 150px;
+    margin: 0;
+    text-align: left;
+}
+/* Ajusta el contenedor del teléfono para evitar superposición */
+.register-telefono-group-admin .phone-input {
+    display: flex;
+    align-items: center;
+    width: 100%;
+}
+
+.phone-input .form-control {
+    padding-left: 60px; /* Asegura que el espacio para el código de país sea suficiente */
+    width: 100%;
+    max-width: 100%; /* Se asegura de que el input de teléfono use todo el espacio disponible */
+}
+
+.phone-input input[type="tel"] {
+    width: calc(100% - 70px); /* Deja espacio suficiente para el código de país */
+    padding-left: 60px; /* Deja espacio para el código de país */
     box-sizing: border-box;
 }
 
-.password-container {
-    position: relative;
-    width: 100%;
-}
-
-.register-input-contrasena {
-    padding-right: 2.5rem;
-    padding-left: 0.75em;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    font-size: 1em;
-    width: 100%;
-    box-sizing: border-box;
-}
-
-.password-toggle-button {
+.phone-input .flag-dropdown {
     position: absolute;
-    right: 0.75rem;
+    left: 10px;
     top: 50%;
     transform: translateY(-50%);
-    background: none;
-    border: none;
-    cursor: pointer;
-    padding: 0;
     z-index: 1;
 }
 
-.eye-icon {
-    width: 1.5rem;
-    height: 1.5rem;
-    color: #333;
+.phone-input .country-list {
+    z-index: 10000; /* Asegura que el dropdown no se superponga con otros elementos */
 }
 
-/* Estilo del botón de registro */
-.register-user-submit-button {
-    padding: 0.75em 2em;
-    /* Aumenta el padding para un botón más grande y cómodo */
-    border: none;
+/* Estilo general para los inputs y selects */
+.register-input-telefono-admin {
+    width: 100%;
+    max-width: 350px;
+    min-width: 200px;
+    margin: 0;
+    padding-left: 60px; /* Asegura que el espacio esté reservado para el código de país */
+}
+
+.register-button-register-admin {
     background-color: #28a745;
-    /* Color verde para el fondo */
-    color: #fff;
-    font-size: 1.1em;
+    color: white;
+    border: none;
+    padding: 0.75rem 2rem;
+    font-size: 1.1rem;
     font-weight: bold;
+    border-radius: 4px;
     cursor: pointer;
-    width: auto;
-    max-width: 200px;
-    transition: background-color 0.3s ease, box-shadow 0.3s ease;
-    margin-left: 300px;
-    margin-top: 30px;
+    transition: background-color 0.3s ease;
 }
 
-/* Efecto de hover del botón */
-.register-submit-button:hover {
+.register-button-register-admin:hover {
     background-color: #218838;
-    /* Color verde más oscuro en hover */
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-    /* Sombra más prominente */
+}
+
+/* Estilos adicionales */
+.register-button-register-container-admin {
+    grid-column: span 3;
+    display: flex;
+    justify-content: flex-end;
+}
+
+textarea.register-input-padecimientos-admin {
+    resize: none;
+    height: 100px;
 }
 
 /* Alertas */
@@ -172,21 +275,4 @@
 
 .swal2-popup .swal2-styled {
     border-radius: 8px;
-}
-
-.close-button-admin-user {
-    position: absolute;
-    right: 10px;
-    background: transparent;
-    border: none;
-    cursor: pointer;
-    font-size: 1.5em;
-}
-
-.close-button-admin-user svg {
-    stroke: #333;
-}
-
-.close-button-admin-user svg {
-    stroke: #ff0000;
 }

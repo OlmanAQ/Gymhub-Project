@@ -4,7 +4,7 @@ import { Edit, Trash, Plus, Info, Search, ChevronsLeft, ChevronsRight, ChevronLe
 import Swal from 'sweetalert2';
 import '../../css/AdminInventoryView.css';
 
-const AdminInventoryView = ({ onShowRegisterInventory, onShowEditInventory}) => {
+const AdminInventoryView = ({ onShowRegisterInventory, onShowEditInventory }) => {
   const [gimnasios, setGimnasios] = useState([]);
   const [selectedGym, setSelectedGym] = useState(''); // Gimnasio seleccionado
   const [inventory, setInventory] = useState([]);
@@ -148,10 +148,10 @@ const AdminInventoryView = ({ onShowRegisterInventory, onShowEditInventory}) => 
 
 
   const displayedItems = filteredInventory.slice(currentPage * itemsPerPage, (currentPage + 1) * itemsPerPage);
-  
+
 
   const handlePagination = (direction) => {
-    
+
     if (direction === 'next') {
       setCurrentPage(prev => prev + 1);
     }
@@ -165,7 +165,7 @@ const AdminInventoryView = ({ onShowRegisterInventory, onShowEditInventory}) => 
       setCurrentPage(Math.floor(filteredInventory.length / itemsPerPage));
     };
   };
-  
+
 
   return (
     <div className="admin-inventory-view">
@@ -213,49 +213,51 @@ const AdminInventoryView = ({ onShowRegisterInventory, onShowEditInventory}) => 
           </div>
 
           {/* Tabla de inventario */}
-          <table className="inventory-table">
-            <thead>
-              <tr>
-                <th>Nombre</th>
-                <th>Cantidad</th>
-                <th>Estado</th>
-                <th>Información</th>
-                <th>Editar</th>
-                <th>Eliminar</th>
-              </tr>
-            </thead>
-            <tbody>
-              {displayedItems.length === 0 ? (
+          <div className="table-responsive">
+          <table className="table table-bordered table-hover">
+            <thead className="table-dark">
                 <tr>
-                  <td colSpan="4">No se encontraron equipos</td>
+                  <th>Nombre</th>
+                  <th>Cantidad</th>
+                  <th>Estado</th>
+                  <th>Info</th>
+                  <th>Editar</th>
+                  <th>Eliminar</th>
                 </tr>
-              ) : (
-                displayedItems.map(item => (
-                  <tr key={item.id}>
-                    <td>{item.nombre}</td>
-                    <td>{item.cantidad}</td>
-                    <td>{item.estado}</td>
-                    <td>
-                      <button className='button-actions' onClick={() => moreInfo(item.id)}>
-                        <Info size={16} color="#007BFF" />
-                      </button>
-                    </td>
-                    <td>
-                      <button className='button-actions' onClick={() => editEquipment(item.id)}>
-                        <Edit size={16} color="#F7E07F" />
-                      </button>
-                    </td>
-                    <td>
-                      <button className='button-actions' onClick={() => deleteEquipment(item.id)}>
-                        <Trash size={16} color="#FF5C5C" />
-                      </button>
-                    </td>
-
+              </thead>
+              <tbody>
+                {displayedItems.length === 0 ? (
+                  <tr>
+                    <td colSpan="4">No se encontraron equipos</td>
                   </tr>
-                ))
-              )}
-            </tbody>
-          </table>
+                ) : (
+                  displayedItems.map(item => (
+                    <tr key={item.id}>
+                      <td>{item.nombre}</td>
+                      <td>{item.cantidad}</td>
+                      <td>{item.estado}</td>
+                      <td>
+                        <button className='button-actions' onClick={() => moreInfo(item.id)}>
+                          <Info size={16} color="#007BFF" />
+                        </button>
+                      </td>
+                      <td>
+                        <button className='button-actions' onClick={() => editEquipment(item.id)}>
+                          <Edit size={16} color="#F7E07F" />
+                        </button>
+                      </td>
+                      <td>
+                        <button className='button-actions' onClick={() => deleteEquipment(item.id)}>
+                          <Trash size={16} color="#FF5C5C" />
+                        </button>
+                      </td>
+
+                    </tr>
+                  ))
+                )}
+              </tbody>
+            </table>
+          </div>
 
           {/* Controles de paginación */}
           <div className="pagination-buttons">

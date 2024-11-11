@@ -3,9 +3,6 @@ import '../../css/LoginComponent.css';
 import LogoGymHub from '../../assets/LogoGymHub.png';
 import Swal from 'sweetalert2';
 import { collection, query, where, getDocs} from 'firebase/firestore';
-
-
-
 import {db, auth} from '../../firebaseConfig/firebase';
 import {signInWithEmailAndPassword, sendPasswordResetEmail} from 'firebase/auth';
 
@@ -99,7 +96,7 @@ const LoginComponent = ({ onShowRegister }) => {
 
   return (
     <div className="login-container">
-      <img src={LogoGymHub} className="login-logo" />
+      <img src={LogoGymHub} alt="Logo" className="login-logo" />
       <form>
         <div className="login-form-group">
           <label htmlFor="username" className="login-label">Usuario</label>

@@ -1,0 +1,233 @@
+.seleccionar-usuario-container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 10px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.seleccionar-usuario-container h1 {
+    font-size: 1.8rem;
+    color: #333;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.filter-controls {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.instructions-user-list-text {
+    width: 100%; 
+    text-align: left;
+    margin-bottom: 15px; 
+    color:#333; 
+  }
+  
+.role-select, .sort-select, .search-input {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.filter-controls label {
+    font-weight: 600;
+    color: #555;
+    margin-bottom: 5px;
+}
+
+.sort-select {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    border: none; /* Eliminar borde del contenedor */
+}
+
+.sort-select select {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 1rem;
+    outline: none;
+    transition: border-color 0.3s;
+}
+
+.search-input {
+    position: relative;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    border: none;
+  }
+  
+  .search-icon-container {
+    position: relative;
+    display: flex;
+    align-items: center;
+    width: 100%;
+  }
+  
+  .search-icon {
+    position: absolute;
+    right: 10px; /* Posiciona el icono a la derecha */
+    color: #007bff; /* Azul */
+  }
+  
+  .search-icon-container input {
+    width: 100%;
+    padding: 10px 35px 10px 10px; /* Ajusta el padding para el icono a la derecha */
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 1rem;
+    outline: none;
+    transition: border-color 0.3s;
+  }
+  
+  .role-select select,
+  .search-input input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 1rem;
+    outline: none;
+    transition: border-color 0.3s;
+  }
+  
+  .search-input input {
+    max-width: 250px;
+  }  
+
+/* Contenedor de lista de usuarios ajustado */
+.clientes-list {
+    margin-top: 20px;
+    max-height: 300px; /* Limita la altura para mostrar 3 usuarios */
+    overflow-y: auto; /* Agrega scroll cuando haya más de 3 usuarios */
+    width: 100%;
+}
+
+.clientes-list ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+.cliente-item:hover {
+    box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* Ajuste de estilo para usuario y alineación a la izquierda */
+.cliente-item {
+    background-color: #ffffff;
+    padding: 15px;
+    margin-bottom: 12px;
+    border-radius: 8px;
+    border: 1px solid #eee;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.05);
+    transition: box-shadow 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    text-align: left; /* Añadir esta línea para alinear el texto a la izquierda */
+}
+
+.cliente-item p {
+    margin: 5px 0;
+    color: #555;
+    font-size: 1rem;
+    text-align: left; /* Asegura que cada párrafo esté alineado a la izquierda */
+}
+
+.cliente-item p strong {
+    color: #333;
+    font-weight: 600;
+}
+
+.cliente-item.selected {
+    background-color: #d4edda; /* Verde claro para resaltar la selección */
+    border-color: #c3e6cb; /* Borde verde */
+    box-shadow: 0px 4px 8px rgba(0, 128, 0, 0.2); /* Sombra verde */
+    transition: background-color 0.3s, border-color 0.3s, box-shadow 0.3s;
+  }
+
+  .buttons-container {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    padding: 20px 0; /* Espaciado superior e inferior */
+  }
+  
+  .history-button, .process-button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .history-button {
+    background-color: #007bff; /* Azul */
+    color: #fff;
+  }
+  
+  .history-button:hover {
+    background-color: #0056b3; /* Azul más oscuro en hover */
+  }
+  
+  .process-button {
+    background-color: #28a745; /* Verde */
+    color: #fff;
+  }
+  
+  .process-button:hover {
+    background-color: #218838; /* Verde más oscuro en hover */
+  }
+/* Estilos para la tabla de usuarios */
+.tabla-usuarios {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+  background-color: #ffffff;
+  box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.tabla-usuarios th,
+.tabla-usuarios td {
+  padding: 12px 15px;
+  border: 1px solid #ddd;
+  text-align: left;
+  font-size: 1rem;
+  color: #333;
+}
+
+.tabla-usuarios th {
+  background-color: #333333de;
+  color: #ffffff;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.tabla-usuarios tr:nth-child(even) {
+  background-color: #f9f9f9; /* Fondo alterno para filas */
+}
+
+.tabla-usuarios tr:hover {
+  background-color: #f1f1f1; /* Fondo claro al pasar el cursor */
+}
+
+.tabla-usuarios tr.selected {
+  background-color: #d4edda !important; /* Verde claro para la selección */
+  border-color: #c3e6cb;
+  transition: background-color 0.3s, border-color 0.3s;
+}

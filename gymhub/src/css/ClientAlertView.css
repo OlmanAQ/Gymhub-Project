@@ -1,0 +1,19 @@
+.client-alert-view {
+  border: 1px solid #ccc;
+  border-radius: 0.5rem;
+  background-color: #f8f9fa;
+  padding: 20px;
+}
+
+.client-alert-view h2 {
+  color: #333;
+  margin-bottom: 20px;
+}
+
+.client-alert-view .table {
+  background-color: white;
+}
+
+.client-alert-view .table-hover tbody tr:hover {
+  background-color: #f1f1f1;
+}

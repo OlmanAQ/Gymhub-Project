@@ -1,4 +1,4 @@
-.mi-div {
+.conte-prin {
   background-color: rgb(255, 255, 255);
   color: rgb(0, 0, 0);
   padding: 20px;
@@ -7,7 +7,7 @@
   display: flex;
   flex-direction: column; 
   align-items: center; 
-  width: 95%;
+  width: 100%;
 }
 
 .title {
@@ -26,7 +26,7 @@
 
 
 
-.button-grd {
+.btn-grd {
   padding: 8px 12px;
   background-color: #509B11;
   color: white;
@@ -36,22 +36,15 @@
   gap: 20px;
 }
 
-.exercise-menu {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-  justify-content: center;
-  width: 100%; 
-}
 
 
-.muscle-group {
+.c-muscle-group {
   flex: 1 1 calc(25% - 20px); 
   min-width: 200px; 
   margin-bottom: 10px; 
 }
 
-.muscle-group-button {
+.c-muscle-group-button {
   width: 100%;
   background-color: #000000;
   color: rgb(255, 255, 255);
@@ -62,16 +55,16 @@
   text-align: center;
 }
 
-.muscle-group-button:focus {
+.c-muscle-group-button:focus {
   outline: none;
 }
 
-.exercise-list {
+.c-exercise-list {
   margin-top: 10px;
   padding-left: 20px;
 }
 
-.exercise-button {
+.c-exercise-button {
   display: block;
   width: 100%;
   background-color: #f8f9fa;
@@ -84,20 +77,20 @@
   cursor: pointer;
 }
 
-.exercise-button:focus {
+.c-exercise-button:focus {
   outline: none;
   background-color: #e9ecef;
 }
 
 
 
-.days-of-week {
+.c-days-of-week {
   display: flex;
   justify-content: space-between;
   margin-bottom: 20px;
 }
 
-.day-button {
+.c-day-button {
   flex: 1;
   padding: 10px;
   background-color: #f8f9fa;
@@ -108,12 +101,12 @@
   text-align: center;
 }
 
-.day-button.active {
+.c-day-button.active {
   background-color: #007bff;
   color: white;
 }
 
-.days-container {
+.c-days-container {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -123,10 +116,10 @@
   border-radius: 10px;
   margin-bottom: 20px;
   margin-top: 30px;
-  width: 100%;
+  width: 1250px;
 }
 
-.weekly-plan {
+.c-weekly-plan {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   grid-template-rows: repeat(2, auto);
@@ -134,7 +127,7 @@
   width: 100%; 
 }
 
-.day-column {
+.c-day-column {
   background-color: #fff;
   border: 1px solid #ddd;
   border-radius: 5px;
@@ -143,17 +136,17 @@
   cursor: pointer;
 }
 
-.day-column h2 {
+.c-day-column h2 {
   font-size: 1.2rem;
   margin-bottom: 10px;
 }
 
-.day-column ul {
+.c-day-column ul {
   list-style-type: none;
   padding: 0;
 }
 
-.day-column li {
+.c-day-column li {
   background-color: #b0e23c;
   padding: 8px;
   margin-bottom: 5px;
@@ -162,11 +155,11 @@
   justify-content: space-between;
 }
 
-.active-day {
+.c-active-day {
   border: 2px solid #64cf00;
 }
 
-.exercise-menu {
+.c-exercise-menu {
   display: flex;
   flex-wrap: wrap;
   gap: 10px;
@@ -174,9 +167,17 @@
   margin-top: 20px;
 }
 
+/*
+.c-exercise-menu {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: center;
+  width: 100%; 
+}
+*/
 
-
-.remove-button {
+.c-remove-button {
   background-color: #ec3434;
   border: none;
   border-radius: 4px;
@@ -193,35 +194,52 @@
   transition: background-color 0.3s ease, box-shadow 0.3s ease;
 }
 
-.remove-button:hover {
+.c-remove-button:hover {
   background-color: #ff1e00;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
-.remove-button:focus {
+.c-remove-button:focus {
   outline: none;
 }
 
-.remove-button:active {
+.c-remove-button:active {
   background-color: #e03e1f;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-.input-container {
+.ipt-container {
   display: flex;
   justify-content: space-between;
-  gap: 15;
-  align-items: top;
+  gap: 15px; 
+  align-items: flex-start;
   margin-bottom: 20px;
   padding: 20px;
   border: 2px solid #0a0a0a;
   border-radius: 10px;
   background-color: #f3f9fc;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  width: 60%;
+  width: 700px; 
+  flex-shrink: 0; 
 }
 
-.input-container input {
+.wrapper {
+  width: 100%;
+  overflow-x: auto;
+  display: flex;
+  justify-content: center;
+  padding: 0; 
+}
+
+@media (max-width: 768px) {
+  .wrapper {
+    display: block; 
+    padding: 0; 
+  }
+}
+
+
+.ipt-container input {
   width: 90%;
   padding: 12px;
   border: 1px solid #ddd;
@@ -230,7 +248,7 @@
   background-color: #ffffff;
 }
 
-.user-list {
+.c-user-list {
   margin-top: 10px;
   list-style-type: none;
   padding: 0;
@@ -241,31 +259,41 @@
   overflow-y: auto;
 }
 
-.user-list li {
+.c-user-list li {
   padding: 10px;
   border-bottom: 1px solid #ddd;
   cursor: pointer;
 }
 
-.user-list li:hover {
+.c-user-list li:hover {
   background-color: #e7f3ff;
 }
 
-.selected-user {
+.c-selected-user {
   margin-top: 10px;
   font-weight: bold;
   color: #1b1a1a;
 }
 
-.user-search-container,
-.routine-name-container {
+.srch-container,
+.rt-name-container {
   display: flex;
   flex-direction: column;
   width: 48%;
+  /*border: 1px solid red;*/
 }
 
-.user-search-input,
-.routine-name-input {
+.user-sch-input{
+  width: 100%;
+  margin-top: 0%;
+  padding: 12px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  font-size: 16px;
+  background-color: #ffffff;
+  /*border: 5px solid red;*/
+}
+.rt-name-input {
   width: 100%;
   padding: 12px;
   border-radius: 5px;
@@ -274,43 +302,44 @@
   background-color: #ffffff;
 }
 
-.user-search-input::placeholder,
-.routine-name-input::placeholder {
+.user-sch-input::placeholder,
+.rt-name-input::placeholder {
   color: #999;
 }
 
 
-
-.activity-state-container {
-  border: 2px solid #ddd; /* Borde verde elegante */
-  border-radius: 8px; /* Esquinas redondeadas */
-  padding: 10px; /* Espaciado interno */
-  margin: 0px 0; /* Separación con otros elementos */
-  background-color: #f9f9f9; /* Fondo claro */
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra suave para darle profundidad */
-  height: 50%;
+.act-st-container {
+  border: 2px solid #ddd; 
+  border-radius: 8px; 
+  padding: 10px;
+  margin: 0px 0; 
+  background-color: #f9f9f9;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
+  height: 100%;
 }
 
-.activity-state-container label {
-  font-size: 16px; /* Tamaño del texto */
-  color: #333; /* Color del texto */
-  display: block; /* Cada etiqueta en su propia línea */
-  margin-bottom: 8px; /* Separación inferior */
+.act-st-container label {
+  font-size: 16px; 
+  color: #333; 
+  display: block; 
+  margin-bottom: 8px; 
 }
 
-.activity-state-container select {
-  width: 100%; /* Anchura completa */
-  padding: 10px; /* Espaciado interno */
-  border: 1px solid #ccc; /* Borde gris claro */
-  border-radius: 4px; /* Bordes redondeados */
-  font-size: 14px; /* Tamaño del texto */
-  background-color: #fff; /* Fondo blanco */
-  color: #333; /* Color del texto */
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Sombra ligera */
-  outline: none; /* Sin borde de enfoque */
+
+.act-st-container select {
+  width: 100%; 
+  padding: 10px; 
+  border: 1px solid #ccc; 
+  border-radius: 4px;
+  font-size: 16px;
+  background-color: #fff; 
+  color: #333; 
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); 
+  outline: none; 
+  border: 1px solid rgb(56, 147, 231);
 }
 
-.user-search-button {
+.user-sch-button {
   padding: 8px 12px;
   margin-top: 10px;
   background-color: #3c9bc0;
@@ -321,3 +350,35 @@
   width: 90%;
   gap: 20px;
 }
+
+.btn-bck-cont {
+  display: flex;
+  justify-content: flex-start; 
+  padding: 10px;
+  width: 100%;
+}
+
+.bck-btn {
+  padding: 10px 20px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.activity-state-select {
+  width: 100%; 
+  padding: 10px; 
+  border: 1px solid #ccc; 
+  border-radius: 4px;
+  font-size: 14px;
+  background-color: #fff; 
+  color: #333; 
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); 
+  outline: none; 
+  appearance: none; 
+  position: relative;
+}
+
+

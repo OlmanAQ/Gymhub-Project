@@ -3,14 +3,12 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  height: 100vh;
-  background-color: #F0F0F0;
   color: #333333;
-  background-image: url('../../src/assets/fondo3.png'); 
-  background-size: 100%;
-  background-size: cover;
   background-position: center;  
-  background-repeat: no-repeat;  
+  background-repeat: no-repeat; 
+  background-color:#f0f0f0;
+  background-size: 100%;
+  height: 100vh;
 }
 
 .login-logo {
@@ -19,7 +17,6 @@
 }
 
 form {
-  width: 400px; /* Ampliar el ancho del formulario */
   background-color: #FFFFFF; /* Blanco para el fondo del formulario */
   padding: 20px;
   border-radius: 8px;
